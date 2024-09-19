@@ -1,38 +1,37 @@
-// AbstractLeap.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
-//
-
-#include <iostream>
 #include <SDL2/SDL.h>
+#include <iostream>
 
+// Screen dimension constants
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
-const int CUBE_SIZE = 80;
+// Cube dimensions
+const int CUBE_SIZE = 50;
 
-
-int main()
-{
-    if (SDL_Init(SDL_INIT_VIDEO) < 8) {
+int main(int argc, char* argv[]) {
+    // Initialize SDL
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return 1;
     }
 
-    SDL_Window* Window = SDL_CreateWindow("SDL2 Cube Example",
+    // Create window
+    SDL_Window* window = SDL_CreateWindow("SDL2 Cube Example",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         SCREEN_WIDTH, SCREEN_HEIGHT,
         SDL_WINDOW_SHOWN);
-    if (Window == nullptr)
-    {
+    if (window == nullptr) {
         std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         SDL_Quit();
         return 1;
     }
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
+    // Create renderer
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (renderer == nullptr) {
         std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(Window);
+        SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
     }
@@ -91,20 +90,10 @@ int main()
 
     // Destroy renderer and window
     SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(Window);
+    SDL_DestroyWindow(window);
 
     // Quit SDL subsystems
     SDL_Quit();
 
     return 0;
 }
-
-// Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
-// Depurar programa: F5 o menú Depurar > Iniciar depuración
-
-// Sugerencias para primeros pasos: 1. Use la ventana del Explorador de soluciones para agregar y administrar archivos
-//   2. Use la ventana de Team Explorer para conectar con el control de código fuente
-//   3. Use la ventana de salida para ver la salida de compilación y otros mensajes
-//   4. Use la ventana Lista de errores para ver los errores
-//   5. Vaya a Proyecto > Agregar nuevo elemento para crear nuevos archivos de código, o a Proyecto > Agregar elemento existente para agregar archivos de código existentes al proyecto
-//   6. En el futuro, para volver a abrir este proyecto, vaya a Archivo > Abrir > Proyecto y seleccione el archivo .sln
