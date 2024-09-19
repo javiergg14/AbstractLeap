@@ -29,7 +29,7 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-	img = Engine::GetInstance().textures.get()->Load("Assets/Textures/test.png");
+	img = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Players/Player Blue/playerBlue_stand.png");
 	Engine::GetInstance().audio.get()->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 	return true;
 }
