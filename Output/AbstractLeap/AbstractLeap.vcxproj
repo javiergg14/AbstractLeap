@@ -111,8 +111,10 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>sdlmain.lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>sdlmain.lib\vcpkg_installed\x64-windows\x64-windows\lib\manual-link</AdditionalLibraryDirectories>
       <AdditionalDependencies>sdlmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <ShowProgress />
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
