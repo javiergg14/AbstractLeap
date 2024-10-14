@@ -6,6 +6,11 @@
 #include "Window.h"
 #include "Scene.h"
 #include "Log.h"
+#include "Entity.h"
+#include "EntityManager.h"
+#include "Player.h"
+#include "Map.h"
+#include "Item.h"
 
 Scene::Scene() : Module()
 {
@@ -23,14 +28,21 @@ bool Scene::Awake()
 	LOG("Loading Scene");
 	bool ret = true;
 
+	//L04: TODO 3b: Instantiate the player using the entity manager
+	player = (Player*)Engine::GetInstance().entityManager->CreateEntity(EntityType::PLAYER);
+	
+	//L08 Create a new item using the entity manager and set the position to (200, 672) to test
+	Item* item = (Item*) Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEM);
+	item->position = Vector2D(200, 672);
 	return ret;
 }
 
 // Called before the first frame
 bool Scene::Start()
 {
-	img = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Players/Player Blue/playerBlue_stand.png");
-	Engine::GetInstance().audio.get()->PlayMusic("Assets/Audio/Music/music_spy.ogg");
+	//L06 TODO 3: Call the function to load the map. 
+	Engine::GetInstance().map->Load("Assets/Maps/", "MapTemplate.tmx");
+
 	return true;
 }
 
@@ -43,28 +55,20 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+	//L03 TODO 3: Make the camera movement independent of framerate
+	float camSpeed = 1;
+
 	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		Engine::GetInstance().render.get()->camera.y -= 1;
+		Engine::GetInstance().render.get()->camera.y -= ceil(camSpeed * dt);
 
 	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		Engine::GetInstance().render.get()->camera.y += 1;
+		Engine::GetInstance().render.get()->camera.y += ceil(camSpeed * dt);
 
 	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		Engine::GetInstance().render.get()->camera.x -= 1;
+		Engine::GetInstance().render.get()->camera.x -= ceil(camSpeed * dt);
 
 	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		Engine::GetInstance().render.get()->camera.x += 1;
-
-	//Get the size of the window
-	int windowW, windowH;
-	Engine::GetInstance().window.get()->GetWindowSize(windowW, windowH);
-
-	//Get the size of the texture
-	int texW, texH;
-	Engine::GetInstance().textures.get()->GetSize(img, texW, texH);
-
-	// Renders the image in the center of the screen
-	Engine::GetInstance().render.get()->DrawTexture(img, windowW /2 - texW / 2, windowH /2 - texH / 2);
+		Engine::GetInstance().render.get()->camera.x += ceil(camSpeed * dt);
 
 	return true;
 }
