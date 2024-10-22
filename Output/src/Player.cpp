@@ -35,6 +35,11 @@ bool Player::Start() {
 
 	//Load animations
 	idle.LoadAnimations(parameters.child("animations").child("idle"));
+	run_right.LoadAnimations(parameters.child("animations").child("run_right"));
+	run_left.LoadAnimations(parameters.child("animations").child("run_left"));
+	jump.LoadAnimations(parameters.child("animations").child("jump"));
+	fall.LoadAnimations(parameters.child("animations").child("fall"));
+	duck.LoadAnimations(parameters.child("animations").child("duck"));
 	currentAnimation = &idle;
 
 	// L08 TODO 5: Add physics to the player - initialize physics body
@@ -54,20 +59,29 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	currentAnimation = &idle;
+
 	// L08 TODO 5: Add physics to the player - updated player position using physics
 	b2Vec2 velocity = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+
+	// Duck
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+		currentAnimation = &duck;
+	}
 
 	// Move left
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		velocity.x = -0.2 * dt;
+		currentAnimation = &run_left;
 	}
 
 	// Move right
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		velocity.x = 0.2 * dt;
+		currentAnimation = &run_right;
 	}
-	
-	//Jump
+
+	// Jump
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false) {
 		// Apply an initial upward force
 		pbody->body->ApplyLinearImpulseToCenter(b2Vec2(0, -jumpForce), true);
@@ -77,7 +91,12 @@ bool Player::Update(float dt)
 	// If the player is jumpling, we don't want to apply gravity, we use the current velocity prduced by the jump
 	if(isJumping == true)
 	{
+		currentAnimation = &jump;
 		velocity.y = pbody->body->GetLinearVelocity().y;
+	}
+
+	if (velocity.y > 0.0f) {
+		currentAnimation = &fall;
 	}
 
 	// Apply the velocity to the player
@@ -104,15 +123,13 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLATFORM:
-		LOG("Collision PLATFORM");
 		//reset the jump flag when touching the ground
+		jump.Reset();
 		isJumping = false;
 		break;
 	case ColliderType::ITEM:
-		LOG("Collision ITEM");
 		break;
 	case ColliderType::UNKNOWN:
-		LOG("Collision UNKNOWN");
 		break;
 	default:
 		break;
@@ -124,14 +141,11 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 	switch (physB->ctype)
 	{
 	case ColliderType::PLATFORM:
-		LOG("End Collision PLATFORM");
 		break;
 	case ColliderType::ITEM:
-		LOG("End Collision ITEM");
 		Engine::GetInstance().audio.get()->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::UNKNOWN:
-		LOG("End Collision UNKNOWN");
 		break;
 	default:
 		break;

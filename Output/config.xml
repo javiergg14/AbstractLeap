@@ -19,21 +19,37 @@
   </window>
 
   <scene>
-    <map path="Assets/Maps/" name="MapTemplate.tmx"/>
+    <map path="Assets/Maps/" name="Map.tmx"/>
     <entities>
-      <player x="100" y="0" w="32" h ="32" texture="Assets/Textures/player/Idle.png">
+      <player x="100" y="0" w="44" h ="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
         <animations>
-          <idle loop="true" speed ="0.5">
-            <frame x="0" y="0" w="32" h="32"/>
-            <frame x="32" y="0" w="32" h="32"/>
-            <frame x="64" y="0" w="32" h="32"/>
-            <frame x="96" y="0" w="32" h="32"/>
-            <frame x="128" y="0" w="32" h="32"/>
-            <frame x="160" y="0" w="32" h="32"/>
-            <frame x="192" y="0" w="32" h="32"/>
-            <frame x="224" y="0" w="32" h="32"/>
-            <frame x="256" y="0" w="32" h="32"/>
-          </idle>
+		    <idle loop="true" speed ="0.08">
+				<frame x="0" y="0" w="44" h="54"/>
+				<frame x="44" y="0" w="44" h="54"/>
+				<frame x="88" y="0" w="44" h="54"/>
+				<frame x="132" y="0" w="44" h="54"/>
+		    </idle>
+            <run_right loop="true" speed ="0.2">
+                <frame x="0" y="54" w="44" h="54"/>
+			    <frame x="44" y="54" w="44" h="54"/>
+				<frame x="88" y="54" w="44" h="54"/>
+			</run_right>
+			<jump loop="false" speed ="0.15">
+				<frame x="0" y="108" w="44" h="54"/>
+				<frame x="44" y="108" w="44" h="54"/>
+				<frame x="88" y="108" w="44" h="54"/>
+			</jump>
+			<fall loop="false" speed ="0.15">
+				<frame x="0" y="162" w="44" h="54"/>
+			</fall>
+			<run_left loop="true" speed ="0.2">
+				<frame x="0" y="216" w="44" h="54"/>
+				<frame x="44" y="216" w="44" h="54"/>
+				<frame x="88" y="216" w="44" h="54"/>
+			</run_left>
+			<duck loop="false" speed ="0">
+				<frame x="0" y="270" w="56" h="54"/>
+			</duck>
         </animations>
       </player>
     </entities>

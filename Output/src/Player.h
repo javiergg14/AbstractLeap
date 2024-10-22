@@ -44,10 +44,16 @@ public:
 
 	// L08 TODO 5: Add physics to the player - declare a Physics body
 	PhysBody* pbody;
-	float jumpForce = 2.5f; // The force to apply when jumping
+	float jumpForce = 5.0f; // The force to apply when jumping
 	bool isJumping = false; // Flag to check if the player is currently jumping
 
 	pugi::xml_node parameters;
 	Animation* currentAnimation = nullptr;
 	Animation idle;
+	Animation run_right;
+	Animation run_left;
+	Animation jump;
+	Animation fall;
+	Animation duck;
+
 };
