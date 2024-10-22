@@ -24196,6 +24196,9 @@
   </data>
  </layer>
  <layer id="7" name="Vallas y abajo" width="350" height="23">
+  <properties>
+   <property name="Draw" type="bool" value="true"/>
+  </properties>
   <data>
    <tile/>
    <tile/>
@@ -32250,6 +32253,9 @@
   </data>
  </layer>
  <layer id="8" name="Flores" width="350" height="23">
+  <properties>
+   <property name="Draw" type="bool" value="true"/>
+  </properties>
   <data>
    <tile/>
    <tile/>
@@ -40304,6 +40310,9 @@
   </data>
  </layer>
  <layer id="6" name="Flechas" width="350" height="23">
+  <properties>
+   <property name="Draw" type="bool" value="true"/>
+  </properties>
   <data>
    <tile/>
    <tile/>
