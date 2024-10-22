@@ -3,8 +3,6 @@
 #include "Module.h"
 #include "Player.h"
 
-struct SDL_Texture;
-
 class Scene : public Module
 {
 public:
@@ -32,9 +30,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-private:
-	SDL_Texture* img;
+	// Load Parameters from config file
+	bool LoadParameters(xml_node parameters);
 
-	//L03: TODO 3b: Declare a Player attribute
+private:
 	Player* player;
+	xml_node configParameters;
 };

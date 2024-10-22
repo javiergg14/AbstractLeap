@@ -1,9 +1,9 @@
-<!-- Config file for the engine -->
+<!-- Config file for the game -->
 <config>
-  <engine>
+  <app>
     <title>My platformer game</title>
     <maxFrameDuration value="16"/>
-  </engine>
+  </app>
 
   <render>
     <vsync value="false"/>
@@ -16,4 +16,10 @@
     <resizable value="false"/>
     <fullscreen_window value="false"/>
   </window>
+
+  <scene>
+    <player x="100" y="100" texturePath="Assets/Textures/player1.png"/>
+    <map path="Assets/Maps/" name="MapTemplate.tmx"/>
+  </scene>
+  
 </config>

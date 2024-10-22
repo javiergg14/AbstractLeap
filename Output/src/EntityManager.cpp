@@ -4,7 +4,6 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "Log.h"
-#include "Item.h"
 
 EntityManager::EntityManager() : Module()
 {
@@ -66,14 +65,11 @@ Entity* EntityManager::CreateEntity(EntityType type)
 {
 	Entity* entity = nullptr; 
 
-	//L04: TODO 3a: Instantiate entity according to the type and add the new entity to the list of Entities
+	//L03: TODO 3a: Instantiate entity according to the type and add the new entity to the list of Entities
 	switch (type)
 	{
 	case EntityType::PLAYER:
 		entity = new Player();
-		break;
-	case EntityType::ITEM:
-		entity = new Item();
 		break;
 	default:
 		break;
