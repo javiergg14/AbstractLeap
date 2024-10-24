@@ -77,13 +77,13 @@ bool Player::Update(float dt)
 
 	// Move left
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		velocity.x -= speed * dt ;
+		velocity.x -= speed * 16 ;
 		currentAnimation = &run_left;
 	}
 
 	// Move right
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		velocity.x = speed * dt;
+		velocity.x = speed * 16;
 		currentAnimation = &run_right;
 	}
 
