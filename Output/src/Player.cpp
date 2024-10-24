@@ -132,6 +132,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::UNKNOWN:
 		break;
+	case ColliderType::TRIGGER:
+		position.setX(150);
+		position.setY(500);
 	default:
 		break;
 	}
