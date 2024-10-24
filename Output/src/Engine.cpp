@@ -84,7 +84,7 @@ bool Engine::Awake() {
     // also read maxFrameDuration 
     gameTitle = configFile.child("config").child("engine").child("title").child_value();
     maxFrameDuration = configFile.child("config").child("engine").child("maxFrameDuration").attribute("value").as_int();
-
+    
     //Iterates the module list and calls Awake on each module
     bool result = true;
     for (const auto& module : moduleList) {
@@ -175,6 +175,16 @@ void Engine::PrepareUpdate()
 // ---------------------------------------------
 void Engine::FinishUpdate()
 {
+    // Switch frames per second 60 - 30
+    if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+        if (maxFrameDuration == 16) {
+            maxFrameDuration *= 2;
+        }
+        else {
+            maxFrameDuration /= 2;
+        }
+    }
+
     // L03: TODO 1: Cap the framerate of the gameloop
     double currentDt = frameTime.ReadMs();
     if (maxFrameDuration > 0 && currentDt < maxFrameDuration) {
