@@ -154,7 +154,7 @@ PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bo
 	fixture.shape = &box;
 	fixture.density = 1.0f;
 	fixture.isSensor = true;
-
+	
 	// Add fixture to the BODY
 	b->CreateFixture(&fixture);
 

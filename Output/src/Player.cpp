@@ -65,6 +65,11 @@ bool Player::Update(float dt)
 	// L08 TODO 5: Add physics to the player - updated player position using physics
 	b2Vec2 velocity = b2Vec2(0, pbody->body->GetLinearVelocity().y);
 
+	// God mode
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+		godMode = !godMode;
+	}
+
 	// Duck
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		currentAnimation = &duck;
@@ -101,6 +106,21 @@ bool Player::Update(float dt)
 	}
 
 	// Apply the velocity to the player
+	// God mode
+	if (godMode) {
+		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+		{
+			velocity.y = -6;
+		}
+		else if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
+			velocity.y = 6;
+		}
+		else
+		{
+			velocity.y = 0;
+		}
+	}
+
 	pbody->body->SetLinearVelocity(velocity);
 
 	b2Transform pbodyPos = pbody->body->GetTransform();
@@ -113,6 +133,7 @@ bool Player::Update(float dt)
 	}
 	Engine::GetInstance().render.get()->DrawTexture(texture, (int)position.getX(), (int)position.getY(), &currentAnimation->GetCurrentFrame());
 	currentAnimation->Update();
+
 	return true;
 }
 
@@ -137,7 +158,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::UNKNOWN:
 		break;
 	case ColliderType::TRIGGER:
-		position.setY(105);
 	default:
 		break;
 	}
@@ -154,6 +174,7 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 		break;
 	case ColliderType::UNKNOWN:
 		break;
+	case ColliderType::TRIGGER:
 	default:
 		break;
 	}

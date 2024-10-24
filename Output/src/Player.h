@@ -39,6 +39,9 @@ public:
 	SDL_Texture* texture = NULL;
 	int texW, texH;
 
+	//God Mode
+	bool godMode;
+
 	//Audio fx
 	int pickCoinFxId;
 
