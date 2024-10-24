@@ -121,7 +121,7 @@ private:
 	//Maximun frame duration in miliseconds.
 	int maxFrameDuration = 16;
 
-	std::string gameTitle = "Platformer Game";
+	std::string gameTitle = "Abstract Leap";
 
 	//L05 TODO 2: Declare a xml_document to load the config file
 	pugi::xml_document configFile;
