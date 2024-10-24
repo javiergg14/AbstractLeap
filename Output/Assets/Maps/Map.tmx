@@ -56425,6 +56425,7 @@
  </layer>
  <layer id="5" name="Collisions" width="350" height="23" visible="0">
   <properties>
+   <property name="Collisions" type="bool" value="true"/>
    <property name="Draw" type="bool" value="false"/>
   </properties>
   <data>

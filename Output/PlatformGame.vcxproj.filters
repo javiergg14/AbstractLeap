@@ -28,6 +28,7 @@
     <None Include=".gitignore">
       <Filter>Configuration FIles</Filter>
     </None>
+    <None Include="Assets\Maps\Map.tmx" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio.cpp">
