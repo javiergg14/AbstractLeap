@@ -42,8 +42,8 @@ public:
 	//God Mode
 	bool godMode;
 
-	//Audio fx
-	int pickCoinFxId;
+	// Audio fx
+	int pickCoin;
 
 	// L08 TODO 5: Add physics to the player - declare a Physics body
 	PhysBody* pbody;

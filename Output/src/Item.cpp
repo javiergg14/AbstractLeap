@@ -21,7 +21,7 @@ bool Item::Awake() {
 
 bool Item::Start() {
 
-	//initilize textures
+	// Initilize textures
 	texture = Engine::GetInstance().textures.get()->Load("Assets/Textures/goldCoin.png");
 	
 	// L08 TODO 4: Add a physics to an item - initialize the physics body

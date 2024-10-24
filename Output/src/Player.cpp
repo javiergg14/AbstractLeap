@@ -42,6 +42,9 @@ bool Player::Start() {
 	duck.LoadAnimations(parameters.child("animations").child("duck"));
 	currentAnimation = &idle;
 
+	// Initilize sfx
+	pickCoin = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/coin.ogg");
+
 	// L08 TODO 5: Add physics to the player - initialize physics body
 	pbody = Engine::GetInstance().physics.get()->CreateCircle((int)position.getX(), (int)position.getY(), texW / 2, bodyType::DYNAMIC);
 	/*pbody = Engine::GetInstance().physics.get()->CreateRectangle((int)position.getX(), (int)position.getY(), texW,texH, bodyType::DYNAMIC);*/
@@ -51,9 +54,6 @@ bool Player::Start() {
 
 	// L08 TODO 7: Assign collider type
 	pbody->ctype = ColliderType::PLAYER;
-
-	//initialize audio effect
-	pickCoinFxId = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
 	return true;
 }
@@ -154,6 +154,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		isJumping = false;
 		break;
 	case ColliderType::ITEM:
+		Engine::GetInstance().audio.get()->PlayFx(pickCoin);
 		break;
 	case ColliderType::UNKNOWN:
 		break;
@@ -170,7 +171,6 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 	case ColliderType::PLATFORM:
 		break;
 	case ColliderType::ITEM:
-		Engine::GetInstance().audio.get()->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::UNKNOWN:
 		break;
