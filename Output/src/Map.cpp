@@ -183,7 +183,6 @@ bool Map::Load(std::string path, std::string fileName)
         // L08 TODO 3: Create colliders
         // L08 TODO 7: Assign collider type
         // Later you can create a function here to load and create the colliders from the map
-
         for (const auto& mapLayer : mapData.layers) {
             //Check if the property Draw exist get the value, if it's true draw the lawyer
             if (mapLayer->properties.GetProperty("Collisions") != NULL && mapLayer->properties.GetProperty("Collisions")->value == true) {
@@ -197,6 +196,7 @@ bool Map::Load(std::string path, std::string fileName)
                         if (gid == 1957) {
                             Vector2D mapCoord = MapToWorld(i, j);
                             PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth/2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, STATIC);
+                            platform->ctype = ColliderType::PLATFORM;
                         }
                     }
                 }
