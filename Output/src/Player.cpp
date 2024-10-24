@@ -96,7 +96,7 @@ bool Player::Update(float dt)
 		velocity.y = pbody->body->GetLinearVelocity().y;
 	}
 
-	if (velocity.y > 0.0f) {
+	if (velocity.y > 0.5f) {
 		currentAnimation = &fall;
 	}
 
