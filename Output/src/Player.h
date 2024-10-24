@@ -35,7 +35,7 @@ public:
 public:
 
 	//Declare player parameters
-	float speed = 5.0f;
+	float speed = 0.2f;
 	SDL_Texture* texture = NULL;
 	int texW, texH;
 
@@ -44,7 +44,7 @@ public:
 
 	// L08 TODO 5: Add physics to the player - declare a Physics body
 	PhysBody* pbody;
-	float jumpForce = 5.0f; // The force to apply when jumping
+	float jumpForce = 3.3f; // The force to apply when jumping
 	bool isJumping = false; // Flag to check if the player is currently jumping
 
 	pugi::xml_node parameters;

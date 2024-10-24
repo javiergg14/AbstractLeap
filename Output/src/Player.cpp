@@ -28,7 +28,7 @@ bool Player::Start() {
 
 	//L03: TODO 2: Initialize Player parameters
 	texture = Engine::GetInstance().textures.get()->Load(parameters.attribute("texture").as_string());
-	position.setX(150);
+	position.setX(170);
 	position.setY(500);
 	texW = parameters.attribute("w").as_int();
 	texH = parameters.attribute("h").as_int();
@@ -72,13 +72,13 @@ bool Player::Update(float dt)
 
 	// Move left
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		velocity.x = -0.2 * dt;
+		velocity.x -= speed * dt ;
 		currentAnimation = &run_left;
 	}
 
 	// Move right
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		velocity.x = 0.2 * dt;
+		velocity.x = speed * dt;
 		currentAnimation = &run_right;
 	}
 
@@ -107,6 +107,10 @@ bool Player::Update(float dt)
 	position.setX(METERS_TO_PIXELS(pbodyPos.p.x) - texH / 2);
 	position.setY(METERS_TO_PIXELS(pbodyPos.p.y) - texH / 2);
 
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_H) == KEY_REPEAT)
+	{
+
+	}
 	Engine::GetInstance().render.get()->DrawTexture(texture, (int)position.getX(), (int)position.getY(), &currentAnimation->GetCurrentFrame());
 	currentAnimation->Update();
 	return true;

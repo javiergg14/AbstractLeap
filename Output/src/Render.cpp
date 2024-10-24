@@ -199,30 +199,32 @@ bool Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b,
 
 bool Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
 {
-	bool ret = true;
-	int scale = Engine::GetInstance().window.get()->GetScale();
 
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+		bool ret = true;
+		int scale = Engine::GetInstance().window.get()->GetScale();
 
-	int result = -1;
-	SDL_Point points[360];
+		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+		SDL_SetRenderDrawColor(renderer, r, g, b, a);
 
-	float factor = (float)M_PI / 180.0f;
+		int result = -1;
+		SDL_Point points[360];
 
-	for(int i = 0; i < 360; ++i)
-	{
-		points[i].x = (int)(x * scale + camera.x) + (int)(radius * cos(i * factor));
-		points[i].y = (int)(y * scale + camera.y) + (int)(radius * sin(i * factor));
-	}
+		float factor = (float)M_PI / 180.0f;
 
-	result = SDL_RenderDrawPoints(renderer, points, 360);
+		for (int i = 0; i < 360; ++i)
+		{
+			points[i].x = (int)(x * scale + camera.x) + (int)(radius * cos(i * factor));
+			points[i].y = (int)(y * scale + camera.y) + (int)(radius * sin(i * factor));
+		}
 
-	if(result != 0)
-	{
-		LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
-		ret = false;
-	}
+		result = SDL_RenderDrawPoints(renderer, points, 360);
 
-	return ret;
+		if (result != 0)
+		{
+			LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
+			ret = false;
+		}
+		
+		return ret;
+		
 }

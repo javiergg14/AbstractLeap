@@ -14,7 +14,7 @@ Physics::Physics() : Module()
 {
 	// Initialise all the internal class variables, at least to NULL pointer
 	world = NULL;
-	debug = true;
+	debug = false;
 }
 
 // Destructor
@@ -217,7 +217,7 @@ bool Physics::PostUpdate()
 	bool ret = true;
 
 	// Activate or deactivate debug mode
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		debug = !debug;
 	
 	//  Iterate all objects in the world and draw the bodies
@@ -236,10 +236,14 @@ bool Physics::PostUpdate()
 					int width, height;
 					Engine::GetInstance().window.get()->GetWindowSize(width, height);
 					b2Vec2 pos = f->GetBody()->GetPosition();
-					Engine::GetInstance().render.get()->DrawCircle(METERS_TO_PIXELS(pos.x), 
-																   METERS_TO_PIXELS(pos.y), 
-																   METERS_TO_PIXELS(shape->m_radius) * Engine::GetInstance().window.get()->GetScale(),
-																   255, 255, 255);
+					
+					
+					Engine::GetInstance().render.get()->DrawCircle(METERS_TO_PIXELS(pos.x),
+							METERS_TO_PIXELS(pos.y),
+							METERS_TO_PIXELS(shape->m_radius) * Engine::GetInstance().window.get()->GetScale(),
+							255, 255, 255);
+					
+						
 				}
 				break;
 
@@ -254,21 +258,27 @@ bool Physics::PostUpdate()
 					{
 						v = b->GetWorldPoint(polygonShape->m_vertices[i]);
 						if (i > 0)
-							Engine::GetInstance().render.get()->DrawLine(METERS_TO_PIXELS(prev.x), 
-																	     METERS_TO_PIXELS(prev.y), 
-																		 METERS_TO_PIXELS(v.x), 
-																		 METERS_TO_PIXELS(v.y), 
-																		 255, 255, 100);
+							
+							
+							Engine::GetInstance().render.get()->DrawLine(METERS_TO_PIXELS(prev.x),
+									METERS_TO_PIXELS(prev.y),
+									METERS_TO_PIXELS(v.x),
+									METERS_TO_PIXELS(v.y),
+									255, 255, 100);
+							
 
 						prev = v;
 					}
 
 					v = b->GetWorldPoint(polygonShape->m_vertices[0]);
+					
+					
 					Engine::GetInstance().render.get()->DrawLine(METERS_TO_PIXELS(prev.x),
-																 METERS_TO_PIXELS(prev.y),
-																 METERS_TO_PIXELS(v.x),
-																 METERS_TO_PIXELS(v.y),
-																 255, 255, 100);
+							METERS_TO_PIXELS(prev.y),
+							METERS_TO_PIXELS(v.x),
+							METERS_TO_PIXELS(v.y),
+							255, 255, 100);
+					
 				}
 				break;
 
