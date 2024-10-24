@@ -331,6 +331,11 @@ bool Physics::PostUpdate()
 		}
 	}
 
+	for (PhysBody* physBody : bodiesToDelete) {
+		world->DestroyBody(physBody->body);
+	}
+	bodiesToDelete.clear();
+
 
 	return ret;
 }
@@ -397,6 +402,10 @@ void PhysBody::GetPosition(int& x, int& y) const
 	b2Vec2 pos = body->GetPosition();
 	x = METERS_TO_PIXELS(pos.x) - (width);
 	y = METERS_TO_PIXELS(pos.y) - (height);
+}
+
+void Physics::DeletePhysBody(PhysBody* physBody) {
+	bodiesToDelete.push_back(physBody);
 }
 
 float PhysBody::GetRotation() const

@@ -21,12 +21,13 @@ bool Item::Awake() {
 
 bool Item::Start() {
 
-	// Initilize textures
-	texture = Engine::GetInstance().textures.get()->Load("Assets/Textures/goldCoin.png");
+	//initilize textures
+	keyGreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/keyGreen.png");
 	
 	// L08 TODO 4: Add a physics to an item - initialize the physics body
-	Engine::GetInstance().textures.get()->GetSize(texture, texW, texH);
-	pbody = Engine::GetInstance().physics.get()->CreateCircle((int)position.getX() + texH / 2, (int)position.getY() + texH / 2, texH / 2, bodyType::DYNAMIC);
+
+	Engine::GetInstance().textures.get()->GetSize(keyGreen, texW, texH);
+	pbody = Engine::GetInstance().physics.get()->CreateCircle(240, 500, 10, bodyType::STATIC);
 
 	// L08 TODO 7: Assign collider type
 	pbody->ctype = ColliderType::ITEM;
@@ -38,11 +39,11 @@ bool Item::Update(float dt)
 {
 	// L08 TODO 4: Add a physics to an item - update the position of the object from the physics.  
 
-	b2Transform pbodyPos = pbody->body->GetTransform();
-	position.setX(METERS_TO_PIXELS(pbodyPos.p.x) - texH / 2);
-	position.setY(METERS_TO_PIXELS(pbodyPos.p.y) - texH / 2);
+	b2Transform pbodyPos1 = pbody->body->GetTransform();
+	position.setX(METERS_TO_PIXELS(pbodyPos1.p.x) - texH / 2);
+	position.setY(METERS_TO_PIXELS(pbodyPos1.p.y) - texH / 2);
 
-	Engine::GetInstance().render.get()->DrawTexture(texture, (int)position.getX(), (int)position.getY());
+	Engine::GetInstance().render.get()->DrawTexture(keyGreen, (int)position.getX(), (int)position.getY());
 
 	return true;
 }

@@ -26,7 +26,9 @@ public:
 
 private:
 
-	SDL_Texture* texture;
+	SDL_Texture* greenGem;
+	SDL_Texture* greenCrystal;
+	SDL_Texture* keyGreen;
 	const char* texturePath;
 	int texW, texH;
 

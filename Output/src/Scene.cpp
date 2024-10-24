@@ -69,9 +69,9 @@ bool Scene::Update(float dt)
 	{
 		Engine::GetInstance().render.get()->camera.y = 0;
 	}
-	if (Engine::GetInstance().render.get()->camera.x < -9920)
+	if (Engine::GetInstance().render.get()->camera.x < -10000)
 	{
-		Engine::GetInstance().render.get()->camera.x = -9920;
+		Engine::GetInstance().render.get()->camera.x = -10000;
 	}
 	if (Engine::GetInstance().render.get()->camera.y < -1)
 	{
