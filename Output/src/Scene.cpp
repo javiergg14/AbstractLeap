@@ -44,6 +44,7 @@ bool Scene::Start()
 	//L06 TODO 3: Call the function to load the map. 
 	Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
 
+	helpTexture = Engine::GetInstance().textures.get()->Load("Assets/Menu/help.png");
 	return true;
 }
 
@@ -56,6 +57,16 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+	// Help button
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {
+		help = !help;
+	}
+
+	if (help)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(helpTexture, (player->position.getX() + 670), 0);
+	}
+
 	//L03 TODO 3: Make the camera movement independent of framerate
 
 	Engine::GetInstance().render.get()->camera.x = -(player->position.getX() - 170);
