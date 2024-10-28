@@ -26,6 +26,8 @@ Here’s a quick guide to get you started with the controls:
 
 **Implemented features: ** https://github.com/javiergg14/AbstractLeap
 
+**Trello: ** https://trello.com/invite/b/66e865484d1c45d30ca91200/ATTI60e4ccbf5097ac02fc1dd32f4717a0437C4FB6E8/abstract-leap
+
 - Assets and animations.
 - Tilemap.
 - States.
