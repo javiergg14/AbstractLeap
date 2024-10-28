@@ -31332,12 +31332,12 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="861"/>
+   <tile gid="862"/>
+   <tile gid="861"/>
+   <tile gid="862"/>
+   <tile gid="861"/>
+   <tile gid="862"/>
    <tile/>
    <tile/>
    <tile/>
@@ -46170,8 +46170,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="1958"/>
+   <tile gid="1958"/>
    <tile/>
    <tile/>
    <tile/>
@@ -47447,11 +47447,11 @@
    <tile/>
    <tile gid="1957"/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="1958"/>
+   <tile gid="1958"/>
+   <tile gid="1958"/>
+   <tile gid="1958"/>
+   <tile gid="1958"/>
    <tile gid="1957"/>
    <tile/>
    <tile/>
