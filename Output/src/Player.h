@@ -45,6 +45,9 @@ public:
 	// Audio fx
 	int pickCoin;
 
+	// Death
+	bool isDead = false;
+
 	// L08 TODO 5: Add physics to the player - declare a Physics body
 	PhysBody* pbody;
 	float jumpForce = 3.8f; // The force to apply when jumping
@@ -58,5 +61,6 @@ public:
 	Animation jump;
 	Animation fall;
 	Animation duck;
+	Animation die;
 
 };

@@ -50,6 +50,9 @@
 			<duck loop="false" speed ="0">
 				<frame x="0" y="270" w="56" h="54"/>
 			</duck>
+			<die loop="false" speed ="0">
+				<frame x="0" y="324" w="45" h="47"/>
+			</die>
         </animations>
       </player>
     </entities>

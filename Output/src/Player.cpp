@@ -41,6 +41,7 @@ bool Player::Start() {
 	jump.LoadAnimations(parameters.child("animations").child("jump"));
 	fall.LoadAnimations(parameters.child("animations").child("fall"));
 	duck.LoadAnimations(parameters.child("animations").child("duck"));
+	die.LoadAnimations(parameters.child("animations").child("die"));
 	currentAnimation = &idle;
 
 	// Initilize sfx
@@ -123,19 +124,33 @@ bool Player::Update(float dt)
 		}
 	}
 
-	pbody->body->SetLinearVelocity(velocity);
+
+	if (isDead)
+	{
+		currentAnimation = &die;
+
+		pbody->body->SetLinearVelocity({0 , 0});
+
+		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_W) == KEY_DOWN ||
+			Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_A) == KEY_DOWN ||
+			Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_S) == KEY_DOWN ||
+			Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_D) == KEY_DOWN ||
+			Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			pbody->body->SetTransform({PIXEL_TO_METERS(170), PIXEL_TO_METERS(500)}, 0);
+			isDead = false;
+		}
+	}
+	else {
+		pbody->body->SetLinearVelocity(velocity);
+	}
 
 	b2Transform pbodyPos = pbody->body->GetTransform();
 	position.setX(METERS_TO_PIXELS(pbodyPos.p.x) - texH / 2);
 	position.setY(METERS_TO_PIXELS(pbodyPos.p.y) - texH / 2);
 
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_H) == KEY_REPEAT)
-	{
-
-	}
 	Engine::GetInstance().render.get()->DrawTexture(texture, (int)position.getX(), (int)position.getY(), &currentAnimation->GetCurrentFrame());
 	currentAnimation->Update();
-
 	return true;
 }
 
@@ -162,6 +177,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::UNKNOWN:
 		break;
 	case ColliderType::TRIGGER:
+		if (!godMode)
+		{
+			isDead = true;
+		}
 	default:
 		break;
 	}
