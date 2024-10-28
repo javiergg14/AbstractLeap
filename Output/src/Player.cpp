@@ -30,7 +30,7 @@ bool Player::Start() {
 	//L03: TODO 2: Initialize Player parameters
 	texture = Engine::GetInstance().textures.get()->Load(parameters.attribute("texture").as_string());
 	position.setX(170);
-	position.setY(500);
+	position.setY(50);
 	texW = parameters.attribute("w").as_int();
 	texH = parameters.attribute("h").as_int();
 
@@ -115,7 +115,7 @@ bool Player::Update(float dt)
 		{
 			velocity.y = -6;
 		}
-		else if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
+		else if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 			velocity.y = 6;
 		}
 		else
@@ -137,7 +137,7 @@ bool Player::Update(float dt)
 			Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_D) == KEY_DOWN ||
 			Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		{
-			pbody->body->SetTransform({PIXEL_TO_METERS(170), PIXEL_TO_METERS(500)}, 0);
+			pbody->body->SetTransform({PIXEL_TO_METERS(170), PIXEL_TO_METERS(50)}, 0);
 			isDead = false;
 		}
 	}
