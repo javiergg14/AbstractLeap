@@ -4,11 +4,17 @@ Welcome to Abstract Leap, where the world of geometric shapes bursts into life i
 
 Here’s a quick guide to get you started with the controls:
 
-**Arrow Right:** Move your character to the right.
+**D:** Move your character to the right.
 
-**Arrow Left:** Move your character to the left.
+**A:** Move your character to the left.
 
 **Spacebar:** Press to jump.
+
+**A, S, D, W and Spacebar:** Revive player.
+
+**GodMode:**
+   ***Space:*** Fly.
+   ***S:*** Descend.
 
 **H:** Opens the help menu if you need a refresher on the controls or game features.
 
@@ -17,5 +23,17 @@ Here’s a quick guide to get you started with the controls:
 **F10:** Activates God Mode, giving you invincibility and a whole new way to enjoy the game.
 
 **F11:** Allows you to turn the 30 FPS limit on or off, so you can adjust the game’s performance to your liking.
+
+**Implemented features: **
+
+- Assets and animations.
+- Tilemap.
+- States.
+- Debug keys.
+- Camera limits and fllow player.
+- Pick up item.
+- Dynamic colliders and triggers.
+
+**Github: ** 
 
 Have fun and enjoy the game!
