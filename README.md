@@ -24,7 +24,7 @@ Here’s a quick guide to get you started with the controls:
 
 **F11:** Allows you to turn the 30 FPS limit on or off, so you can adjust the game’s performance to your liking.
 
-**Implemented features: **
+**Implemented features: ** https://github.com/javiergg14/AbstractLeap
 
 - Assets and animations.
 - Tilemap.
