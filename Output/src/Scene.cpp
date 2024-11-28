@@ -97,15 +97,31 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
+	check_Checkpoint();
+
+	printf("\n%f", player->GetPosition().getX());
+
 	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		LoadState();
 
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F5) == KEY_DOWN/*||player->GetPosition().getX() */)
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F5) == KEY_DOWN || checkpoint)
+	{
+		checkpoint = false;
 		SaveState();
+	}
 
 	return ret;
+}
+
+void Scene::check_Checkpoint()
+{
+	if (player->GetPosition().getX() == 403)
+	{
+		checkpoint = true;
+		printf("Checkpoint!!!!");
+	}
 }
 
 // Called before quitting

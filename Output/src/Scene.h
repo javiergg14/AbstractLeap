@@ -40,6 +40,8 @@ public:
 	//L15 TODO 2: Implement the Save function
 	void SaveState();
 
+	void check_Checkpoint();
+
 private:
 	SDL_Texture* img;
 
@@ -48,4 +50,6 @@ private:
 
 	//L03: TODO 3b: Declare a Player attribute
 	Player* player;
+
+	bool checkpoint = false;
 };
