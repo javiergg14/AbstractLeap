@@ -138,7 +138,7 @@ bool Player::Update(float dt)
 			Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_D) == KEY_DOWN ||
 			Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		{
-			pbody->body->SetTransform({PIXEL_TO_METERS(170), PIXEL_TO_METERS(50)}, 0);
+			Engine::GetInstance().scene.get()->LoadState();
 			isDead = false;
 		}
 	}
@@ -182,6 +182,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		{
 			isDead = true;
 		}
+	case ColliderType::CHECKPOINT:
+		printf("RESPAWWWWWWWWWWN");
+		checkpoint = true;
 	default:
 		break;
 	}
@@ -198,6 +201,9 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 	case ColliderType::UNKNOWN:
 		break;
 	case ColliderType::TRIGGER:
+		break;
+	case ColliderType::CHECKPOINT:
+		break;
 	default:
 		break;
 	}

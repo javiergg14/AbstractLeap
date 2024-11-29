@@ -97,31 +97,21 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	check_Checkpoint();
-
-	printf("\n%f", player->GetPosition().getX());
+	/*printf("\n%f", player->GetPosition().getX());*/
 
 	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		LoadState();
 
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F5) == KEY_DOWN || checkpoint)
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F5) == KEY_DOWN || player->checkpoint)
 	{
-		checkpoint = false;
+		printf("ENTRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		player->checkpoint = false;
 		SaveState();
 	}
 
 	return ret;
-}
-
-void Scene::check_Checkpoint()
-{
-	if (player->GetPosition().getX() == 403)
-	{
-		checkpoint = true;
-		printf("Checkpoint!!!!");
-	}
 }
 
 // Called before quitting
@@ -180,8 +170,8 @@ void Scene::SaveState() {
 	//Save info to XML 
 
 	//Player position
-	sceneNode.child("entities").child("player").attribute("x").set_value(player->GetPosition().getX());
-	sceneNode.child("entities").child("player").attribute("y").set_value(player->GetPosition().getY());
+	sceneNode.child("entities").child("player").attribute("x").set_value(player->GetPosition().getX()-30);
+	sceneNode.child("entities").child("player").attribute("y").set_value(player->GetPosition().getY()-30);
 
 	//enemies
 	// ...
