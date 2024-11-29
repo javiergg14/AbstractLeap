@@ -27,8 +27,9 @@ enum class ColliderType {
 	PLAYER, 
 	ITEM,
 	PLATFORM, 
-	UNKNOWN,
-	TRIGGER
+	ENEMY,
+	TRIGGER,
+	UNKNOWN
 	// ..
 };
 
@@ -78,7 +79,9 @@ public:
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 	void EndContact(b2Contact* contact);
+
 	void DeletePhysBody(PhysBody* physBody);
+	bool IsPendingToDelete(PhysBody* physBody);
 
 private:
 
@@ -89,5 +92,4 @@ private:
 	b2World* world;
 
 	std::list<PhysBody*> bodiesToDelete;
-
 };

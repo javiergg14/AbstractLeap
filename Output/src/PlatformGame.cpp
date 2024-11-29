@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
 			// Exit with errors and shame ---------------------------------------
 		case Engine::EngineState::FAIL:
 			LOG("Exiting with errors");
-			result = EXIT_FAILURE;
+			result = EXIT_FAILURE; 
 			state = Engine::EngineState::EXIT;
 			break;
 		}
