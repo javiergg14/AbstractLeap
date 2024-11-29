@@ -170,6 +170,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		//reset the jump flag when touching the ground
 		jump.Reset();
 		isJumping = false;
+
 		break;
 	case ColliderType::ITEM:
 		Engine::GetInstance().audio.get()->PlayFx(pickCoin);
@@ -182,9 +183,12 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		{
 			isDead = true;
 		}
+		break;
+
 	case ColliderType::CHECKPOINT:
-		printf("RESPAWWWWWWWWWWN");
 		checkpoint = true;
+		break;
+
 	default:
 		break;
 	}

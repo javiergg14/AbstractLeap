@@ -143,7 +143,6 @@ bool Scene::PostUpdate()
 
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F5) == KEY_DOWN || player->checkpoint)
 	{
-		printf("ENTRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		player->checkpoint = false;
 		SaveState();
 	}
