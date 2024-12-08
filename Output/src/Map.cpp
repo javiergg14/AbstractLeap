@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Log.h"
 #include "Physics.h"
+#include "Player.h"
 
 #include <math.h>
 
@@ -39,33 +40,35 @@ bool Map::Update(float dt)
 
         // L07 TODO 5: Prepare the loop to draw all tiles in a layer + DrawTexture()
         // iterate all tiles in a layer
-        for (const auto& mapLayer : mapData.layers) {
-            //Check if the property Draw exist get the value, if it's true draw the lawyer
-            if (mapLayer->properties.GetProperty("Draw") != NULL && mapLayer->properties.GetProperty("Draw")->value == true) {
-                for (int i = 0; i < mapData.width; i++) {
-                    for (int j = 0; j < mapData.height; j++) {
+        
+            for (const auto& mapLayer : mapData.layers) {
+                //Check if the property Draw exist get the value, if it's true draw the lawyer
+                if (mapLayer->properties.GetProperty("Draw") != NULL && mapLayer->properties.GetProperty("Draw")->value == true) {
+                    for (int i = 0; i < mapData.width; i++) {
+                        for (int j = 0; j < mapData.height; j++) {
 
-                        // L07 TODO 9: Complete the draw function
+                            // L07 TODO 9: Complete the draw function
 
-                        //Get the gid from tile
-                        int gid = mapLayer->Get(i, j);
-                        //Check if the gid is different from 0 - some tiles are empty
-                        if (gid != 0) {
-                            //L09: TODO 3: Obtain the tile set using GetTilesetFromTileId
-                            TileSet* tileSet = GetTilesetFromTileId(gid);
-                            if (tileSet != nullptr) {
-                                //Get the Rect from the tileSetTexture;
-                                SDL_Rect tileRect = tileSet->GetRect(gid);
-                                //Get the screen coordinates from the tile coordinates
-                                Vector2D mapCoord = MapToWorld(i, j);
-                                //Draw the texture
-                                Engine::GetInstance().render->DrawTexture(tileSet->texture, mapCoord.getX(), mapCoord.getY(), &tileRect);
+                            //Get the gid from tile
+                            int gid = mapLayer->Get(i, j);
+                            //Check if the gid is different from 0 - some tiles are empty
+                            if (gid != 0) {
+                                //L09: TODO 3: Obtain the tile set using GetTilesetFromTileId
+                                TileSet* tileSet = GetTilesetFromTileId(gid);
+                                if (tileSet != nullptr) {
+                                    //Get the Rect from the tileSetTexture;
+                                    SDL_Rect tileRect = tileSet->GetRect(gid);
+                                    //Get the screen coordinates from the tile coordinates
+                                    Vector2D mapCoord = MapToWorld(i, j);
+                                    //Draw the texture
+                                    Engine::GetInstance().render->DrawTexture(tileSet->texture, mapCoord.getX(), mapCoord.getY(), &tileRect);
+                                }
                             }
                         }
                     }
                 }
             }
-        }
+        
     }
 
     return ret;
@@ -90,6 +93,7 @@ TileSet* Map::GetTilesetFromTileId(int gid) const
 bool Map::CleanUp()
 {
     LOG("Unloading map");
+
 
     // L06: TODO 2: Make sure you clean up any memory allocated from tilesets/map
     for (const auto& tileset : mapData.tilesets) {
@@ -183,64 +187,111 @@ bool Map::Load(std::string path, std::string fileName)
         // L08 TODO 3: Create colliders
         // L08 TODO 7: Assign collider type
         // Later you can create a function here to load and create the colliders from the map
-        for (const auto& mapLayer : mapData.layers) {
-            //Check if the property Draw exist get the value, if it's true draw the lawyer
-            if (mapLayer->properties.GetProperty("Collisions") != NULL && mapLayer->properties.GetProperty("Collisions")->value == true) {
-                for (int i = 0; i < mapData.width; i++) {
-                    for (int j = 0; j < mapData.height; j++) {
+        
+        if (lvl == 1)
+        {
+            for (const auto& mapLayer : mapData.layers) {
+                //Check if the property Draw exist get the value, if it's true draw the lawyer
+                if (mapLayer->properties.GetProperty("Collisions") != NULL && mapLayer->properties.GetProperty("Collisions")->value == true) {
+                    for (int i = 0; i < mapData.width; i++) {
+                        for (int j = 0; j < mapData.height; j++) {
 
-                        // L07 TODO 9: Complete the draw function
-                        //Get the gid from tile
-                        int gid = mapLayer->Get(i, j);
-                        //Check if the gid is different from 0 - some tiles are empty
-                        if (gid == 1957) {
-                            Vector2D mapCoord = MapToWorld(i, j);
-                            PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth/2, mapCoord.getY() + mapData.tileHeight-25, mapData.tileWidth, mapData.tileHeight/2, STATIC);
-                            platform->ctype = ColliderType::PLATFORM;
+                            // L07 TODO 9: Complete the draw function
+                            //Get the gid from tile
+                            int gid = mapLayer->Get(i, j);
+                            //Check if the gid is different from 0 - some tiles are empty
+                            if (gid == 1957) {
+                                Vector2D mapCoord = MapToWorld(i, j);
+                                PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight - 25, mapData.tileWidth, mapData.tileHeight / 2, STATIC);
+                                platform->ctype = ColliderType::PLATFORM;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (const auto& mapLayer : mapData.layers) {
+                //Check if the property Draw exist get the value, if it's true draw the lawyer
+                if (mapLayer->properties.GetProperty("Collisions") != NULL && mapLayer->properties.GetProperty("Collisions")->value == true) {
+                    for (int i = 0; i < mapData.width; i++) {
+                        for (int j = 0; j < mapData.height; j++) {
+
+                            // L07 TODO 9: Complete the draw function
+                            //Get the gid from tile
+                            int gid = mapLayer->Get(i, j);
+                            //Check if the gid is different from 0 - some tiles are empty
+                            if (gid == 1958) {
+                                Vector2D mapCoord = MapToWorld(i, j);
+                                PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, STATIC);
+                                platform->ctype = ColliderType::DEATH;
+                            }
+                        }
+                    }
+                }
+            }
+            for (const auto& mapLayer : mapData.layers) {
+                //Check if the property Draw exist get the value, if it's true draw the lawyer
+                if (mapLayer->properties.GetProperty("NewLvl") != NULL && mapLayer->properties.GetProperty("NewLvl")->value == true) {
+                    for (int i = 0; i < mapData.width; i++) {
+                        for (int j = 0; j < mapData.height; j++) {
+
+                            // L07 TODO 9: Complete the draw function
+                            //Get the gid from tile
+                            int gid = mapLayer->Get(i, j);
+                            //Check if the gid is different from 0 - some tiles are empty
+                            if (gid == 1957) {
+                                Vector2D mapCoord = MapToWorld(i, j);
+                                PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, STATIC);
+                                platform->ctype = ColliderType::NEWLVL;
+
+                            }
+                        }
+                    }
+                }
+            }
+            for (const auto& mapLayer : mapData.layers) {
+                //Check if the property Draw exist get the value, if it's true draw the lawyer
+                if (mapLayer->properties.GetProperty("Checkpoint") != NULL && mapLayer->properties.GetProperty("Checkpoint")->value == true) {
+                    for (int i = 0; i < mapData.width; i++) {
+                        for (int j = 0; j < mapData.height; j++) {
+
+                            // L07 TODO 9: Complete the draw function
+                            //Get the gid from tile
+                            int gid = mapLayer->Get(i, j);
+                            //Check if the gid is different from 0 - some tiles are empty
+                            if (gid == 3035) {
+                                Vector2D mapCoord = MapToWorld(i, j);
+                                PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangleSensor(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, KINEMATIC);
+                                platform->ctype = ColliderType::CHECKPOINT;
+                            }
                         }
                     }
                 }
             }
         }
+        else
+        {
+            for (const auto& mapLayer : mapData.layers) {
+                //Check if the property Draw exist get the value, if it's true draw the lawyer
+                if (mapLayer->properties.GetProperty("Checkpoint") != NULL && mapLayer->properties.GetProperty("Checkpoint")->value == true) {
+                    for (int i = 0; i < mapData.width; i++) {
+                        for (int j = 0; j < mapData.height; j++) {
 
-        for (const auto& mapLayer : mapData.layers) {
-            //Check if the property Draw exist get the value, if it's true draw the lawyer
-            if (mapLayer->properties.GetProperty("Collisions") != NULL && mapLayer->properties.GetProperty("Collisions")->value == true) {
-                for (int i = 0; i < mapData.width; i++) {
-                    for (int j = 0; j < mapData.height; j++) {
-
-                        // L07 TODO 9: Complete the draw function
-                        //Get the gid from tile
-                        int gid = mapLayer->Get(i, j);
-                        //Check if the gid is different from 0 - some tiles are empty
-                        if (gid == 1958) {
-                            Vector2D mapCoord = MapToWorld(i, j);
-                            PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, STATIC);
-                            platform->ctype = ColliderType::TRIGGER;
+                            // L07 TODO 9: Complete the draw function
+                            //Get the gid from tile
+                            int gid = mapLayer->Get(i, j);
+                            //Check if the gid is different from 0 - some tiles are empty
+                            if (gid == 3035) {
+                                Vector2D mapCoord = MapToWorld(i, j);
+                                PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangleSensor(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, KINEMATIC);
+                                platform->ctype = ColliderType::CHECKPOINT;
+                            }
                         }
                     }
                 }
             }
         }
-        for (const auto& mapLayer : mapData.layers) {
-            //Check if the property Draw exist get the value, if it's true draw the lawyer
-            if (mapLayer->properties.GetProperty("Checkpoint") != NULL && mapLayer->properties.GetProperty("Checkpoint")->value == true) {
-                for (int i = 0; i < mapData.width; i++) {
-                    for (int j = 0; j < mapData.height; j++) {
-
-                        // L07 TODO 9: Complete the draw function
-                        //Get the gid from tile
-                        int gid = mapLayer->Get(i, j);
-                        //Check if the gid is different from 0 - some tiles are empty
-                        if (gid == 3035) {
-                            Vector2D mapCoord = MapToWorld(i, j);
-                            PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangleSensor(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, KINEMATIC);
-                            platform->ctype = ColliderType::CHECKPOINT;
-                        } 
-                    }
-                }
-            }
-        }
+        
         ret = true;
 
         // L06: TODO 5: LOG all the data loaded iterate all tilesetsand LOG everything
@@ -339,4 +390,8 @@ Properties::Property* Properties::GetProperty(const char* name)
 
     return nullptr;
 }
+
+
+
+
 

@@ -19356,7 +19356,7 @@
    <tile gid="3666"/>
   </data>
  </layer>
- <layer id="4" name="Collisions and Death" width="280" height="23" visible="0">
+ <layer id="4" name="Collisions and Death" width="280" height="23">
   <properties>
    <property name="Collisions" type="bool" value="true"/>
   </properties>
@@ -19920,7 +19920,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="4826"/>
    <tile/>
    <tile/>
    <tile/>
@@ -20200,7 +20200,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="4826"/>
    <tile/>
    <tile/>
    <tile/>
@@ -25803,7 +25803,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="5" name="Checkpoint" width="280" height="23" visible="0">
+ <layer id="5" name="Checkpoint" width="280" height="23">
   <properties>
    <property name="Checkpoint" type="bool" value="true"/>
   </properties>
@@ -30572,9 +30572,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="4827"/>
+   <tile gid="4827"/>
+   <tile gid="4827"/>
    <tile/>
    <tile/>
    <tile/>

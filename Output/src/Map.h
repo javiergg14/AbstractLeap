@@ -3,6 +3,7 @@
 #include "Module.h"
 #include <list>
 #include <vector>
+#include "Physics.h"
 
 
 // L09: TODO 5: Add attributes to the property structure
@@ -145,9 +146,11 @@ public:
 
     MapLayer* GetNavigationLayer();
 
+
 public: 
     std::string mapFileName;
     std::string mapPath;
+    int lvl = 1;
 
 private:
     bool mapLoaded;

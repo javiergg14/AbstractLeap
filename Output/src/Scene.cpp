@@ -77,6 +77,36 @@ bool Scene::Update(float dt)
 		Engine::GetInstance().render.get()->DrawTexture(helpTexture, (player->position.getX() + 670), 0);
 	}
 
+	if (player->NewLvl)
+	{
+		Engine::GetInstance().map->CleanUp();
+		if (Engine::GetInstance().map->lvl == 1)
+		{
+			Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
+			player->SetPosition(Vector2D(170, 50));
+		}
+		else if (Engine::GetInstance().map->lvl == 2)
+		{
+			Engine::GetInstance().map->Load("Output/Assets/Maps/", "MapLvl2.tmx");
+			player->SetPosition(Vector2D(170, 50));
+		}
+		player->NewLvl = false;
+	}
+
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		Engine::GetInstance().map->CleanUp();
+		Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
+		player->SetPosition(Vector2D(170, 50));
+	}
+	else if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F2))
+	{
+		Engine::GetInstance().map->CleanUp();
+		Engine::GetInstance().map->Load("Output/Assets/Maps/", "MapLvl2.tmx");
+		player->SetPosition(Vector2D(170, 50));
+	}
+
+
 	//L03 TODO 3: Make the camera movement independent of framerate
 
 	Engine::GetInstance().render.get()->camera.x = -(player->position.getX() - 170);

@@ -4,6 +4,7 @@
 #include "SDL2/SDL.h"
 #include "Box2D/Box2D.h"
 #include "Animation.h"
+#include "ParticleSystem.h"
 
 struct SDL_Texture;
 
@@ -43,6 +44,8 @@ public:
 	SDL_Texture* texture = NULL;
 	int texW, texH;
 
+	bool NewLvl = false;
+
 	//God Mode
 	bool godMode;
 
@@ -66,5 +69,5 @@ public:
 	Animation fall;
 	Animation duck;
 	Animation die;
-
+	ParticleSystem* particleSystem;
 };

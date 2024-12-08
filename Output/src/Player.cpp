@@ -8,10 +8,12 @@
 #include "Log.h"
 #include "Physics.h"
 #include "EntityManager.h"
+#include "Particle.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name = "Player";
+	particleSystem = nullptr;
 }
 
 Player::~Player() {
@@ -64,7 +66,18 @@ bool Player::Update(float dt)
 {
 	currentAnimation = &idle;
 
+	if (checkpoint && particleSystem) {
 
+		particleSystem->Update(dt);  // Actualizar las partículas
+		particleSystem->Draw();      // Dibujar las partículas
+
+		if (particleSystem->IsFinished()) {
+			// Si las partículas han terminado, eliminarlas
+			delete particleSystem;
+			particleSystem = nullptr;
+			checkpoint = false;  // Resetear el estado de checkpoint
+		}
+	}
 
 	// L08 TODO 5: Add physics to the player - updated player position using physics
 	b2Vec2 velocity = b2Vec2(0, pbody->body->GetLinearVelocity().y);
@@ -178,7 +191,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::UNKNOWN:
 		break;
-	case ColliderType::TRIGGER:
+	case ColliderType::NEWLVL:
+		NewLvl = true;
+		Engine::GetInstance().map->lvl += 1;
+		break;
+	case ColliderType::DEATH:
 		if (!godMode)
 		{
 			isDead = true;
@@ -187,6 +204,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	case ColliderType::CHECKPOINT:
 		checkpoint = true;
+		if (!particleSystem) {
+			particleSystem = new ParticleSystem();
+			particleSystem->CreateParticles(GetPosition(), Vector2D(0, 0), 2.0f);  // Crear partículas por 2 segundos
+		}
 		break;
 
 	default:
@@ -204,9 +225,11 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 		break;
 	case ColliderType::UNKNOWN:
 		break;
-	case ColliderType::TRIGGER:
+	case ColliderType::DEATH:
 		break;
 	case ColliderType::CHECKPOINT:
+		break;
+	case ColliderType::NEWLVL:
 		break;
 	default:
 		break;
