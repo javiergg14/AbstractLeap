@@ -18,7 +18,7 @@
 		<map path="Assets/Maps/" name="Map.tmx" />
 		<map path="Assets/Maps/" name="MapLvl2.tmx" />
 		<entities>
-			<player x="4010" y="387" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
+			<player x="7735" y="582" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
 				<animations>
 					<idle loop="true" speed="0.08">
 						<frame x="0" y="0" w="44" h="54" />
@@ -53,22 +53,7 @@
 				</animations>
 			</player>
 			<enemies>
-				<enemy name="badguy" x="448" y="350" w="32" h="32" texture="Assets/Textures/PNG/Players/Blue/run.png" gravity="true">
-					<animations>
-						<idle loop="true" speed="0.5">
-							<frame x="0" y="0" w="32" h="32" />
-							<frame x="32" y="0" w="32" h="32" />
-							<frame x="64" y="0" w="32" h="32" />
-							<frame x="96" y="0" w="32" h="32" />
-							<frame x="128" y="0" w="32" h="32" />
-							<frame x="160" y="0" w="32" h="32" />
-							<frame x="192" y="0" w="32" h="32" />
-							<frame x="224" y="0" w="32" h="32" />
-							<frame x="256" y="0" w="32" h="32" />
-						</idle>
-					</animations>
-				</enemy>
-				<enemy name="badguy2" x="800" y="680" w="32" h="32" texture="Assets/Textures/PNG/Players/Blue/run.png" gravity="true">
+				<enemy name="badguy" x="400" y="600" w="32" h="32" texture="Assets/Textures/PNG/Players/Blue/run.png" gravity="true">
 					<animations>
 						<idle loop="true" speed="0.5">
 							<frame x="0" y="0" w="32" h="32" />

@@ -17,9 +17,9 @@ class Pathfinding
 
 public:
 
-	Pathfinding();
+    Pathfinding();
 
-	~Pathfinding();
+    ~Pathfinding();
 
     // L11: BFS Pathfinding methods
     void ResetPath(Vector2D pos);
@@ -53,12 +53,13 @@ public:
     std::vector<Vector2D> breadcrumbs; //list of tiles that form the path
     std::vector<std::vector<int>> costSoFar; //matrix that stores the accumulated cost in the propagation of the Dijkstra algorithm
     std::list<Vector2D> pathTiles; //list of tiles that form the path
+    std::list<Vector2D> prePathTiles;
     SDL_Texture* tileX = nullptr; //texture used to show the path 
 
     // L13: A* Pathfinding variables
     std::priority_queue<std::pair<int, Vector2D>, std::vector<std::pair<int, Vector2D>>, std::greater<std::pair<int, Vector2D>> > frontierAStar;
 
-    int blockedGid = 49; //Gid of the tiles that block the path - Important adjust this value to your map
+    int blockedGid = 1957; //Gid of the tiles that block the path - Important adjust this value to your map
     int highCostGid = 50; //Gid of the tiles that have high cost - Important adjust this value to your map
 
 };

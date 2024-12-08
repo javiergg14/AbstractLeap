@@ -56,69 +56,30 @@ bool Enemy::Start() {
 
 bool Enemy::Update(float dt)
 {
-	// Pathfinding testing inputs
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
-		Vector2D pos = GetPosition();
-		Vector2D tilePos = Engine::GetInstance().map.get()->WorldToMap(pos.getX(),pos.getY());
-		pathfinding->ResetPath(tilePos);
+	// Obtener la posición del jugador
+	Vector2D playerPos = Engine::GetInstance().scene.get()->GetPlayerPosition();
+
+	// Verificar la proximidad del jugador y cambiar de estado
+	CheckPlayerProximity(playerPos);
+
+	// Lógica para el estado de patrullaje o persecución
+	if (currentState == EnemyState::PATROL) {
+		Patrol(dt);
+	}
+	else if (currentState == EnemyState::CHASING) {
+		Chase(dt);
 	}
 
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_J) == KEY_DOWN) {
-		pathfinding->PropagateBFS();
-	}
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_J) == KEY_REPEAT &&
-		Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
-		pathfinding->PropagateBFS();
-	}
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
-		pathfinding->PropagateDijkstra();
-	}
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_K) == KEY_REPEAT &&
-		Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
-		pathfinding->PropagateDijkstra();
-	}
-
-	// L13: TODO 3:	Add the key inputs to propagate the A* algorithm with different heuristics (Manhattan, Euclidean, Squared)
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_B) == KEY_DOWN) {
-		pathfinding->PropagateAStar(MANHATTAN);
-	}
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_B) == KEY_REPEAT &&
-		Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
-		pathfinding->PropagateAStar(MANHATTAN);
-	}
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_N) == KEY_DOWN) {
-		pathfinding->PropagateAStar(EUCLIDEAN);
-	}
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_N) == KEY_REPEAT &&
-		Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
-		pathfinding->PropagateAStar(EUCLIDEAN);
-	}
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
-		pathfinding->PropagateAStar(SQUARED);
-	}
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_M) == KEY_REPEAT &&
-		Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
-		pathfinding->PropagateAStar(SQUARED);
-	}
-
-	// L08 TODO 4: Add a physics to an item - update the position of the object from the physics.  
+	// Actualización de la posición y renderizado
 	b2Transform pbodyPos = pbody->body->GetTransform();
 	position.setX(METERS_TO_PIXELS(pbodyPos.p.x) - texH / 2);
 	position.setY(METERS_TO_PIXELS(pbodyPos.p.y) - texH / 2);
 
+	// Dibujar la textura del enemigo
 	Engine::GetInstance().render.get()->DrawTexture(texture, (int)position.getX(), (int)position.getY(), &currentAnimation->GetCurrentFrame());
 	currentAnimation->Update();
 
-	// Draw pathfinding 
+	// Dibujar el camino para depuración
 	pathfinding->DrawPath();
 
 	return true;
@@ -166,5 +127,90 @@ void Enemy::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 	case ColliderType::PLAYER:
 		LOG("Collision player");
 		break;
+	}
+}
+
+void Enemy::Chase(float dt)
+{
+	b2Vec2 velocity = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+
+	counter++;
+
+	if (counter == 15) {
+		ResetPath();
+		counter = 0;
+	}
+	else {
+		pathfinding->PropagateAStar(ASTAR_HEURISTICS::MANHATTAN);
+	}
+
+	if (!pathfinding->prePathTiles.empty()) {
+		Vector2D nextTile = pathfinding->prePathTiles.front();  // Obtener el siguiente tile del camino
+		Vector2D nextTileWorld = Engine::GetInstance().map.get()->MapToWorld(nextTile.getX(), nextTile.getY());
+
+		// Mover el enemigo hacia el siguiente tile (podrías agregar interpolación para suavizar el movimiento)
+		if (nextTileWorld.getX() > position.getX()) {
+			velocity.x = 0.1 * 16;
+		}
+		else if (nextTileWorld.getX() < position.getX()) {
+			velocity.x = -0.1 * 16;
+		}
+
+		if (nextTileWorld.getY() > position.getY()) {
+			velocity.y = 0.1 * 16;
+		}
+		else if (nextTileWorld.getY() < position.getY()) {
+			velocity.y = -0.1 * 16;
+		}
+	}
+
+	pbody->body->SetLinearVelocity(velocity);
+
+}
+
+void Enemy::Patrol(float dt)
+{
+	b2Vec2 velocity = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+
+	// Movimiento de patrullaje de izquierda a derecha (como un patrón cíclico)
+	static bool movingRight = true;  // Determina si el enemigo se mueve a la derecha o a la izquierda
+	float patrolSpeed = 0.1 * 16;    // Velocidad del patrullaje
+
+	// Movimiento a la derecha
+	if (movingRight) {
+		velocity.x = patrolSpeed;
+	}
+	// Movimiento a la izquierda
+	else {
+		velocity.x = -patrolSpeed;
+	}
+
+	// Cambiar dirección al llegar a los límites (puedes ajustar los límites según el mapa)
+	if (position.getX() >= 500) {  // Límite derecho (ajústalo a tu mapa)
+		movingRight = false;
+	}
+	else if (position.getX() <= 50) {  // Límite izquierdo (ajústalo a tu mapa)
+		movingRight = true;
+	}
+
+	// Movimiento vertical opcional (puedes agregarlo si lo necesitas)
+	velocity.y = 0;
+
+	pbody->body->SetLinearVelocity(velocity);
+
+}
+
+void Enemy::CheckPlayerProximity(Vector2D playerPos) {
+	Vector2D enemyPos = GetPosition();
+
+	float dx = playerPos.getX() - enemyPos.getX();
+	float dy = playerPos.getY() - enemyPos.getY();
+	float distance = sqrt(dx * dx + dy * dy);
+
+	if (distance < 200) {
+		currentState = EnemyState::CHASING;
+	}
+	else {
+		currentState = EnemyState::PATROL; // Si el jugador se aleja, vuelve al patrullaje
 	}
 }

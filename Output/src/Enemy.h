@@ -7,6 +7,11 @@
 
 struct SDL_Texture;
 
+enum class EnemyState {
+	PATROL,
+	CHASING
+};
+
 class Enemy : public Entity
 {
 public:
@@ -36,10 +41,15 @@ public:
 
 	void OnCollisionEnd(PhysBody* physA, PhysBody* physB);
 
+	void Chase(float dt);
+
+	void Patrol(float dt);
+
+	void CheckPlayerProximity(Vector2D playerPos);
+
 public:
 
 private:
-
 	SDL_Texture* texture;
 	const char* texturePath;
 	int texW, texH;
@@ -48,4 +58,6 @@ private:
 	Animation idle;
 	PhysBody* pbody;
 	Pathfinding* pathfinding;
+	EnemyState currentState = EnemyState::PATROL;
+	int counter = 0;
 };
