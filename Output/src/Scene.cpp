@@ -235,7 +235,7 @@ void Scene::LoadState() {
 		sceneNode.child("entities").child("player").attribute("y").as_int());
 	player->SetPosition(playerPos);
 	
-	int i = 0;
+	/*int i = 0;
 	for (pugi::xml_node enemyNode = sceneNode.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
 	{
 		if (!enemyList[i]->isDead) {
@@ -244,7 +244,7 @@ void Scene::LoadState() {
 		}
 		
 		i++;
-	}
+	}*/
 
 	Engine::GetInstance().audio.get()->PlayFx(respawn);
 
