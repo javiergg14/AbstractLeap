@@ -102,9 +102,10 @@ bool Scene::Update(float dt)
 		{
 			player->SetPosition(Vector2D(170, 50));
 		}
-		player->NewLvl = false;*/
-
+		*/
 		player->SetPosition(Vector2D(190, 20));
+		player->NewLvl = false;
+
 	}
 
 	/*if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
