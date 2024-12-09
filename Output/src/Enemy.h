@@ -53,6 +53,7 @@ public:
 
 public:
 	int death;
+	bool isDead = false;
 private:
 	SDL_Texture* texture;
 	const char* texturePath;

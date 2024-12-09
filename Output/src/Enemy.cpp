@@ -65,6 +65,7 @@ bool Enemy::Update(float dt)
 		{
 			currentState = EnemyState::PATROL;
 			currentAnimation = &idle;
+			pathfinding->prePathTiles.clear();
 		}
 		else {
 			currentState = EnemyState::CHASING;
@@ -110,6 +111,7 @@ bool Enemy::Update(float dt)
 bool Enemy::CleanUp()
 {
 	Engine::GetInstance().physics.get()->DeletePhysBody(pbody);
+	isDead = true;
 	return true;
 }
 
@@ -184,10 +186,6 @@ void Enemy::Chase(float dt)
 		}
 	}
 
-	if (velocity.y == 0) { // Verifica si está en el suelo y la condición de salto
-		velocity.y = 0.1 * 16;; // Ajusta la fuerza de salto según sea necesario
-	}
-
 	pbody->body->SetLinearVelocity(velocity);
 }
 
@@ -196,5 +194,6 @@ void Enemy::Patrol(float dt)
 {
 	b2Vec2 velocity = b2Vec2(0, pbody->body->GetLinearVelocity().y);
 	velocity.x = 0;
+	velocity.y = 0;
 	pbody->body->SetLinearVelocity(velocity);
 }
