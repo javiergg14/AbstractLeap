@@ -18,6 +18,10 @@ Here’s a quick guide to get you started with the controls:
 
 **H:** Opens the help menu if you need a refresher on the controls or game features.
 
+**F5:** Save game.
+
+**F6:** Load game.
+
 **F9:** Toggles the visibility of colliders or game logic elements for those who like to dig deeper into the game mechanics.
 
 **F10:** Activates God Mode, giving you invincibility and a whole new way to enjoy the game.
@@ -33,6 +37,16 @@ Here’s a quick guide to get you started with the controls:
 - Camera limits and fllow player.
 - Pick up item.
 - Dynamic colliders and triggers.
+- Enemies
+- Load
+- Save
+- Types of enemies
+- Kill/Death enemies
+- Navigation Tilemap
+- SFX
+- Music
+- Assets and animations enemies
+- Enemies behaviour and pathfinding
 
 **Github:** https://github.com/javiergg14/AbstractLeap
 
