@@ -1,6 +1,7 @@
 #include "ParticleSystem.h"
 #include "Engine.h"
-#include <cstdlib>  // Para números aleatorios, si quieres aleatorizar la velocidad
+#include "Render.h"
+#include <cstdlib>  // Para números aleatorios
 
 // Constructor
 ParticleSystem::ParticleSystem() {}
@@ -10,45 +11,44 @@ ParticleSystem::~ParticleSystem() {
     particles.clear();  // Limpiar las partículas al destruir el sistema
 }
 
-// Crear partículas en una posición específica
-void ParticleSystem::CreateParticles(const Vector2D& position, const Vector2D& velocity, float lifetime) {
-    // Crear varias partículas
-    for (int i = 0; i < 5; ++i) {  // Crear 5 partículas por ejemplo
-        // Crear una velocidad aleatoria para cada partícula
-        float randomX = (rand() % 20 - 10) * 0.1f;  // Aleatorizar la velocidad en el rango [-1, 1]
-        float randomY = (rand() % 20 - 10) * 0.1f;
-        Particle p(position, Vector2D(velocity.getX() + randomX, velocity.getY() + randomY), lifetime);
-        particles.push_back(p);
-    }
-}
-
 // Actualizar todas las partículas
 void ParticleSystem::Update(float dt) {
-    for (auto it = particles.begin(); it != particles.end();) {
-        it->Update(dt);  // Actualizar cada partícula
+    if (isActive) {  // Solo actualizar si la animación está activa
+        for (auto it = particles.begin(); it != particles.end();) {
+            it->Update(dt);  // Actualizar la partícula
 
-        // Si la partícula ha muerto, eliminarla
-        if (it->IsDead()) {
-            it = particles.erase(it);
+            // Eliminar las partículas que han muerto
+            if (it->IsDead()) {
+                it = particles.erase(it);
+            }
+            else {
+                ++it;
+            }
         }
-        else {
-            ++it;
+
+        // Si todas las partículas están muertas, desactivar la animación
+        if (particles.empty()) {
+            StopAnimation();  // Desactivar la animación
         }
     }
 }
 
 // Dibujar las partículas
 void ParticleSystem::Draw() {
-    for (const auto& particle : particles) {
-        // Verificar si la partícula sigue viva
-        if (particle.lifetime > 0) {
-            // Establecer el color de la partícula si se tiene una propiedad de color
-            SDL_SetTextureColorMod(particle.texture, particle.color.r, particle.color.g, particle.color.b);
+    // Recorrer las partículas y dibujarlas
+    if (isActive) {  // Solo dibujar si la animación está activa
+        for (const auto& particle : particles) {
+            if (!particle.IsDead()) {
+                int x = static_cast<int>(particle.position.getX());
+                int y = static_cast<int>(particle.position.getY());
+                int radius = static_cast<int>(particle.size);  // Tamaño de la partícula
 
-            // Dibujar la partícula (por ejemplo, con una textura, si la tienes)
-            /*Engine::GetInstance().render.get()->DrawTexture(particle.texture,
-                static_cast<int>(particle.position.getX()),
-                static_cast<int>(particle.position.getY()));*/
+                // Calcular la opacidad en función del tiempo de vida
+                Uint8 alpha = static_cast<Uint8>(255 * (particle.lifetime / 10.0f));  // 10 es el lifetime máximo
+
+                // Dibujar la partícula
+                Engine::GetInstance().render.get()->DrawCircle(x, y, radius, 255, 255, 0, alpha, false);  // Amarillo
+            }
         }
     }
 }
@@ -56,4 +56,16 @@ void ParticleSystem::Draw() {
 // Verificar si todas las partículas han muerto
 bool ParticleSystem::IsFinished() const {
     return particles.empty();
+}
+
+void ParticleSystem::CreateParticles(const Vector2D& position, const Vector2D& velocity, float lifetime) {
+    if (isActive) {  // Solo crear partículas si la animación está activa
+        for (int i = 0; i < 5; ++i) {
+            // Aleatorizar la velocidad
+            float randomX = (rand() % 20 - 10) * 0.1f;
+            float randomY = (rand() % 20 - 10) * 0.1f;
+            Particle p(position, Vector2D(velocity.getX() + randomX, velocity.getY() + randomY), lifetime);
+            particles.push_back(p);
+        }
+    }
 }

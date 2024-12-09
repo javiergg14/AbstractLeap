@@ -17,7 +17,7 @@
 	<scene>
 		<map path="Assets/Maps/" name="Map.tmx" />
 		<entities>
-			<player x="303" y="74" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
+			<player x="146" y="74" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
 				<animations>
 					<idle loop="true" speed="0.08">
 						<frame x="0" y="0" w="44" h="54" />
@@ -52,14 +52,15 @@
 				</animations>
 			</player>
 			<enemies>
-				<enemy name="badguy" x="385" y="639" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" gravity="true">
+				<enemy name="floorguy" x="385" y="639" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" gravity="true">
 					<animations>
 						<idle loop="true" speed="0.1">
 							<frame x="0" y="0" w="32" h="32" />
+							<frame x="32" y="0" w="32" h="32" />
 						</idle>
 						<run loop="true" speed="0.1">
-							<frame x="0" y="0" w="32" h="32" />
-							<frame x="32" y="0" w="32" h="32" />
+							<frame x="0" y="32" w="32" h="32" />
+							<frame x="32" y="32" w="32" h="32" />
 						</run>
 					</animations>
 				</enemy>

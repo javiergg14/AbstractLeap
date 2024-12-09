@@ -81,5 +81,4 @@ public:
 	Animation fall;
 	Animation duck;
 	Animation die;
-	ParticleSystem* particleSystem;
 };

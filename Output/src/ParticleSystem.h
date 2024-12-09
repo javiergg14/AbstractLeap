@@ -1,29 +1,34 @@
 #pragma once
 
-#include "Particle.h"  // Incluir la definición de Particle
+#include "Particle.h"
+#include "Vector2D.h"
 #include <vector>
-#include "SDL2/SDL.h"
 
 class ParticleSystem {
 public:
-    // Constructor
-    ParticleSystem();
+    std::vector<Particle> particles;  // Lista de partículas
 
-    // Destructor
+    // Constructor y destructor
+    ParticleSystem();
     ~ParticleSystem();
 
-    // Crear partículas en una posición específica con una velocidad y tiempo de vida
+    // Crear partículas en una posición específica
     void CreateParticles(const Vector2D& position, const Vector2D& velocity, float lifetime);
 
     // Actualizar todas las partículas
     void Update(float dt);
 
-    // Dibujar las partículas (esto depende de tu motor de renderizado)
+    // Dibujar las partículas
     void Draw();
 
-    // Verificar si el sistema de partículas está vacío
+    // Verificar si todas las partículas han muerto
     bool IsFinished() const;
 
+    void StartAnimation() { isActive = true; }  // Activar animación
+    void StopAnimation() { isActive = false; }  // Desactivar animación
+
+    bool IsActive() const { return isActive; }  // Comprobar si la animación está activa
+
 private:
-    std::vector<Particle> particles;  // Lista de partículas
+    bool isActive = false;
 };
