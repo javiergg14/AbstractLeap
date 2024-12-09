@@ -92,12 +92,23 @@ bool Enemy::Update(float dt)
 		Chase(dt);
 	}
 
+	
+
 	b2Transform pbodyPos = pbody->body->GetTransform();
 	position.setX(METERS_TO_PIXELS(pbodyPos.p.x) - texH / 2);
 	position.setY(METERS_TO_PIXELS(pbodyPos.p.y) - texH / 2);
+	if (type == EnemyType::GROUND)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(texture, (int)position.getX(), (int)position.getY() - 5, &currentAnimation->GetCurrentFrame());
+		currentAnimation->Update();
+	}
+	else if (type == EnemyType::FLYING)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(texture, (int)position.getX() - 16, (int)position.getY() - 10, &currentAnimation->GetCurrentFrame());
+		currentAnimation->Update();
+	}
 
-	Engine::GetInstance().render.get()->DrawTexture(texture, (int)position.getX(), (int)position.getY(), &currentAnimation->GetCurrentFrame());
-	currentAnimation->Update();
+
 
 	if (Engine::GetInstance().physics.get()->debug)
 	{
