@@ -238,8 +238,11 @@ void Scene::LoadState() {
 	int i = 0;
 	for (pugi::xml_node enemyNode = sceneNode.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
 	{
-		enemyList[i]->SetPosition(Vector2D(enemyNode.attribute("x").as_int(),
-			enemyNode.attribute("y").as_int()));
+		if (!enemyList[i]->isDead) {
+			enemyList[i]->SetPosition(Vector2D(enemyNode.attribute("x").as_int(),
+				enemyNode.attribute("y").as_int()-5));
+		}
+		
 		i++;
 	}
 
@@ -266,21 +269,18 @@ void Scene::SaveState() {
 	//Save info to XML 
 
 	//Player position
-	sceneNode.child("entities").child("player").attribute("x").set_value(player->GetPosition().getX()-30);
+	sceneNode.child("entities").child("player").attribute("x").set_value(player->GetPosition().getX());
 	sceneNode.child("entities").child("player").attribute("y").set_value(player->GetPosition().getY()-30);
 
 	int i = 0;
-	for (pugi::xml_node enemyNode = sceneNode.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
+	/*for (pugi::xml_node enemyNode = sceneNode.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
 	{
-		if (enemyList[i]->isDead) {
-			sceneNode.child("entities").child("enemies").remove_child(enemyNode);
-		}
-		else {
+		if (!enemyList[i]->isDead) {
 			enemyNode.attribute("x").set_value(enemyList[i]->GetPosition().getX());
 			enemyNode.attribute("y").set_value(enemyList[i]->GetPosition().getY());
 		}
 		i++;
-	}
+	}*/
 
 	//enemies
 	// ...
