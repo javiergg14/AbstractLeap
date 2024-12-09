@@ -32,7 +32,7 @@ bool Enemy::Start() {
 	texW = parameters.attribute("w").as_int();
 	texH = parameters.attribute("h").as_int();
 
-	Death = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/EnemyDeath.ogg");
+	death = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/EnemyDeath.ogg");
 
 	//Load animations
 	idle.LoadAnimations(parameters.child("animations").child("idle"));
@@ -133,7 +133,7 @@ void Enemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (Engine::GetInstance().scene.get()->GetPlayerCurrentState() == PlayerState::ATTACK)
 		{
 			LOG("Collided with player - DESTROY");
-			Engine::GetInstance().audio.get()->PlayFx(Death);
+			Engine::GetInstance().audio.get()->PlayFx(death);
 			Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 		}
 		

@@ -52,7 +52,7 @@ public:
 	void Patrol(float dt);
 
 public:
-	int Death;
+	int death;
 private:
 	SDL_Texture* texture;
 	const char* texturePath;

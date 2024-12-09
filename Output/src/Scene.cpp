@@ -239,12 +239,9 @@ void Scene::LoadState() {
 
 	for (int i = 0; i < enemyList.size(); i++)
 	{
-		if (!enemyList[0]->Death)
-		{
-			Vector2D enemyPos = Vector2D(20, 20);/*Vector2D(sceneNode.child("entities").child("enemies").child("enemy").attribute("x").as_int(),
-				sceneNode.child("entities").child("enemies").child("enemy").attribute("y").as_int());*/
-			enemyList[0]->SetPosition(enemyPos);
-		}
+		Vector2D enemyPos = Vector2D(sceneNode.child("entities").child("enemies").child("enemy").attribute("x").as_int(),
+				sceneNode.child("entities").child("enemies").child("enemy").attribute("y").as_int());
+			enemyList[i]->SetPosition(enemyPos);
 	}
 
 	Engine::GetInstance().audio.get()->PlayFx(respawn);
@@ -275,11 +272,9 @@ void Scene::SaveState() {
 
 	for (int i = 0; i < enemyList.size(); i++)
 	{
-		if (!enemyList[0]->Death)
-		{
-			sceneNode.child("entities").child("enemies").child("enemy").attribute("x").set_value(enemyList[i]->GetPosition().getX());
-			sceneNode.child("entities").child("enemies").child("enemy").attribute("y").set_value(enemyList[i]->GetPosition().getY());
-		}
+		sceneNode.child("entities").child("enemies").child("enemy").attribute("x").set_value(enemyList[i]->GetPosition().getX());
+		sceneNode.child("entities").child("enemies").child("enemy").attribute("y").set_value(enemyList[i]->GetPosition().getY());
+		
 	}
 
 	//enemies
