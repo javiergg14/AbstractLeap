@@ -4,7 +4,6 @@
 #include "SDL2/SDL.h"
 #include "Box2D/Box2D.h"
 #include "Animation.h"
-#include "ParticleSystem.h"
 
 struct SDL_Texture;
 

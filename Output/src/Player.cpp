@@ -8,7 +8,6 @@
 #include "Log.h"
 #include "Physics.h"
 #include "EntityManager.h"
-#include "Particle.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {

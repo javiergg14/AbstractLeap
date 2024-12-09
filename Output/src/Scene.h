@@ -62,5 +62,4 @@ private:
 	int music;
 	int respawn;
 
-	ParticleSystem* particleSystem;
 };
