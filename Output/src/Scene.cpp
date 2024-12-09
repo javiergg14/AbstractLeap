@@ -53,7 +53,7 @@ bool Scene::Start()
 {
 	//L06 TODO 3: Call the function to load the map. 
 	Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
-	Engine::GetInstance().audio.get()->PlayMusic("Assets/Audio/Music/music.ogg");
+	//Engine::GetInstance().audio.get()->PlayMusic("Assets/Audio/Music/music.ogg");
 	respawn = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/Respawn.ogg");
 	helpTexture = Engine::GetInstance().textures.get()->Load("Assets/Menu/help.png");
 	return true;

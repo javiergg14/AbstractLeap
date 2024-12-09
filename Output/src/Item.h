@@ -20,6 +20,8 @@ public:
 
 	bool CleanUp();
 
+	void OnCollision(PhysBody* physA, PhysBody* physB);
+
 public:
 
 	bool isPicked = false;
@@ -31,6 +33,8 @@ private:
 	SDL_Texture* keyGreen;
 	const char* texturePath;
 	int texW, texH;
+
+	int pickItem;
 
 	//L08 TODO 4: Add a physics to an item
 	PhysBody* pbody;

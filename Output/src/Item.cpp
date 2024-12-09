@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Log.h"
 #include "Physics.h"
+#include "EntityManager.h"
 
 Item::Item() : Entity(EntityType::ITEM)
 {
@@ -20,6 +21,8 @@ bool Item::Awake() {
 }
 
 bool Item::Start() {
+
+	pickItem = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/coin.ogg");
 
 	//initilize textures
 	keyGreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/keyGreen.png");
@@ -51,4 +54,16 @@ bool Item::Update(float dt)
 bool Item::CleanUp()
 {
 	return true;
+}
+
+void Item::OnCollision(PhysBody* physA, PhysBody* physB) {
+	printf("ENTRA");
+	switch (physB->ctype)
+	{
+	case ColliderType::PLAYER:
+		LOG("Collided with player - DESTROY");
+		Engine::GetInstance().audio.get()->PlayFx(pickItem);
+		Engine::GetInstance().entityManager.get()->DestroyEntity(this);
+		break;
+	}
 }

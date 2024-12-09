@@ -179,10 +179,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		isJumping = false;
 
 		break;
-	case ColliderType::ITEM:
-		Engine::GetInstance().audio.get()->PlayFx(pickCoin);
-		Engine::GetInstance().physics.get()->DeletePhysBody(physB); // Deletes the body of the item from the physics world
-		break;
 	case ColliderType::UNKNOWN:
 		break;
 	case ColliderType::NEWLVL:
