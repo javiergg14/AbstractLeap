@@ -52,7 +52,7 @@
 				</animations>
 			</player>
 			<enemies>
-				<enemy name="floorguy" x="385" y="639" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" gravity="true">
+				<enemy name="floorguy" x="385" y="639" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="ground" gravity="true">
 					<animations>
 						<idle loop="true" speed="0.1">
 							<frame x="0" y="0" w="32" h="32" />
@@ -64,7 +64,7 @@
 						</run>
 					</animations>
 				</enemy>
-				<enemy name="floorguy" x="1780" y="281" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" gravity="true">
+				<enemy name="floorguy" x="1780" y="281" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="ground" gravity="true">
 					<animations>
 						<idle loop="true" speed="0.1">
 							<frame x="0" y="0" w="32" h="32" />
@@ -76,7 +76,7 @@
 						</run>
 					</animations>
 				</enemy>
-				<enemy name="floorguy" x="579" y="470" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" gravity="true">
+				<enemy name="floorguy" x="579" y="470" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="flying" gravity="true">
 					<animations>
 						<idle loop="true" speed="0.1">
 							<frame x="0" y="0" w="32" h="32" />
@@ -88,7 +88,7 @@
 						</run>
 					</animations>
 				</enemy>
-				<enemy name="floorguy" x="722" y="612" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" gravity="true">
+				<enemy name="floorguy" x="722" y="612" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="flying" gravity="true">
 					<animations>
 						<idle loop="true" speed="0.1">
 							<frame x="0" y="0" w="32" h="32" />

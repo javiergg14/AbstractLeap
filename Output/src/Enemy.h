@@ -13,11 +13,16 @@ enum class EnemyState {
 	CHASING
 };
 
+enum class EnemyType {
+	GROUND,
+	FLYING
+};
+
 class Enemy : public Entity
 {
 public:
 
-	Enemy();
+	Enemy(EnemyType enemyType);
 	virtual ~Enemy();
 
 	bool Awake();
@@ -60,4 +65,5 @@ private:
 	Pathfinding* pathfinding;
 	EnemyState currentState = EnemyState::PATROL;
 	Timer chaseTimer;
+	EnemyType type;
 };

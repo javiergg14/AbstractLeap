@@ -10,9 +10,9 @@
 #include "Map.h"
 #include "EntityManager.h"
 
-Enemy::Enemy() : Entity(EntityType::ENEMY)
+Enemy::Enemy(EnemyType enemyType) : Entity()
 {
-
+	type = enemyType;
 }
 
 Enemy::~Enemy() {
@@ -60,6 +60,7 @@ bool Enemy::Start() {
 
 bool Enemy::Update(float dt)
 {
+	printf("%d", type);
 	if (chaseTimer.ReadMSec() >= 1000) {
 		if (pathfinding->pathTiles.empty())
 		{
@@ -164,6 +165,16 @@ void Enemy::Chase(float dt)
 		}
 		else if (nextTileWorld.getX() < position.getX()) {
 			velocity.x = -0.1 * 16;
+		}
+
+		if (type == EnemyType::FLYING)
+		{
+			if (nextTileWorld.getY() > position.getY()) {
+				velocity.y = 0.1 * 16;
+			}
+			else if (nextTileWorld.getY() < position.getY()) {
+				velocity.y = -0.1 * 16;
+			}
 		}
 	}
 

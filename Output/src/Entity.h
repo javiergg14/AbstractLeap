@@ -7,7 +7,8 @@ enum class EntityType
 {
 	PLAYER,
 	ITEM,
-	ENEMY,
+	ENEMY_GROUND,
+	ENEMY_FLYING,
 	UNKNOWN
 };
 
@@ -18,6 +19,8 @@ class Entity
 public:
 
 	Entity(EntityType type) : type(type), active(true) {}
+
+	Entity() : type(type), active(true) {}
 
 	virtual bool Awake()
 	{

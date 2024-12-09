@@ -76,8 +76,11 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::ITEM:
 		entity = new Item();
 		break;
-	case EntityType::ENEMY:
-		entity = new Enemy();
+	case EntityType::ENEMY_GROUND:
+		entity = new Enemy(EnemyType::GROUND);
+		break;
+	case EntityType::ENEMY_FLYING:
+		entity = new Enemy(EnemyType::FLYING);
 		break;
 	default:
 		break;
