@@ -32,8 +32,14 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(int fx, int repeat = 0);
 
+	void SetMusicVolume(float volume);
+
+	float Clamp(float valor, float minimo, float maximo);
+
+
 private:
 
 	_Mix_Music* music;
 	std::list<Mix_Chunk*> fx;
+	float musicVolume = 1.0f;
 };

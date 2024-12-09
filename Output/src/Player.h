@@ -57,10 +57,10 @@ public:
 	bool godMode;
 
 	// Audio fx
-	int pickCoin;
-	int Jump;
-	int Checkpoint;
-	int Death;
+	int pickCoinSound;
+	int jumpSound;
+	int checkPointSound;
+	int deathSound;
 
 	// Death
 	bool isDead = false;

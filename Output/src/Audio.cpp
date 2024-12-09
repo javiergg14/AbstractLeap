@@ -75,6 +75,16 @@ bool Audio::CleanUp()
 	return true;
 }
 
+float Audio::Clamp(float valor, float minimo, float maximo) {
+	if (valor < minimo) {
+		return minimo;
+	}
+	if (valor > maximo) {
+		return maximo;
+	}
+	return valor;
+}
+
 // Play a music file
 bool Audio::PlayMusic(const char* path, float fadeTime)
 {
@@ -168,4 +178,12 @@ bool Audio::PlayFx(int id, int repeat)
 	}
 
 	return ret;
+}
+
+void Audio::SetMusicVolume(float volume) {
+	// Asegúrate de que el volumen esté entre 0.0f y 1.0f
+	musicVolume = Clamp(volume, 0.0f, 1.0f);
+
+	int sdlVolume = static_cast<int>(musicVolume * MIX_MAX_VOLUME); // Convertimos el volumen flotante a un entero
+	Mix_VolumeMusic(sdlVolume);
 }

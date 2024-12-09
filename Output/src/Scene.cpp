@@ -65,7 +65,8 @@ bool Scene::Start()
 {
 	//L06 TODO 3: Call the function to load the map. 
 	Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
-	//Engine::GetInstance().audio.get()->PlayMusic("Assets/Audio/Music/music.ogg");
+	Engine::GetInstance().audio.get()->SetMusicVolume(0.1f);
+	Engine::GetInstance().audio.get()->PlayMusic("Assets/Audio/Music/music.ogg"); 
 	respawn = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/Respawn.ogg");
 	helpTexture = Engine::GetInstance().textures.get()->Load("Assets/Menu/help.png");
 	return true;
@@ -238,11 +239,11 @@ void Scene::LoadState() {
 
 	for (int i = 0; i < enemyList.size(); i++)
 	{
-		if (!enemyList[i]->Death)
+		if (!enemyList[0]->Death)
 		{
-			Vector2D enemyPos = Vector2D(sceneNode.child("entities").child("enemies").child("enemy").attribute("x").as_int(),
-				sceneNode.child("entities").child("enemies").child("enemy").attribute("y").as_int());
-			enemyList[i]->SetPosition(enemyPos);
+			Vector2D enemyPos = Vector2D(20, 20);/*Vector2D(sceneNode.child("entities").child("enemies").child("enemy").attribute("x").as_int(),
+				sceneNode.child("entities").child("enemies").child("enemy").attribute("y").as_int());*/
+			enemyList[0]->SetPosition(enemyPos);
 		}
 	}
 
@@ -274,7 +275,7 @@ void Scene::SaveState() {
 
 	for (int i = 0; i < enemyList.size(); i++)
 	{
-		if (!enemyList[i]->Death)
+		if (!enemyList[0]->Death)
 		{
 			sceneNode.child("entities").child("enemies").child("enemy").attribute("x").set_value(enemyList[i]->GetPosition().getX());
 			sceneNode.child("entities").child("enemies").child("enemy").attribute("y").set_value(enemyList[i]->GetPosition().getY());
