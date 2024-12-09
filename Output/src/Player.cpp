@@ -120,6 +120,10 @@ bool Player::Update(float dt)
 
 	if (velocity.y > 0.5f) {
 		currentAnimation = &fall;
+		currentState = PlayerState::ATTACK;
+	}
+	else {
+		currentState = PlayerState::PASIVE;
 	}
 
 	// Apply the velocity to the player
@@ -201,6 +205,12 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			isDead = true;
 		}
 		break;
+	case ColliderType::ENEMY:
+		if (!godMode && currentState == PlayerState::PASIVE)
+		{
+			isDead = true;
+		}
+		break;
 
 	case ColliderType::CHECKPOINT:
 		checkpoint = true;
@@ -247,4 +257,8 @@ Vector2D Player::GetPosition() {
 	b2Vec2 bodyPos = pbody->body->GetTransform().p;
 	Vector2D pos = Vector2D(METERS_TO_PIXELS(bodyPos.x), METERS_TO_PIXELS(bodyPos.y));
 	return pos;
+}
+
+PlayerState Player::GetCurrentState() {
+	return currentState;
 }

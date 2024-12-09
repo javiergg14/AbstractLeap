@@ -37,6 +37,8 @@ public:
 	// Return the player position
 	Vector2D GetPlayerPosition();
 
+	PlayerState GetPlayerCurrentState();
+
 	//L15 TODO 1: Implement the Load function
 	void LoadState();
 	//L15 TODO 2: Implement the Save function

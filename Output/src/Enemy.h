@@ -4,6 +4,7 @@
 #include "SDL2/SDL.h"
 #include "Animation.h"
 #include "Pathfinding.h"
+#include "Timer.h"
 
 struct SDL_Texture;
 
@@ -45,8 +46,6 @@ public:
 
 	void Patrol(float dt);
 
-	void CheckPlayerProximity(Vector2D playerPos);
-
 public:
 
 private:
@@ -59,5 +58,5 @@ private:
 	PhysBody* pbody;
 	Pathfinding* pathfinding;
 	EnemyState currentState = EnemyState::PATROL;
-	int counter = 0;
+	Timer chaseTimer;
 };

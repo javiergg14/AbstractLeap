@@ -8,6 +8,11 @@
 
 struct SDL_Texture;
 
+enum class PlayerState {
+	PASIVE,
+	ATTACK
+};
+
 class Player : public Entity
 {
 public:
@@ -37,6 +42,8 @@ public:
 
 	Vector2D GetPosition();
 
+	PlayerState GetCurrentState();
+
 public:
 
 	//Declare player parameters
@@ -59,6 +66,8 @@ public:
 	PhysBody* pbody;
 	float jumpForce = 3.8f; // The force to apply when jumping
 	bool isJumping = false; // Flag to check if the player is currently jumping
+
+	PlayerState currentState = PlayerState::PASIVE;
 
 	pugi::xml_node parameters;
 	Animation* currentAnimation = nullptr;
