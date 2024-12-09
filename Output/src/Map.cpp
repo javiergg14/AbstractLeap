@@ -242,9 +242,9 @@ bool Map::Load(std::string path, std::string fileName)
                             //Get the gid from tile
                             int gid = mapLayer->Get(i, j);
                             //Check if the gid is different from 0 - some tiles are empty
-                            if (gid == 1957) {
+                            if (gid == 3036) {
                                 Vector2D mapCoord = MapToWorld(i, j);
-                                PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, STATIC);
+                                PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangleSensor(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, STATIC);
                                 platform->ctype = ColliderType::NEWLVL;
                                 colliders.push_back(platform);
 

@@ -17,7 +17,7 @@
 	<scene>
 		<map path="Assets/Maps/" name="Map.tmx" />
 		<entities>
-			<player x="7754" y="553" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
+			<player x="140" y="65" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
 				<animations>
 					<idle loop="true" speed="0.08">
 						<frame x="0" y="0" w="44" h="54" />
@@ -95,9 +95,8 @@
 							<frame x="32" y="64" w="32" h="32" />
 						</idle>
 						<run loop="true" speed="0.1">
-							<frame x="0" y="96" w="32" h="32" />
-							<frame x="32" y="96" w="32" h="32" />
-							<frame x="64" y="96" w="32" h="32" />
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
 						</run>
 					</animations>
 				</enemy>
@@ -108,9 +107,8 @@
 							<frame x="32" y="64" w="32" h="32" />
 						</idle>
 						<run loop="true" speed="0.1">
-							<frame x="0" y="96" w="32" h="32" />
-							<frame x="32" y="96" w="32" h="32" />
-							<frame x="64" y="96" w="32" h="32" />
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
 						</run>
 					</animations>
 				</enemy>
@@ -121,9 +119,8 @@
 							<frame x="32" y="64" w="32" h="32" />
 						</idle>
 						<run loop="true" speed="0.1">
-							<frame x="0" y="96" w="32" h="32" />
-							<frame x="32" y="96" w="32" h="32" />
-							<frame x="64" y="96" w="32" h="32" />
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
 						</run>
 					</animations>
 				</enemy>
@@ -134,9 +131,8 @@
 							<frame x="32" y="64" w="32" h="32" />
 						</idle>
 						<run loop="true" speed="0.1">
-							<frame x="0" y="96" w="32" h="32" />
-							<frame x="32" y="96" w="32" h="32" />
-							<frame x="64" y="96" w="32" h="32" />
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
 						</run>
 					</animations>
 				</enemy>
@@ -147,9 +143,8 @@
 							<frame x="32" y="64" w="32" h="32" />
 						</idle>
 						<run loop="true" speed="0.1">
-							<frame x="0" y="96" w="32" h="32" />
-							<frame x="32" y="96" w="32" h="32" />
-							<frame x="64" y="96" w="32" h="32" />
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
 						</run>
 					</animations>
 				</enemy>
@@ -160,35 +155,56 @@
 							<frame x="32" y="64" w="32" h="32" />
 						</idle>
 						<run loop="true" speed="0.1">
-							<frame x="0" y="96" w="32" h="32" />
-							<frame x="32" y="96" w="32" h="32" />
-							<frame x="64" y="96" w="32" h="32" />
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
 						</run>
 					</animations>
 				</enemy>
-				<enemy name="floorguy" x="8900" y="500" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="flying" gravity="false">
+				<enemy name="floorguy" x="9200" y="500" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="flying" gravity="false">
 					<animations>
 						<idle loop="true" speed="0.1">
 							<frame x="0" y="64" w="32" h="32" />
 							<frame x="32" y="64" w="32" h="32" />
 						</idle>
 						<run loop="true" speed="0.1">
-							<frame x="0" y="96" w="32" h="32" />
-							<frame x="32" y="96" w="32" h="32" />
-							<frame x="64" y="96" w="32" h="32" />
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
 						</run>
 					</animations>
 				</enemy>
-				<enemy name="floorguy" x="9500" y="500" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="flying" gravity="false">
+				<enemy name="floorguy" x="9500" y="750" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="flying" gravity="false">
 					<animations>
 						<idle loop="true" speed="0.1">
 							<frame x="0" y="64" w="32" h="32" />
 							<frame x="32" y="64" w="32" h="32" />
 						</idle>
 						<run loop="true" speed="0.1">
-							<frame x="0" y="96" w="32" h="32" />
-							<frame x="32" y="96" w="32" h="32" />
-							<frame x="64" y="96" w="32" h="32" />
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
+						</run>
+					</animations>
+				</enemy>
+				<enemy name="floorguy" x="10500" y="750" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="flying" gravity="false">
+					<animations>
+						<idle loop="true" speed="0.1">
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
+						</idle>
+						<run loop="true" speed="0.1">
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
+						</run>
+					</animations>
+				</enemy>
+				<enemy name="floorguy" x="11500" y="400" w="32" h="32" texture="Assets/Textures/Enemy-Sheet.png" type="flying" gravity="false">
+					<animations>
+						<idle loop="true" speed="0.1">
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
+						</idle>
+						<run loop="true" speed="0.1">
+							<frame x="0" y="64" w="32" h="32" />
+							<frame x="32" y="64" w="32" h="32" />
 						</run>
 					</animations>
 				</enemy>
