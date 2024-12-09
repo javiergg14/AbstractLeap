@@ -92,7 +92,10 @@ bool Enemy::Update(float dt)
 	Engine::GetInstance().render.get()->DrawTexture(texture, (int)position.getX(), (int)position.getY(), &currentAnimation->GetCurrentFrame());
 	currentAnimation->Update();
 
-	pathfinding->DrawPath();
+	if (Engine::GetInstance().physics.get()->debug)
+	{
+		pathfinding->DrawPath();
+	}
 
 	return true;
 }
@@ -162,6 +165,10 @@ void Enemy::Chase(float dt)
 		else if (nextTileWorld.getX() < position.getX()) {
 			velocity.x = -0.1 * 16;
 		}
+	}
+
+	if (velocity.y == 0) { // Verifica si está en el suelo y la condición de salto
+		velocity.y = 0.1 * 16;; // Ajusta la fuerza de salto según sea necesario
 	}
 
 	pbody->body->SetLinearVelocity(velocity);
