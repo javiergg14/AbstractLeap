@@ -48,6 +48,9 @@ bool Player::Start() {
 
 	// Initilize sfx
 	pickCoin = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/coin.ogg");
+	Jump = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/jump.ogg");
+	Death = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/death.ogg");
+	Checkpoint = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/checkpoint.ogg");
 
 	// L08 TODO 5: Add physics to the player - initialize physics body
 	pbody = Engine::GetInstance().physics.get()->CreateCircle((int)position.getX(), (int)position.getY(), texW / 2, bodyType::DYNAMIC);
@@ -107,6 +110,7 @@ bool Player::Update(float dt)
 	// Jump
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false) {
 		// Apply an initial upward force
+		Engine::GetInstance().audio.get()->PlayFx(Jump);
 		pbody->body->ApplyLinearImpulseToCenter(b2Vec2(0, -jumpForce), true);
 		isJumping = true;
 	}
@@ -200,6 +204,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		Engine::GetInstance().map->lvl += 1;
 		break;
 	case ColliderType::DEATH:
+		Engine::GetInstance().audio.get()->PlayFx(Death);
 		if (!godMode)
 		{
 			isDead = true;
@@ -208,6 +213,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::ENEMY:
 		if (!godMode && currentState == PlayerState::PASIVE)
 		{
+			Engine::GetInstance().audio.get()->PlayFx(Death);
 			isDead = true;
 		}
 		break;
@@ -238,6 +244,7 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 	case ColliderType::DEATH:
 		break;
 	case ColliderType::CHECKPOINT:
+		Engine::GetInstance().audio.get()->PlayFx(Checkpoint);
 		break;
 	case ColliderType::NEWLVL:
 		break;

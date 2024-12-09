@@ -128,6 +128,8 @@ public:
     // L09: TODO 6: Load a group of properties 
     bool LoadProperties(pugi::xml_node& node, Properties& properties);
 
+    void DestroyColliders();
+
     int GetWidth() {
         return mapData.width;
     }
@@ -156,4 +158,5 @@ private:
     bool mapLoaded;
     // L06: DONE 1: Declare a variable data of the struct MapData
     MapData mapData;
+    std::vector<PhysBody*> colliders;
 };

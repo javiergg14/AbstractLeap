@@ -57,4 +57,7 @@ private:
 	Player* player;
 	std::vector<Enemy*> enemyList;
 	bool checkpoint = false;
+
+	int music;
+	int respawn;
 };

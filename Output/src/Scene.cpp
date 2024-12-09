@@ -53,7 +53,8 @@ bool Scene::Start()
 {
 	//L06 TODO 3: Call the function to load the map. 
 	Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
-
+	Engine::GetInstance().audio.get()->PlayMusic("Assets/Audio/Music/music.ogg");
+	respawn = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/Respawn.ogg");
 	helpTexture = Engine::GetInstance().textures.get()->Load("Assets/Menu/help.png");
 	return true;
 }
@@ -87,7 +88,7 @@ bool Scene::Update(float dt)
 		}
 		else if (Engine::GetInstance().map->lvl == 2)
 		{
-			Engine::GetInstance().map->Load("Output/Assets/Maps/", "MapLvl2.tmx");
+			Engine::GetInstance().map->Load("Assets/Maps/", "MapLvl2.tmx");
 			player->SetPosition(Vector2D(170, 50));
 		}
 		player->NewLvl = false;
@@ -102,7 +103,7 @@ bool Scene::Update(float dt)
 	else if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F2))
 	{
 		Engine::GetInstance().map->CleanUp();
-		Engine::GetInstance().map->Load("Output/Assets/Maps/", "MapLvl2.tmx");
+		Engine::GetInstance().map->Load("Assets/Maps/", "MapLvl2.tmx");
 		player->SetPosition(Vector2D(170, 50));
 	}
 
@@ -222,6 +223,18 @@ void Scene::LoadState() {
 		sceneNode.child("entities").child("player").attribute("y").as_int());
 	player->SetPosition(playerPos);
 
+	for (int i = 0; i < enemyList.size(); i++)
+	{
+		if (!enemyList[i]->Death)
+		{
+			Vector2D enemyPos = Vector2D(sceneNode.child("entities").child("enemies").child("enemy").attribute("x").as_int(),
+				sceneNode.child("entities").child("enemies").child("enemy").attribute("y").as_int());
+			enemyList[i]->SetPosition(enemyPos);
+		}
+	}
+
+	Engine::GetInstance().audio.get()->PlayFx(respawn);
+
 	//enemies
 	// ...
 
@@ -245,6 +258,15 @@ void Scene::SaveState() {
 	//Player position
 	sceneNode.child("entities").child("player").attribute("x").set_value(player->GetPosition().getX()-30);
 	sceneNode.child("entities").child("player").attribute("y").set_value(player->GetPosition().getY()-30);
+
+	for (int i = 0; i < enemyList.size(); i++)
+	{
+		if (!enemyList[i]->Death)
+		{
+			sceneNode.child("entities").child("enemies").child("enemy").attribute("x").set_value(enemyList[i]->GetPosition().getX());
+			sceneNode.child("entities").child("enemies").child("enemy").attribute("y").set_value(enemyList[i]->GetPosition().getY());
+		}
+	}
 
 	//enemies
 	// ...

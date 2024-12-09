@@ -32,8 +32,11 @@ bool Enemy::Start() {
 	texW = parameters.attribute("w").as_int();
 	texH = parameters.attribute("h").as_int();
 
+	Death = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/EnemyDeath.ogg");
+
 	//Load animations
 	idle.LoadAnimations(parameters.child("animations").child("idle"));
+	run.LoadAnimations(parameters.child("animations").child("run"));
 	currentAnimation = &idle;
 	
 	//Add a physics to an item - initialize the physics body
@@ -61,9 +64,11 @@ bool Enemy::Update(float dt)
 		if (pathfinding->pathTiles.empty())
 		{
 			currentState = EnemyState::PATROL;
+			currentAnimation = &idle;
 		}
 		else {
 			currentState = EnemyState::CHASING;
+			currentAnimation = &run;
 		}
 
 		ResetPath();
@@ -124,6 +129,7 @@ void Enemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (Engine::GetInstance().scene.get()->GetPlayerCurrentState() == PlayerState::ATTACK)
 		{
 			LOG("Collided with player - DESTROY");
+			Engine::GetInstance().audio.get()->PlayFx(Death);
 			Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 		}
 		

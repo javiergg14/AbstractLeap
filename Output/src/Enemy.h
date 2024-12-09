@@ -47,7 +47,7 @@ public:
 	void Patrol(float dt);
 
 public:
-
+	int Death;
 private:
 	SDL_Texture* texture;
 	const char* texturePath;
@@ -55,6 +55,7 @@ private:
 	pugi::xml_node parameters;
 	Animation* currentAnimation = nullptr;
 	Animation idle;
+	Animation run;
 	PhysBody* pbody;
 	Pathfinding* pathfinding;
 	EnemyState currentState = EnemyState::PATROL;

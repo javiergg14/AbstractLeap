@@ -58,6 +58,9 @@ public:
 
 	// Audio fx
 	int pickCoin;
+	int Jump;
+	int Checkpoint;
+	int Death;
 
 	// Death
 	bool isDead = false;

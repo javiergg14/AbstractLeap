@@ -94,6 +94,7 @@ bool Map::CleanUp()
 {
     LOG("Unloading map");
 
+    DestroyColliders();
 
     // L06: TODO 2: Make sure you clean up any memory allocated from tilesets/map
     for (const auto& tileset : mapData.tilesets) {
@@ -204,6 +205,7 @@ bool Map::Load(std::string path, std::string fileName)
                                 Vector2D mapCoord = MapToWorld(i, j);
                                 PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight - 25, mapData.tileWidth, mapData.tileHeight / 2, STATIC);
                                 platform->ctype = ColliderType::PLATFORM;
+                                colliders.push_back(platform);
                             }
                         }
                     }
@@ -224,6 +226,7 @@ bool Map::Load(std::string path, std::string fileName)
                                 Vector2D mapCoord = MapToWorld(i, j);
                                 PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, STATIC);
                                 platform->ctype = ColliderType::DEATH;
+                                colliders.push_back(platform);
                             }
                         }
                     }
@@ -243,6 +246,7 @@ bool Map::Load(std::string path, std::string fileName)
                                 Vector2D mapCoord = MapToWorld(i, j);
                                 PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangle(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, STATIC);
                                 platform->ctype = ColliderType::NEWLVL;
+                                colliders.push_back(platform);
 
                             }
                         }
@@ -263,6 +267,7 @@ bool Map::Load(std::string path, std::string fileName)
                                 Vector2D mapCoord = MapToWorld(i, j);
                                 PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangleSensor(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, KINEMATIC);
                                 platform->ctype = ColliderType::CHECKPOINT;
+                                colliders.push_back(platform);
                             }
                         }
                     }
@@ -391,6 +396,13 @@ Properties::Property* Properties::GetProperty(const char* name)
     return nullptr;
 }
 
+void Map::DestroyColliders()
+{
+    for (int i = 0; i < colliders.size(); i++)
+    {
+        Engine::GetInstance().physics->DeletePhysBody(colliders[i]);
+    }
+}
 
 
 
