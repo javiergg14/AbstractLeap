@@ -56,11 +56,11 @@ bool Item::Update(float dt)
 
 bool Item::CleanUp()
 {
+	Engine::GetInstance().physics.get()->DeletePhysBody(pbody);
 	return true;
 }
 
 void Item::OnCollision(PhysBody* physA, PhysBody* physB) {
-	printf("ENTRA");
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:

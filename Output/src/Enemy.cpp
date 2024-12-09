@@ -60,7 +60,6 @@ bool Enemy::Start() {
 
 bool Enemy::Update(float dt)
 {
-	printf("%d", type);
 	if (chaseTimer.ReadMSec() >= 1000) {
 		if (pathfinding->pathTiles.empty())
 		{
@@ -76,7 +75,14 @@ bool Enemy::Update(float dt)
 		chaseTimer.Start();
 	}
 	else {
-		pathfinding->PropagateAStar(ASTAR_HEURISTICS::SQUARED);
+		if (type == EnemyType::FLYING)
+		{
+			pathfinding->PropagateAStar(ASTAR_HEURISTICS::SQUARED);
+		}
+		else if (type == EnemyType::GROUND)
+		{
+			pathfinding->PropagateAStar(ASTAR_HEURISTICS::MANHATTAN);
+		}
 	}
 
 	if (currentState == EnemyState::PATROL) {
