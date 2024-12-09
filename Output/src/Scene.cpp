@@ -100,11 +100,10 @@ bool Scene::Update(float dt)
 			Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
 			player->SetPosition(Vector2D(170, 50));
 		}
-		//else if (Engine::GetInstance().map->lvl == 2)
-		//{
-		//	Engine::GetInstance().map->Load("Assets/Maps/", "MapLvl2.tmx");
-		//	player->SetPosition(Vector2D(170, 50));
-		//}
+		else if (Engine::GetInstance().map->lvl == 2)
+		{
+			player->SetPosition(Vector2D(170, 50));
+		}
 		player->NewLvl = false;
 	}
 
@@ -114,12 +113,10 @@ bool Scene::Update(float dt)
 		Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
 		player->SetPosition(Vector2D(170, 50));
 	}
-	//else if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F2))
-	//{
-	//	Engine::GetInstance().map->CleanUp();
-	//	Engine::GetInstance().map->Load("Assets/Maps/", "MapLvl2.tmx");
-	//	player->SetPosition(Vector2D(170, 50));
-	//}
+	else if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F2))
+	{
+		player->SetPosition(Vector2D(170, 50));
+	}
 
 
 	//L03 TODO 3: Make the camera movement independent of framerate
