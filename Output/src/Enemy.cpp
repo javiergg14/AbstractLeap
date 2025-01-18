@@ -54,6 +54,7 @@ bool Enemy::Start() {
 	pathfinding = new Pathfinding();
 	ResetPath();
 	chaseTimer.Start();
+	patrolTimer.Start();
 
 	return true;
 }
@@ -172,38 +173,74 @@ void Enemy::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 
 void Enemy::Chase(float dt)
 {
-	b2Vec2 velocity = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+	constexpr float chaseSpeed = 0.2f * 16;  // Velocidad base
+	constexpr float smoothFactor = 0.1f;     // Factor de suavizado normal
+	constexpr float initialBoostFactor = 0.5f;  // Factor de suavizado inicial para arrancar
+
+	b2Vec2 currentVelocity = pbody->body->GetLinearVelocity();
+	b2Vec2 targetVelocity(0, currentVelocity.y);
 
 	if (!pathfinding->prePathTiles.empty()) {
 		Vector2D nextTile = pathfinding->prePathTiles.front();
 		Vector2D nextTileWorld = Engine::GetInstance().map.get()->MapToWorld(nextTile.getX(), nextTile.getY());
 
+		// Direcciones objetivo para el movimiento
+		targetVelocity.x = (nextTileWorld.getX() > position.getX()) ? chaseSpeed :
+			(nextTileWorld.getX() < position.getX() ? -chaseSpeed : 0);
 
-		if (nextTileWorld.getX() > position.getX()) {
-			velocity.x = 0.1 * 16;
-		}
-		else if (nextTileWorld.getX() < position.getX()) {
-			velocity.x = -0.1 * 16;
-		}
-
-		if (type == EnemyType::FLYING)
-		{
-			if (nextTileWorld.getY() > position.getY()) {
-				velocity.y = 0.1 * 16;
-			}
-			else if (nextTileWorld.getY() < position.getY()) {
-				velocity.y = -0.1 * 16;
-			}
+		if (type == EnemyType::FLYING) {
+			targetVelocity.y = (nextTileWorld.getY() > position.getY()) ? chaseSpeed :
+				(nextTileWorld.getY() < position.getY() ? -chaseSpeed : 0);
 		}
 	}
 
-	pbody->body->SetLinearVelocity(velocity);
+	// Si la velocidad inicial es 0, aplicar un impulso inicial más rápido
+	float actualSmoothFactor = (currentVelocity.LengthSquared() == 0) ? initialBoostFactor : smoothFactor;
+
+	// Interpolación para suavizar el cambio de velocidad
+	currentVelocity.x += actualSmoothFactor * (targetVelocity.x - currentVelocity.x);
+	currentVelocity.y += actualSmoothFactor * (targetVelocity.y - currentVelocity.y);
+
+	pbody->body->SetLinearVelocity(currentVelocity);
 }
+
+
 
 
 void Enemy::Patrol(float dt)
 {
-	b2Vec2 velocity = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+	static float patrolSpeed = 1.2f;  // Velocidad de movimiento
+	static int state = 0;  // 0: derecha, 1: quieto, 2: izquierda, 3: quieto
+	static const int stateDuration = 1000;  // Duración de cada estado en milisegundos
+
+	b2Vec2 velocity = pbody->body->GetLinearVelocity();
+
+	if (patrolTimer.ReadMSec() >= stateDuration)
+	{
+		state = (state + 1) % 4;  // Cambiar al siguiente estado en un ciclo de 4
+		patrolTimer.Start();  // Reiniciar el temporizador
+	}
+
+	// Asignar velocidad según el estado
+	switch (state)
+	{
+	case 0:  // Mover a la derecha
+		velocity.x = patrolSpeed;
+		currentAnimation = &run;
+		break;
+	case 1:  // Quedarse quieto
+		velocity.x = 0;
+		currentAnimation = &idle;
+		break;
+	case 2:  // Mover a la izquierda
+		velocity.x = -patrolSpeed;
+		currentAnimation = &run;
+		break;
+	case 3:  // Quedarse quieto
+		velocity.x = 0;
+		currentAnimation = &idle;
+		break;
+	}
 	velocity.x = 0;
 	velocity.y = 0;
 	pbody->body->SetLinearVelocity(velocity);

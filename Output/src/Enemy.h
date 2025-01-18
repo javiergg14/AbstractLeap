@@ -66,5 +66,6 @@ private:
 	Pathfinding* pathfinding;
 	EnemyState currentState = EnemyState::PATROL;
 	Timer chaseTimer;
+	Timer patrolTimer;
 	EnemyType type;
 };
