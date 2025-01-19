@@ -273,25 +273,6 @@ bool Map::Load(std::string path, std::string fileName)
                     }
                 }
             }
-            for (const auto& mapLayer : mapData.layers) {
-                //Check if the property Draw exist get the value, if it's true draw the lawyer
-                if (mapLayer->properties.GetProperty("Object") != NULL && mapLayer->properties.GetProperty("Object")->value == true) {
-                    for (int i = 0; i < mapData.width; i++) {
-                        for (int j = 0; j < mapData.height; j++) {
-
-                            // L07 TODO 9: Complete the draw function
-                            //Get the gid from tile
-                            int gid = mapLayer->Get(i, j);
-                            //Check if the gid is different from 0 - some tiles are empty
-                            if (gid == 1957) {
-                                Vector2D mapCoord = MapToWorld(i, j);
-                                Diamond* diamond = dynamic_cast<Diamond*>(Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND));
-                                diamond->position = Vector2D(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY());
-                            }
-                        }
-                    }
-                }
-            }
         }
         else
         {
