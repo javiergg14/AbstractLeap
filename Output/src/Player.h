@@ -2,8 +2,10 @@
 
 #include "Entity.h"
 #include "SDL2/SDL.h"
+#include <SDL2/SDL_render.h> 
 #include "Box2D/Box2D.h"
 #include "Animation.h"
+#include "Timer.h"
 
 struct SDL_Texture;
 
@@ -57,6 +59,8 @@ public:
 
 	// Audio fx
 	int pickCoinSound;
+	int habilityActivatedSound;
+	int habilityDesactivatedSound;
 	int jumpSound;
 	int checkPointSound;
 	int deathSound;
@@ -66,8 +70,14 @@ public:
 	bool checkpoint = false;
 	// L08 TODO 5: Add physics to the player - declare a Physics body
 	PhysBody* pbody;
-	float jumpForce = 3.8f; // The force to apply when jumping
+	float jumpForce = 4.0f; // The force to apply when jumping
 	bool isJumping = false; // Flag to check if the player is currently jumping
+	bool doubleJump = false;
+	bool hability = false;
+	int jumpCount;
+
+	Timer habilityTimer; // Temporizador de la habilidad
+	const float habilityDuration = 30.0f;  // Duración de la habilidad en segundos
 
 	PlayerState currentState = PlayerState::PASIVE;
 
@@ -80,4 +90,5 @@ public:
 	Animation fall;
 	Animation duck;
 	Animation die;
+	SDL_Texture* doubleJumpIcon;
 };
