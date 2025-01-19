@@ -137,6 +137,7 @@ bool Player::Update(float dt)
 	if (velocity.y > 0.5f) {
 		currentAnimation = &fall;
 		currentState = PlayerState::ATTACK;
+		hability = false;
 	}
 	else {
 		currentState = PlayerState::PASIVE;
