@@ -127,7 +127,7 @@ bool Player::Update(float dt)
 
 		if (hability && habilityTimer.ReadSec() >= habilityDuration)
 		{
-			hability = false; // Desactivar la habilidad después de 30 segundos
+			hability = false; // Desactivar la habilidad despuï¿½s de 30 segundos
 			Engine::GetInstance().audio.get()->PlayFx(habilityDesactivatedSound);
 			jumpCount = 2;
 		}
