@@ -4,6 +4,7 @@
 #include "SDL2/SDL.h"
 #include "Box2D/Box2D.h"
 #include "Animation.h"
+#include "Timer.h"
 
 struct SDL_Texture;
 
@@ -68,7 +69,11 @@ public:
 	PhysBody* pbody;
 	float jumpForce = 3.8f; // The force to apply when jumping
 	bool isJumping = false; // Flag to check if the player is currently jumping
-
+	int jumpCount = 0;
+	bool doubleJump = false;
+	bool hability = false;
+	int habilityDuration = 30.0f;
+	Timer habilityTimer;
 	PlayerState currentState = PlayerState::PASIVE;
 
 	pugi::xml_node parameters;

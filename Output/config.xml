@@ -17,7 +17,7 @@
 	<scene>
 		<map path="Assets/Maps/" name="Map.tmx" />
 		<entities>
-			<player x="170" y="64" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
+			<player x="170" y="63" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
 				<animations>
 					<idle loop="true" speed="0.08">
 						<frame x="0" y="0" w="44" h="54" />

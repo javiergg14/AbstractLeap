@@ -86,6 +86,10 @@ bool Player::Update(float dt)
 		currentAnimation = &run_left;
 	}
 
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
+		hability = true;
+	}
+
 	// Move right
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		velocity.x = speed * 16;
@@ -93,7 +97,7 @@ bool Player::Update(float dt)
 	}
 
 	// Jump
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false) {
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false || Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && doubleJump == true) {
 		// Apply an initial upward force
 		Engine::GetInstance().audio.get()->PlayFx(jumpSound);
 		pbody->body->ApplyLinearImpulseToCenter(b2Vec2(0, -jumpForce), true);
@@ -103,7 +107,7 @@ bool Player::Update(float dt)
 
 	if (hability == true)
 	{
-		Engine::GetInstance().render.get()->DrawTexture(doubleJumpIcon, position.getX()+10, position.getY()-30);
+		//Engine::GetInstance().render.get()->DrawTexture(doubleJumpIcon, position.getX()+10, position.getY()-30);
 
 		if (jumpCount == 0)
 		{
@@ -118,7 +122,7 @@ bool Player::Update(float dt)
 		if (hability && habilityTimer.ReadSec() >= habilityDuration)
 		{
 			hability = false; // Desactivar la habilidad despu�s de 30 segundos
-			Engine::GetInstance().audio.get()->PlayFx(habilityDesactivatedSound);
+			//Engine::GetInstance().audio.get()->PlayFx(habilityDesactivatedSound);
 		}
 
 	}
@@ -199,6 +203,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		//reset the jump flag when touching the ground
 		jump.Reset();
 		isJumping = false;
+		jumpCount = 0;
 
 		break;
 	case ColliderType::UNKNOWN:
