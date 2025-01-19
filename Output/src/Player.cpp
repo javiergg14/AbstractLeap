@@ -129,6 +129,7 @@ bool Player::Update(float dt)
 		{
 			hability = false; // Desactivar la habilidad después de 30 segundos
 			Engine::GetInstance().audio.get()->PlayFx(habilityDesactivatedSound);
+			jumpCount = 2;
 		}
 
 	}
