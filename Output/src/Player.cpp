@@ -44,12 +44,8 @@ bool Player::Start() {
 	die.LoadAnimations(parameters.child("animations").child("die"));
 	currentAnimation = &idle;
 
-	doubleJumpIcon = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/blueJewel.png");
-
 	// Initilize sfx
 	pickCoinSound = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/coin.ogg");
-	habilityActivatedSound = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/habilityActivatedSound.ogg");
-	habilityDesactivatedSound = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/habilityDesactivatedSound.ogg");
 	jumpSound = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/jump.ogg");
 	deathSound = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/death.ogg");
 	checkPointSound = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/checkpoint.ogg");
@@ -96,14 +92,8 @@ bool Player::Update(float dt)
 		currentAnimation = &run_right;
 	}
 
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
-		hability = true;
-		habilityTimer.Start();
-		Engine::GetInstance().audio.get()->PlayFx(habilityActivatedSound);
-	}
-
 	// Jump
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false || Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && doubleJump == true) {
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false) {
 		// Apply an initial upward force
 		Engine::GetInstance().audio.get()->PlayFx(jumpSound);
 		pbody->body->ApplyLinearImpulseToCenter(b2Vec2(0, -jumpForce), true);
@@ -143,7 +133,6 @@ bool Player::Update(float dt)
 	if (velocity.y > 0.5f) {
 		currentAnimation = &fall;
 		currentState = PlayerState::ATTACK;
-		doubleJump = false;
 	}
 	else {
 		currentState = PlayerState::PASIVE;
@@ -210,10 +199,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		//reset the jump flag when touching the ground
 		jump.Reset();
 		isJumping = false;
-		if (hability == true)	
-		{
-			jumpCount = 0;
-		}
+
 		break;
 	case ColliderType::UNKNOWN:
 		break;
