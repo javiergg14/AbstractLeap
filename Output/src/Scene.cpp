@@ -10,7 +10,7 @@
 #include "EntityManager.h"
 #include "Player.h"
 #include "Map.h"
-#include "Item.h"
+#include "Diamond.h"
 #include "Enemy.h"
 
 Scene::Scene() : Module()
@@ -34,8 +34,7 @@ bool Scene::Awake()
 	player->SetParameters(configParameters.child("entities").child("player"));
 	
 	//L08 Create a new item using the entity manager and set the position to (200, 672) to test
-	Item* item = (Item*) Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEM);
-	item->position = Vector2D(200, 672);
+	Diamond* diamond = (Diamond*) Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
 
 	// Create a enemy using the entity manager 
 	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))

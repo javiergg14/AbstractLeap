@@ -5,12 +5,12 @@
 
 struct SDL_Texture;
 
-class Item : public Entity
+class Diamond : public Entity
 {
 public:
 
-	Item();
-	virtual ~Item();
+	Diamond();
+	virtual ~Diamond();
 
 	bool Awake();
 
@@ -28,14 +28,12 @@ public:
 
 private:
 
-	SDL_Texture* greenGem;
-	SDL_Texture* greenCrystal;
-	SDL_Texture* keyGreen;
+	SDL_Texture* diamondTexture;
 	const char* texturePath;
 	int texW, texH;
 
-	int pickItem;
+	int pickDiamond;
 
-	//L08 TODO 4: Add a physics to an item
+	//L08 TODO 4: Add a physics to a diamond
 	PhysBody* pbody;
 };

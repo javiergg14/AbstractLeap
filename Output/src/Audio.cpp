@@ -63,8 +63,8 @@ bool Audio::CleanUp()
 		Mix_FreeMusic(music);
 	}
 
-	for (const auto& fxItem : fx) {
-		Mix_FreeChunk(fxItem);
+	for (const auto& fxDiamond : fx) {
+		Mix_FreeChunk(fxDiamond);
 	}
 	fx.clear();
 

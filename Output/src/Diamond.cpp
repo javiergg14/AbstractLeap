@@ -1,4 +1,4 @@
-#include "Item.h"
+#include "Diamond.h"
 #include "Engine.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -9,39 +9,39 @@
 #include "Physics.h"
 #include "EntityManager.h"
 
-Item::Item() : Entity(EntityType::ITEM)
+Diamond::Diamond() : Entity(EntityType::DIAMOND)
 {
-	name = "item";
+	name = "diamond";
 }
 
-Item::~Item() {}
+Diamond::~Diamond() {}
 
-bool Item::Awake() {
+bool Diamond::Awake() {
 	return true;
 }
 
-bool Item::Start() {
+bool Diamond::Start() {
 
-	pickItem = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/coin.ogg");
+	pickDiamond = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/coin.ogg");
 
 	//initilize textures
-	keyGreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/keyGreen.png");
+	diamondTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/keyGreen.png");
 	
 	// L08 TODO 4: Add a physics to an item - initialize the physics body
 
 
-	Engine::GetInstance().textures.get()->GetSize(keyGreen, texW, texH);
+	Engine::GetInstance().textures.get()->GetSize(diamondTexture, texW, texH);
 	pbody = Engine::GetInstance().physics.get()->CreateCircle(240, 500, 10, bodyType::STATIC);
 
 	// L08 TODO 7: Assign collider type
-	pbody->ctype = ColliderType::ITEM;
+	pbody->ctype = ColliderType::DIAMOND;
 
 	pbody->listener = this;
 
 	return true;
 }
 
-bool Item::Update(float dt)
+bool Diamond::Update(float dt)
 {
 	// L08 TODO 4: Add a physics to an item - update the position of the object from the physics.  
 
@@ -49,23 +49,23 @@ bool Item::Update(float dt)
 	position.setX(METERS_TO_PIXELS(pbodyPos1.p.x) - texH / 2);
 	position.setY(METERS_TO_PIXELS(pbodyPos1.p.y) - texH / 2);
 
-	Engine::GetInstance().render.get()->DrawTexture(keyGreen, (int)position.getX(), (int)position.getY());
+	Engine::GetInstance().render.get()->DrawTexture(diamondTexture, (int)position.getX(), (int)position.getY());
 
 	return true;
 }
 
-bool Item::CleanUp()
+bool Diamond::CleanUp()
 {
 	Engine::GetInstance().physics.get()->DeletePhysBody(pbody);
 	return true;
 }
 
-void Item::OnCollision(PhysBody* physA, PhysBody* physB) {
+void Diamond::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
 		LOG("Collided with player - DESTROY");
-		Engine::GetInstance().audio.get()->PlayFx(pickItem);
+		Engine::GetInstance().audio.get()->PlayFx(pickDiamond);
 		Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 		break;
 	}

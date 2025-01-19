@@ -53,6 +53,7 @@ bool Enemy::Start() {
 	// Initialize pathfinding
 	pathfinding = new Pathfinding();
 	ResetPath();
+
 	chaseTimer.Start();
 	patrolTimer.Start();
 
@@ -241,7 +242,9 @@ void Enemy::Patrol(float dt)
 		currentAnimation = &idle;
 		break;
 	}
+	
 	velocity.x = 0;
 	velocity.y = 0;
+
 	pbody->body->SetLinearVelocity(velocity);
 }

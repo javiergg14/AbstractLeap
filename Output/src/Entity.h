@@ -6,7 +6,7 @@
 enum class EntityType
 {
 	PLAYER,
-	ITEM,
+	DIAMOND,
 	ENEMY_GROUND,
 	ENEMY_FLYING,
 	UNKNOWN

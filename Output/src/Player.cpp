@@ -214,7 +214,7 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 	{
 	case ColliderType::PLATFORM:
 		break;
-	case ColliderType::ITEM:
+	case ColliderType::DIAMOND:
 		break;
 	case ColliderType::UNKNOWN:
 		break;
