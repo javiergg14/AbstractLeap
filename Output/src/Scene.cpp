@@ -34,7 +34,12 @@ bool Scene::Awake()
 	player->SetParameters(configParameters.child("entities").child("player"));
 	
 	//L08 Create a new item using the entity manager and set the position to (200, 672) to test
-	Diamond* diamond = (Diamond*) Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+	Diamond* diamond1 = (Diamond*) Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+	diamond1->position = Vector2D(200, 500);
+	Diamond* diamond2 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+	diamond2->position = Vector2D(300, 500);
+	Diamond* diamond3 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+	diamond3->position = Vector2D(400, 500);
 
 	// Create a enemy using the entity manager 
 	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
