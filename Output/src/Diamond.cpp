@@ -25,13 +25,13 @@ bool Diamond::Start() {
 	pickDiamond = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/coin.ogg");
 
 	//initilize textures
-	diamondTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/keyGreen.png");
+	diamondTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/blueCrystal.png");
 	
 	// L08 TODO 4: Add a physics to an item - initialize the physics body
 
 
 	Engine::GetInstance().textures.get()->GetSize(diamondTexture, texW, texH);
-	pbody = Engine::GetInstance().physics.get()->CreateCircle(240, 500, 10, bodyType::STATIC);
+	pbody = Engine::GetInstance().physics.get()->CreateCircle((int)position.getX() + texH / 2, (int)position.getY() + texH / 2, texH / 2, bodyType::STATIC);
 
 	// L08 TODO 7: Assign collider type
 	pbody->ctype = ColliderType::DIAMOND;
@@ -64,7 +64,6 @@ void Diamond::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
-		LOG("Collided with player - DESTROY");
 		Engine::GetInstance().audio.get()->PlayFx(pickDiamond);
 		Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 		break;
