@@ -10,6 +10,7 @@
 #include "Textures.h"
 #include "Audio.h"
 #include "Scene.h"
+#include "Scene2.h"
 #include "EntityManager.h"
 #include "Map.h"
 #include "Physics.h"
@@ -37,6 +38,7 @@ Engine::Engine() {
     // L08: TODO 2: Add Physics module
     physics = std::make_shared<Physics>();
     scene = std::make_shared<Scene>();
+    //scene2 = std::make_shared<Scene2>();
     map = std::make_shared<Map>();
     entityManager = std::make_shared<EntityManager>();
 
@@ -50,6 +52,7 @@ Engine::Engine() {
     AddModule(std::static_pointer_cast<Module>(physics));
     AddModule(std::static_pointer_cast<Module>(map));
     AddModule(std::static_pointer_cast<Module>(scene));
+    //AddModule(std::static_pointer_cast<Module>(scene2));
     AddModule(std::static_pointer_cast<Module>(entityManager));
 
     // Render last 

@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Render.h"
 #include "Scene.h"
+#include "Scene2.h"
 #include "Log.h"
 
 Pathfinding::Pathfinding() {

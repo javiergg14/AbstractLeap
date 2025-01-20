@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Scene.h"
+#include "Scene2.h"
 #include "Log.h"
 #include "Physics.h"
 #include "EntityManager.h"
@@ -122,6 +123,7 @@ bool Player::Update(float dt)
 		if (hability && habilityTimer.ReadSec() >= habilityDuration)
 		{
 			hability = false; // Desactivar la habilidad despu�s de 30 segundos
+			jumpCount = 2;
 			//Engine::GetInstance().audio.get()->PlayFx(habilityDesactivatedSound);
 		}
 
@@ -137,7 +139,7 @@ bool Player::Update(float dt)
 	if (velocity.y > 0.5f) {
 		currentAnimation = &fall;
 		currentState = PlayerState::ATTACK;
-		hability = false;
+		doubleJump = false;
 	}
 	else {
 		currentState = PlayerState::PASIVE;
@@ -204,14 +206,17 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		//reset the jump flag when touching the ground
 		jump.Reset();
 		isJumping = false;
-		jumpCount = 0;
+		if (hability)
+		{
+			jumpCount = 0;
+			doubleJump = true;
+		}
 
 		break;
 	case ColliderType::UNKNOWN:
 		break;
 	case ColliderType::NEWLVL:
 		NewLvl = true;
-		Engine::GetInstance().map->lvl += 1;
 		break;
 	case ColliderType::DEATH:
 		Engine::GetInstance().audio.get()->PlayFx(deathSound);

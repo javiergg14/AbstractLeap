@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Scene.h"
+#include "Scene2.h"
 #include "Log.h"
 #include "Physics.h"
 #include "EntityManager.h"

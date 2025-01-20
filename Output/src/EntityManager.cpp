@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Textures.h"
 #include "Scene.h"
+#include "Scene2.h"
 #include "Log.h"
 #include "Diamond.h"
 #include "Enemy.h"

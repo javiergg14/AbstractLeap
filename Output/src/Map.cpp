@@ -188,9 +188,6 @@ bool Map::Load(std::string path, std::string fileName)
         // L08 TODO 3: Create colliders
         // L08 TODO 7: Assign collider type
         // Later you can create a function here to load and create the colliders from the map
-        
-        if (lvl == 1)
-        {
             for (const auto& mapLayer : mapData.layers) {
                 //Check if the property Draw exist get the value, if it's true draw the lawyer
                 if (mapLayer->properties.GetProperty("Collisions") != NULL && mapLayer->properties.GetProperty("Collisions")->value == true) {
@@ -273,9 +270,6 @@ bool Map::Load(std::string path, std::string fileName)
                     }
                 }
             }
-        }
-        else
-        {
             for (const auto& mapLayer : mapData.layers) {
                 //Check if the property Draw exist get the value, if it's true draw the lawyer
                 if (mapLayer->properties.GetProperty("Checkpoint") != NULL && mapLayer->properties.GetProperty("Checkpoint")->value == true) {
@@ -295,7 +289,6 @@ bool Map::Load(std::string path, std::string fileName)
                     }
                 }
             }
-        }
         
         ret = true;
 

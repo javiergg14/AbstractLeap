@@ -152,7 +152,6 @@ public:
 public: 
     std::string mapFileName;
     std::string mapPath;
-    int lvl = 1;
 
 private:
     bool mapLoaded;
