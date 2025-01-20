@@ -12,6 +12,8 @@
 #include "Map.h"
 #include "Diamond.h"
 #include "Enemy.h"
+#include "GuiControl.h"
+#include "GuiManager.h"
 
 Scene::Scene() : Module()
 {
@@ -58,6 +60,10 @@ bool Scene::Awake()
 		enemy->SetParameters(enemyNode);
 		enemyList.push_back(enemy);
 	}
+
+	// L16: TODO 2: Instantiate a new GuiControlButton in the Scene
+	SDL_Rect btPos = { 520, 350, 120,20 };
+	guiBt = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "MyButton", btPos, this);
 
 	return ret;
 }
@@ -292,4 +298,12 @@ void Scene::SaveState() {
 
 	//Saves the modifications to the XML 
 	loadFile.save_file("config.xml");
+}
+
+bool Scene::OnGuiMouseClickEvent(GuiControl* control)
+{
+	// L15: DONE 5: Implement the OnGuiMouseClickEvent method
+	LOG("Press Gui Control: %d", control->id);
+
+	return true;
 }

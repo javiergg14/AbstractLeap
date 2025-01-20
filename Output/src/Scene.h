@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include <vector>
+#include "GuiControlButton.h"
 
 struct SDL_Texture;
 
@@ -44,6 +45,9 @@ public:
 	//L15 TODO 2: Implement the Save function
 	void SaveState();
 
+	// Handles multiple Gui Event methods
+	bool OnGuiMouseClickEvent(GuiControl* control);
+
 private:
 	SDL_Texture* mouseTileTex = nullptr;
 	std::string tilePosDebug = "[0,0]";
@@ -62,4 +66,6 @@ private:
 	int music;
 	int respawn;
 
+	// L16: TODO 2: Declare a GUI Control Button 
+	GuiControlButton* guiBt;
 };
