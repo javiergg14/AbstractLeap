@@ -71,6 +71,8 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
+	startScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Backgrounds/set1_background.png");
+
 	//L06 TODO 3: Call the function to load the map. 
 	Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
 	Engine::GetInstance().audio.get()->SetMusicVolume(0.1f);
@@ -89,6 +91,19 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+
+	if (showStartScreen)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
+
+		// Detectar si el jugador presiona la tecla Intro
+		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			showStartScreen = false; // Ocultar la pantalla inicial
+		}
+
+		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
+	}
 	
 	// Help button
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {

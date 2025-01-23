@@ -100,6 +100,7 @@ bool Player::Update(float dt)
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
 		hability = true;
 		Engine::GetInstance().audio.get()->PlayFx(habilityActivated);
+		habilityTimer.Start();
 	}
 
 	// Jump
