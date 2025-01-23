@@ -36,29 +36,32 @@ bool Scene::Awake()
 	player->SetParameters(configParameters.child("entities").child("player"));
 	
 	//L08 Create a new item using the entity manager and set the position to (200, 672) to test
-	Diamond* diamond1 = (Diamond*) Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-	diamond1->position = Vector2D(200, 500);
-	Diamond* diamond2 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-	diamond2->position = Vector2D(300, 500);
-	Diamond* diamond3 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-	diamond3->position = Vector2D(400, 500);
-
-	// Create a enemy using the entity manager 
-	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
+	if (level == 1)
 	{
-		Enemy* enemy = nullptr;
+		Diamond* diamond1 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+		diamond1->position = Vector2D(200, 500);
+		Diamond* diamond2 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+		diamond2->position = Vector2D(300, 500);
+		Diamond* diamond3 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+		diamond3->position = Vector2D(400, 500);
 
-		if (enemyNode.attribute("type").as_string() == std::string("ground"))
+		// Create a enemy using the entity manager 
+		for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
 		{
-			enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_GROUND);
-		}
-		else if (enemyNode.attribute("type").as_string() == std::string("flying"))
-		{
-			enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_FLYING);
-		}
+			Enemy* enemy = nullptr;
 
-		enemy->SetParameters(enemyNode);
-		enemyList.push_back(enemy);
+			if (enemyNode.attribute("type").as_string() == std::string("ground"))
+			{
+				enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_GROUND);
+			}
+			else if (enemyNode.attribute("type").as_string() == std::string("flying"))
+			{
+				enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_FLYING);
+			}
+
+			enemy->SetParameters(enemyNode);
+			enemyList.push_back(enemy);
+		}
 	}
 
 	// L16: TODO 2: Instantiate a new GuiControlButton in the Scene
@@ -71,9 +74,12 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-	startScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/startScreen.png");
+	if (level == 1)
+	{
+		startScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/startScreen.png");
 
-	playScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/playScreen.png");
+		playScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/playScreen.png");
+	}
 
 
 	//L06 TODO 3: Call the function to load the map. 
@@ -96,30 +102,33 @@ bool Scene::PreUpdate()
 bool Scene::Update(float dt)
 {
 
-	if (showStartScreen)
+	if (level == 1)
 	{
-		Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
-
-		// Detectar si el jugador presiona la tecla Intro
-		if (screenTimer.ReadSec() >= screenDuration)
+		if (showStartScreen)
 		{
-			showStartScreen = false; // Ocultar la pantalla inicial
+			Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
+
+			// Detectar si el jugador presiona la tecla Intro
+			if (screenTimer.ReadSec() >= screenDuration)
+			{
+				showStartScreen = false; // Ocultar la pantalla inicial
+			}
+
+			return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
 		}
 
-		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
-	}
-
-	if (showPlayScreen)
-	{
-		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
-
-		// Detectar si el jugador presiona la tecla Intro
-		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (showPlayScreen)
 		{
-			showPlayScreen = false; // Ocultar la pantalla inicial
-		}
+			Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
 
-		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
+			// Detectar si el jugador presiona la tecla Intro
+			if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+			{
+				showPlayScreen = false; // Ocultar la pantalla inicial
+			}
+
+			return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
+		}
 	}
 	
 	// Help button
@@ -159,7 +168,7 @@ bool Scene::Update(float dt)
 	}
 	else if (level == 2)
 	{
-		player->SetPosition(Vector2D(13400, 500));
+		/*player->SetPosition(Vector2D(13400, 500));*/
 		if (Engine::GetInstance().render.get()->camera.x > -10920)
 		{
 			Engine::GetInstance().render.get()->camera.x = -10920;

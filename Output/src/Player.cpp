@@ -9,6 +9,8 @@
 #include "Log.h"
 #include "Physics.h"
 #include "EntityManager.h"
+#include "Enemy.h"
+#include "Diamond.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -30,8 +32,16 @@ bool Player::Start() {
 
 	//L03: TODO 2: Initialize Player parameters
 	texture = Engine::GetInstance().textures.get()->Load(parameters.attribute("texture").as_string());
-	position.setX(170);
-	position.setY(50);
+	if (Engine::GetInstance().scene.get()->level == 1)
+	{
+		position.setX(170);
+		position.setY(50);
+	}
+	if (Engine::GetInstance().scene.get()->level == 2)
+	{
+		position.setX(20000);
+		position.setY(500);
+	}
 	texW = parameters.attribute("w").as_int();
 	texH = parameters.attribute("h").as_int();
 
@@ -229,9 +239,12 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::UNKNOWN:
 		break;
 	case ColliderType::NEWLVL:
+		Engine::GetInstance().scene.get()->CleanUp();
+		Engine::GetInstance().entityManager.get()->CleanUp();
 		Engine::GetInstance().scene.get()->level = 2;
-		position.setX(170);
-		position.setY(50);
+		Engine::GetInstance().scene.get()->Start();
+		Engine::GetInstance().entityManager.get()->Start();
+		
 		break;
 	case ColliderType::DEATH:
 		Engine::GetInstance().audio.get()->PlayFx(deathSound);

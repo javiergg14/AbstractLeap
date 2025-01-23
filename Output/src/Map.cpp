@@ -6,6 +6,7 @@
 #include "Log.h"
 #include "Physics.h"
 #include "Player.h"
+#include "Scene.h"
 
 #include <math.h>
 
