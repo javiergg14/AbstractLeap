@@ -35,7 +35,7 @@ Here’s a quick guide to get you started with the controls:
 - Double Jump Item
 - Boss
 - SFX
-- UI
+- GUI
 - Pantallas
 - Improve enemy movement
 
