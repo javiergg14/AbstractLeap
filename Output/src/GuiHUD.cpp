@@ -60,10 +60,10 @@ void GuiHUD::DrawDiamonds(int maxDiamonds, int currentDiamonds)
 	for (int i = 0; i < maxDiamonds; i++)
 	{
 		if (i < currentDiamonds) {
-			Engine::GetInstance().render.get()->DrawTexture(diamondTexture, -camera.x + 1000 + (i * 70), -camera.y + 20);
+			Engine::GetInstance().render.get()->DrawTexture(diamondTexture, -camera.x + 1070 + (i * 70), -camera.y + 20);
 		}
 		else {
-			Engine::GetInstance().render.get()->DrawTexture(diamondOutlineTexture, -camera.x + 1000 + (i * 70), -camera.y + 20);
+			Engine::GetInstance().render.get()->DrawTexture(diamondOutlineTexture, -camera.x + 1070 + (i * 70), -camera.y + 20);
 		}
 	}
 }

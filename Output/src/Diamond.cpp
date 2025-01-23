@@ -76,7 +76,6 @@ void Diamond::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		Engine::GetInstance().audio.get()->PlayFx(pickDiamond);
-		Engine::GetInstance().scene.get()->currentDiamonds++;
 		Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 		break;
 	}

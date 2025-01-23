@@ -15,6 +15,32 @@
 #include "GuiControl.h"
 #include "GuiManager.h"
 
+struct {
+	GuiControlButton* startBtn;
+	GuiControlButton* continueBtn;
+	GuiControlButton* settingsBtn;
+	GuiControlButton* creditsBtn;
+	GuiControlButton* exitBtn;
+} playMenu;
+
+struct {
+	GuiControlButton* resumeBtn;
+	GuiControlButton* settingBtn;
+	GuiControlButton* backTitleBtn;
+	GuiControlButton* exitBtn;
+} pauseMenu;
+
+struct {
+	GuiControlButton* backBtn;
+} creditsMenu;
+
+struct {
+	GuiControlButton* musicSlider;
+	GuiControlButton* sfxSlider;
+	GuiControlButton* fullscreenCheckbox;
+	GuiControlButton* backBtn;
+} settings;
+
 Scene::Scene() : Module()
 {
 	name = "scene";
@@ -46,17 +72,6 @@ bool Scene::Awake()
 	// Create a enemy using the entity manager 
 	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
 	{
-		Diamond* diamond1 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-		diamond1->position = Vector2D(200, 500);
-		Diamond* diamond2 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-		diamond2->position = Vector2D(300, 500);
-		Diamond* diamond3 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-		diamond3->position = Vector2D(400, 500);
-	}
-
-	// Create a enemy using the entity manager 
-	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
-	{
 		Enemy* enemy = nullptr;
 
 		if (enemyNode.attribute("type").as_string() == std::string("ground"))
@@ -72,9 +87,51 @@ bool Scene::Awake()
 		enemyList.push_back(enemy);
 	}
 
-	// L16: TODO 2: Instantiate a new GuiControlButton in the Scene
-	guiBt = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "MyButton", { 520, 350, 120,20 }, this);
+	int width = Engine::GetInstance().window.get()->width;
 	guiHUD = (GuiHUD*)Engine::GetInstance().guiManager->CreateGuiControl(GuiControlType::HUD, 1, "HUD", { 520, 350, 120,20 }, this);
+
+	playMenu.startBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 1, "COMENZAR", CalculateButtonBounds(230, "COMENZAR"), this);
+
+	playMenu.continueBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 2, "CONTINUAR", CalculateButtonBounds(300, "CONTINUAR"), this);
+
+	playMenu.settingsBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 3, "AJUSTES", CalculateButtonBounds(370, "AJUSTES"), this);
+
+	playMenu.creditsBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 4, "CREDITOS", CalculateButtonBounds(440, "CREDITOS"), this);
+
+	playMenu.exitBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 5, "SALIR", CalculateButtonBounds(510, "SALIR"), this);
+
+	pauseMenu.resumeBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 6, "CONTINUAR", CalculateButtonBounds(350, "CONTINUAR"), this);
+
+	pauseMenu.settingBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 7, "AJUSTES", CalculateButtonBounds(400, "AJUSTES"), this);
+
+	pauseMenu.backTitleBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 8, "ATRAS", CalculateButtonBounds(450, "ATRAS"), this);
+
+	pauseMenu.exitBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 9, "SALIR", CalculateButtonBounds(500, "SALIR"), this);
+
+	settings.musicSlider = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 10, "MUSICA", CalculateButtonBounds(230, "MUSICA"), this);
+
+	settings.sfxSlider = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 11, "SONIDO", CalculateButtonBounds(300, "SONIDO"), this);
+
+	settings.fullscreenCheckbox = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 12, "PANTALLA COMPLETA", CalculateButtonBounds(370, "PANTALLA COMPLETA"), this);
+
+	settings.backBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 13, "ATRAS", CalculateButtonBounds(440, "ATRAS"), this);
+
+	creditsMenu.backBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 13, "ATRAS", CalculateButtonBounds(510, "ATRAS"), this);
+
 
 	return ret;
 }
@@ -83,8 +140,9 @@ bool Scene::Awake()
 bool Scene::Start()
 {
 	startScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/startScreen.png");
-
 	playScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/playScreen.png");
+	creditsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/credits.png");
+	settingsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/settingsScreen.png");
 
 
 	//L06 TODO 3: Call the function to load the map. 
@@ -110,7 +168,6 @@ bool Scene::Update(float dt)
 	if (showStartScreen)
 		{
 			Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
-
 			// Detectar si el jugador presiona la tecla Intro
 			if (screenTimer.ReadSec() >= screenDuration)
 			{
@@ -120,19 +177,52 @@ bool Scene::Update(float dt)
 			return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
 	}
 
+	if (showCreditsScreen)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(creditsScreenTexture, 0, 0);
+		creditsMenu.backBtn->Update(dt);
+
+		return true;
+	}
+
+	if (showSettingsScreen)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(settingsScreenTexture, 0, 0);
+		settings.musicSlider->Update(dt);
+		settings.sfxSlider->Update(dt);
+		settings.fullscreenCheckbox->Update(dt);
+		settings.backBtn->Update(dt);
+
+		return true;
+	}
+
 	if (showPlayScreen)
 	{
 		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
+		playMenu.startBtn->Update(dt);
+		playMenu.continueBtn->Update(dt);
+		playMenu.settingsBtn->Update(dt);
+		playMenu.creditsBtn->Update(dt);
+		playMenu.exitBtn->Update(dt);
 
-			// Detectar si el jugador presiona la tecla Intro
-		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-		{
-			showPlayScreen = false; // Ocultar la pantalla inicial
-		}
+		return true;
+	}
+	
+
+	guiHUD->Update(dt);
+
+	if (showPauseScreen)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
+
+		pauseMenu.resumeBtn->Update(dt);
+		pauseMenu.settingBtn->Update(dt);
+		pauseMenu.backTitleBtn->Update(dt);
+		pauseMenu.exitBtn->Update(dt);
 
 		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
 	}
-
+	
 	
 	// Help button
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {
@@ -212,6 +302,11 @@ bool Scene::PostUpdate()
 	{
 		player->checkpoint = false;
 		SaveState();
+	}
+
+	if (isExitPressed)
+	{
+		ret = false;
 	}
 
 	return ret;
@@ -311,8 +406,40 @@ void Scene::SaveState() {
 
 bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 {
-	// L15: DONE 5: Implement the OnGuiMouseClickEvent method
-	LOG("Press Gui Control: %d", control->id);
+	if (control == playMenu.startBtn)
+	{
+		showPlayScreen = false;
+	}
+	if (control == playMenu.exitBtn)
+	{
+		isExitPressed = true;
+	}
+	if (control == playMenu.creditsBtn)
+	{
+		showCreditsScreen = true;
+	}
+	if (control == creditsMenu.backBtn)
+	{
+		showCreditsScreen = false;
+	}
+	if (control == playMenu.settingsBtn)
+	{
+		showSettingsScreen = true;
+	}
 
 	return true;
+}
+
+SDL_Rect Scene::CalculateButtonBounds(int y, const std::string& text)
+{
+	int windowWidth = Engine::GetInstance().window.get()->width;
+	int baseWidth = 75;
+	int baseHeight = 45;
+	int charWidth = 25;
+	int padding = 30;
+
+	int textWidth = text.length() * charWidth;          
+	int buttonWidth = std::max(baseWidth, textWidth + padding);
+	int x = (windowWidth - buttonWidth) / 2;           
+	return { x, y, buttonWidth, baseHeight };
 }

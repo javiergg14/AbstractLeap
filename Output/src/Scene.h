@@ -48,11 +48,16 @@ public:
 	//L15 TODO 2: Implement the Save function
 	void SaveState();
 
+	SDL_Rect CalculateButtonBounds(int y, const std::string& text);
+
 	// Handles multiple Gui Event methods
 	bool OnGuiMouseClickEvent(GuiControl* control);
 
 	bool showStartScreen = true;
 	bool showPlayScreen = true;
+	bool showCreditsScreen = false;
+	bool showPauseScreen = false;
+	bool showSettingsScreen = false;
 	int level = 1;
 
 	int maxDiamonds = 3;
@@ -71,6 +76,8 @@ private:
 
 	SDL_Texture* startScreenTexture;
 	SDL_Texture* playScreenTexture;
+	SDL_Texture* creditsScreenTexture;
+	SDL_Texture* settingsScreenTexture;
 	int screenDuration = 0.0f;
 	Timer screenTimer;
 
@@ -84,8 +91,9 @@ private:
 	int music;
 	int respawn;
 
-	// L16: TODO 2: Declare a GUI Control Button 
-	GuiControlButton* guiBt;
-	GuiHUD* guiHUD;
+	bool isExitPressed = false;
 
+	// L16: TODO 2: Declare a GUI Control Button 
+	
+	GuiHUD* guiHUD;
 };

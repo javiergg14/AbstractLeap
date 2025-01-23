@@ -242,9 +242,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		Engine::GetInstance().map.get()->CleanUp();
 		break;
 	case ColliderType::DEATH:
-		Engine::GetInstance().audio.get()->PlayFx(deathSound);
-		if (!godMode)
+		if (!godMode && !isDead)
 		{
+			Engine::GetInstance().audio.get()->PlayFx(deathSound);
 			Engine::GetInstance().scene.get()->currentLives--;
 			isDead = true;
 		}

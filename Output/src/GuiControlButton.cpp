@@ -45,16 +45,27 @@ bool GuiControlButton::Update(float dt)
 		switch (state)
 		{
 		case GuiControlState::DISABLED:
-			Engine::GetInstance().render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
+			// Botón en estado deshabilitado: gris con opacidad reducida
+			Engine::GetInstance().render->DrawRectangle(bounds, 150, 150, 150, 180, true, false); // Fondo gris claro
+			Engine::GetInstance().render->DrawRectangle(bounds, 100, 100, 100, 200, false, false); // Borde más oscuro
 			break;
+
 		case GuiControlState::NORMAL:
-			Engine::GetInstance().render->DrawRectangle(bounds, 0, 0, 255, 255, true, false);
+			// Botón en estado normal: azul claro
+			Engine::GetInstance().render->DrawRectangle(bounds, 0, 122, 204, 255, true, false); // Fondo azul claro
+			Engine::GetInstance().render->DrawRectangle(bounds, 0, 100, 170, 255, false, false); // Borde más oscuro
 			break;
+
 		case GuiControlState::FOCUSED:
-			Engine::GetInstance().render->DrawRectangle(bounds, 0, 0, 20, 255, true, false);
+			// Botón enfocado: azul más oscuro con un borde blanco
+			Engine::GetInstance().render->DrawRectangle(bounds, 0, 90, 150, 255, true, false);  // Fondo azul oscuro
+			Engine::GetInstance().render->DrawRectangle(bounds, 255, 255, 255, 255, false, false); // Borde blanco
 			break;
+
 		case GuiControlState::PRESSED:
-			Engine::GetInstance().render->DrawRectangle(bounds, 0, 255, 0, 255, true, false);
+			// Botón presionado: verde con un efecto de sombra (borde negro)
+			Engine::GetInstance().render->DrawRectangle(bounds, 50, 200, 50, 255, true, false);  // Fondo verde
+			Engine::GetInstance().render->DrawRectangle(bounds, 0, 0, 0, 255, false, false);     // Borde negro
 			break;
 		}
 

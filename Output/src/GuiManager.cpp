@@ -46,20 +46,6 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 
 bool GuiManager::Update(float dt)
 {	
-	if (Engine::GetInstance().scene.get()->showStartScreen)
-	{
-		return true;
-	}
-
-	if (Engine::GetInstance().scene.get()->showPlayScreen)
-	{
-		return true;
-	}
-	
-	for (const auto& control : guiControlsList)
-	{
-		control->Update(dt);
-	}
 
 	return true;
 }
