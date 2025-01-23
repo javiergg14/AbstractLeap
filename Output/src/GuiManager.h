@@ -16,10 +16,10 @@ public:
 	virtual ~GuiManager();
 
 	// Called before the first frame
-	 bool Start();
+	bool Start();
 
-	 // Called each loop iteration
-	 bool Update(float dt);
+	// Called each loop iteration
+	bool Update(float dt);
 
 	// Called before quitting
 	bool CleanUp();

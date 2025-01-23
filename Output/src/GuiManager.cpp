@@ -3,6 +3,7 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "GuiControlButton.h"
+#include "GuiHUD.h"
 #include "Audio.h"
 
 GuiManager::GuiManager() :Module()
@@ -27,6 +28,10 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 	{
 	case GuiControlType::BUTTON:
 		guiControl = new GuiControlButton(id, bounds, text);
+		break;
+	
+	case GuiControlType::HUD:
+		guiControl = new GuiHUD(id, bounds, text);
 		break;
 	}
 

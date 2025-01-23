@@ -3,6 +3,8 @@
 #include "Module.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Diamond.h"
+#include "GuiHUD.h"
 #include <vector>
 #include "GuiControlButton.h"
 #include "Timer.h"
@@ -50,10 +52,13 @@ public:
 	bool OnGuiMouseClickEvent(GuiControl* control);
 
 	bool showStartScreen = true;
-
 	bool showPlayScreen = true;
-
 	int level = 1;
+
+	int maxDiamonds = 3;
+	int currentDiamonds = 0;
+	int maxLives = 3;
+	int currentLives = 3;
 
 private:
 	SDL_Texture* mouseTileTex = nullptr;
@@ -64,9 +69,15 @@ private:
 	SDL_Texture* helpTexture = NULL;
 	bool help = false;
 
+	SDL_Texture* startScreenTexture;
+	SDL_Texture* playScreenTexture;
+	int screenDuration = 0.0f;
+	Timer screenTimer;
+
 	//L03: TODO 3b: Declare a Player attribute
 	Player* player;
 	std::vector<Enemy*> enemyList;
+	std::vector<Diamond*> diamondList;
 	std::vector<Vector2D> enemyPos;
 	bool checkpoint = false;
 
@@ -75,12 +86,6 @@ private:
 
 	// L16: TODO 2: Declare a GUI Control Button 
 	GuiControlButton* guiBt;
+	GuiHUD* guiHUD;
 
-	SDL_Texture* startScreenTexture;
-
-	SDL_Texture* playScreenTexture;
-
-	int screenDuration = 5.0f;
-
-	Timer screenTimer;
 };

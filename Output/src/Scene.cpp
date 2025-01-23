@@ -37,6 +37,14 @@ bool Scene::Awake()
 	
 	//L08 Create a new item using the entity manager and set the position to (200, 672) to test
 	if (level == 1)
+	for (int i = 0; i < 3; ++i) {
+		Diamond* diamond = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+		diamond->position = Vector2D(200 + i * 100, 500);
+		diamondList.push_back(diamond);
+	}
+
+	// Create a enemy using the entity manager 
+	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
 	{
 		Diamond* diamond1 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
 		diamond1->position = Vector2D(200, 500);
@@ -65,8 +73,8 @@ bool Scene::Awake()
 	}
 
 	// L16: TODO 2: Instantiate a new GuiControlButton in the Scene
-	SDL_Rect btPos = { 520, 350, 120,20 };
-	guiBt = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "MyButton", btPos, this);
+	guiBt = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "MyButton", { 520, 350, 120,20 }, this);
+	guiHUD = (GuiHUD*)Engine::GetInstance().guiManager->CreateGuiControl(GuiControlType::HUD, 1, "HUD", { 520, 350, 120,20 }, this);
 
 	return ret;
 }
@@ -223,8 +231,6 @@ bool Scene::Update(float dt)
 bool Scene::PostUpdate()
 {
 	bool ret = true;
-
-	printf("\n%f", player->GetPosition().getX());
 
 	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
