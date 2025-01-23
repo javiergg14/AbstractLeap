@@ -70,6 +70,16 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	if (Engine::GetInstance().scene.get()->showStartScreen)
+	{
+		return true;
+	}
+
+	if (Engine::GetInstance().scene.get()->showPlayScreen)
+	{
+		return true;
+	}
+	
 	currentAnimation = &idle;
 
 	// L08 TODO 5: Add physics to the player - updated player position using physics

@@ -1,7 +1,7 @@
 #include "GuiManager.h"
 #include "Engine.h"
 #include "Textures.h"
-
+#include "Scene.h"
 #include "GuiControlButton.h"
 #include "Audio.h"
 
@@ -41,6 +41,16 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 
 bool GuiManager::Update(float dt)
 {	
+	if (Engine::GetInstance().scene.get()->showStartScreen)
+	{
+		return true;
+	}
+
+	if (Engine::GetInstance().scene.get()->showPlayScreen)
+	{
+		return true;
+	}
+	
 	for (const auto& control : guiControlsList)
 	{
 		control->Update(dt);

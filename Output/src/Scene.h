@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include <vector>
 #include "GuiControlButton.h"
+#include "Timer.h"
 
 struct SDL_Texture;
 
@@ -48,6 +49,10 @@ public:
 	// Handles multiple Gui Event methods
 	bool OnGuiMouseClickEvent(GuiControl* control);
 
+	bool showStartScreen = true;
+
+	bool showPlayScreen = true;
+
 private:
 	SDL_Texture* mouseTileTex = nullptr;
 	std::string tilePosDebug = "[0,0]";
@@ -71,5 +76,9 @@ private:
 
 	SDL_Texture* startScreenTexture;
 
-	bool showStartScreen = true;
+	SDL_Texture* playScreenTexture;
+
+	int screenDuration = 5.0f;
+
+	Timer screenTimer;
 };

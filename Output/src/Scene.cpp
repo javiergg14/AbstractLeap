@@ -71,7 +71,10 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-	startScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Backgrounds/set1_background.png");
+	startScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/startScreen.png");
+
+	playScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/playScreen.png");
+
 
 	//L06 TODO 3: Call the function to load the map. 
 	Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
@@ -79,6 +82,7 @@ bool Scene::Start()
 	Engine::GetInstance().audio.get()->PlayMusic("Assets/Audio/Music/music.ogg"); 
 	respawn = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/Respawn.ogg");
 	helpTexture = Engine::GetInstance().textures.get()->Load("Assets/Menu/help.png");
+	screenTimer.Start();
 	return true;
 }
 
@@ -97,9 +101,22 @@ bool Scene::Update(float dt)
 		Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
 
 		// Detectar si el jugador presiona la tecla Intro
-		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (screenTimer.ReadSec() >= screenDuration)
 		{
 			showStartScreen = false; // Ocultar la pantalla inicial
+		}
+
+		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
+	}
+
+	if (showPlayScreen)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
+
+		// Detectar si el jugador presiona la tecla Intro
+		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			showPlayScreen = false; // Ocultar la pantalla inicial
 		}
 
 		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
