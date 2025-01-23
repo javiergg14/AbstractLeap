@@ -81,6 +81,21 @@ bool Scene::Awake()
 	diamond3->position = Vector2D(11400, 500);
 	diamondList.push_back(diamond3);
 	
+
+	ItemBoss* ItemBoss1 = (ItemBoss*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEMBOSS);
+	ItemBoss1->position = Vector2D(14400, 400);
+	bossList.push_back(ItemBoss1);
+
+
+	ItemBoss* ItemBoss2 = (ItemBoss*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEMBOSS);
+	ItemBoss2->position = Vector2D(15000, 300);
+	bossList.push_back(ItemBoss2);
+
+
+	ItemBoss* ItemBoss3 = (ItemBoss*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEMBOSS);
+	ItemBoss3->position = Vector2D(16000, 300);
+	bossList.push_back(ItemBoss3);
+
 	Ability* ability1 = (Ability*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ABILITY);
 	ability1->position = Vector2D(500, 300);
 

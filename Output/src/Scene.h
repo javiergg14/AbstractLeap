@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Diamond.h"
+#include "ItemBoss.h"
 #include "GuiHUD.h"
 #include <vector>
 #include "GuiControlButton.h"
@@ -72,6 +73,7 @@ public:
 
 	std::vector<Diamond*> diamondList;
 	std::vector<Enemy*> enemyList;
+	std::vector<ItemBoss*> bossList;
 
 	bool finalBoss = false;
 
