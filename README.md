@@ -38,6 +38,7 @@ Here’s a quick guide to get you started with the controls:
 - GUI
 - Pantallas
 - Improve enemy movement
+- Timer
 
 **Github:** https://github.com/javiergg14/AbstractLeap
 
