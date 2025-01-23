@@ -237,32 +237,32 @@ void Enemy::Patrol(float dt)
 
 	b2Vec2 velocity = pbody->body->GetLinearVelocity();
 
-	if (patrolTimer.ReadMSec() >= stateDuration)
-	{
-		state = (state + 1) % 4;  // Cambiar al siguiente estado en un ciclo de 4
-		patrolTimer.Start();  // Reiniciar el temporizador
-	}
+	//if (patrolTimer.ReadMSec() >= stateDuration)
+	//{
+	//	state = (state + 1) % 4;  // Cambiar al siguiente estado en un ciclo de 4
+	//	patrolTimer.Start();  // Reiniciar el temporizador
+	//}
 
-	// Asignar velocidad según el estado
-	switch (state)
-	{
-	case 0:  // Mover a la derecha
-		velocity.x = patrolSpeed;
-		currentAnimation = &run;
-		break;
-	case 1:  // Quedarse quieto
-		velocity.x = 0;
-		currentAnimation = &idle;
-		break;
-	case 2:  // Mover a la izquierda
-		velocity.x = -patrolSpeed;
-		currentAnimation = &run;
-		break;
-	case 3:  // Quedarse quieto
-		velocity.x = 0;
-		currentAnimation = &idle;
-		break;
-	}
+	//// Asignar velocidad según el estado
+	//switch (state)
+	//{
+	//case 0:  // Mover a la derecha
+	//	velocity.x = patrolSpeed;
+	//	currentAnimation = &run;
+	//	break;
+	//case 1:  // Quedarse quieto
+	//	velocity.x = 0;
+	//	currentAnimation = &idle;
+	//	break;
+	//case 2:  // Mover a la izquierda
+	//	velocity.x = -patrolSpeed;
+	//	currentAnimation = &run;
+	//	break;
+	//case 3:  // Quedarse quieto
+	//	velocity.x = 0;
+	//	currentAnimation = &idle;
+	//	break;
+	//}
 	
 	velocity.x = 0;
 	velocity.y = 0;
