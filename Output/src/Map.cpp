@@ -270,25 +270,6 @@ bool Map::Load(std::string path, std::string fileName)
                     }
                 }
             }
-            for (const auto& mapLayer : mapData.layers) {
-                //Check if the property Draw exist get the value, if it's true draw the lawyer
-                if (mapLayer->properties.GetProperty("Checkpoint") != NULL && mapLayer->properties.GetProperty("Checkpoint")->value == true) {
-                    for (int i = 0; i < mapData.width; i++) {
-                        for (int j = 0; j < mapData.height; j++) {
-
-                            // L07 TODO 9: Complete the draw function
-                            //Get the gid from tile
-                            int gid = mapLayer->Get(i, j);
-                            //Check if the gid is different from 0 - some tiles are empty
-                            if (gid == 3035) {
-                                Vector2D mapCoord = MapToWorld(i, j);
-                                PhysBody* platform = Engine::GetInstance().physics.get()->CreateRectangleSensor(mapCoord.getX() + mapData.tileWidth / 2, mapCoord.getY() + mapData.tileHeight, mapData.tileWidth, mapData.tileHeight, KINEMATIC);
-                                platform->ctype = ColliderType::CHECKPOINT;
-                            }
-                        }
-                    }
-                }
-            }
         
         ret = true;
 

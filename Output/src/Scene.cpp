@@ -159,7 +159,7 @@ bool Scene::Update(float dt)
 	}
 	else if (level == 2)
 	{
-		player->SetPosition(Vector2D(11400, 400));
+		player->SetPosition(Vector2D(13400, 500));
 		if (Engine::GetInstance().render.get()->camera.x > -10920)
 		{
 			Engine::GetInstance().render.get()->camera.x = -10920;
