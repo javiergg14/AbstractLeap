@@ -28,6 +28,8 @@ Here’s a quick guide to get you started with the controls:
 
 **F11:** Allows you to turn the 30 FPS limit on or off, so you can adjust the game’s performance to your liking.
 
+**BOSS:** The boss works in such a way that neither he nor his minions can be defeated directly. You will need to collect the items they are weak against, and once you've gathered them, both the boss and his entourage will be defeated.
+
 **Implemented features:** 
 
 - Double Jump
