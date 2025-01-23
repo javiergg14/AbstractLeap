@@ -159,7 +159,23 @@ bool Scene::Update(float dt)
 	}
 	else if (level == 2)
 	{
-		/*player->SetPosition(Vector2D());*/
+		player->SetPosition(Vector2D(11400, 600));
+		if (Engine::GetInstance().render.get()->camera.x > -10920)
+		{
+			Engine::GetInstance().render.get()->camera.x = -10920;
+		}
+		if (Engine::GetInstance().render.get()->camera.y > 0)
+		{
+			Engine::GetInstance().render.get()->camera.y = 0;
+		}
+		if (Engine::GetInstance().render.get()->camera.x < -14920)
+		{
+			Engine::GetInstance().render.get()->camera.x = -14920;
+		}
+		if (Engine::GetInstance().render.get()->camera.y < -1)
+		{
+			Engine::GetInstance().render.get()->camera.y = 0;
+		}
 	}
 	// L10 TODO 6: Implement a method that repositions the player in the map with a mouse click
 
