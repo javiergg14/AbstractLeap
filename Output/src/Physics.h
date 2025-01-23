@@ -33,7 +33,8 @@ enum class ColliderType {
 	UNKNOWN,
 	NEWLVL,
 	FINALBOSS,
-	ABILITY
+	ABILITY,
+	ITEMBOSS
 	// ..
 };
 

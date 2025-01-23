@@ -156,6 +156,7 @@
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Diamond.cpp" />
     <ClCompile Include="src\Ability.cpp" />
+    <ClCompile Include="src\ItemBoss.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\Pathfinding.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Diamond.h" />
     <ClInclude Include="src\Ability.h" />
+    <ClInclude Include="src\ItemBoss.h" />
     <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\Map.h" />
     <ClInclude Include="src\Module.h" />

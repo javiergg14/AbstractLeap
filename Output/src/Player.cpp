@@ -35,8 +35,8 @@ bool Player::Start() {
 	texture = Engine::GetInstance().textures.get()->Load(parameters.attribute("texture").as_string());
 	if (Engine::GetInstance().scene.get()->level == 1)
 	{
-		position.setX(11400);
-		position.setY(500);
+		position.setX(170);
+		position.setY(20);
 	}
 	if (Engine::GetInstance().scene.get()->level == 2)
 	{
@@ -75,6 +75,10 @@ bool Player::Start() {
 
 	// L08 TODO 7: Assign collider type
 	pbody->ctype = ColliderType::PLAYER;
+
+	currentState = PlayerState::PASIVE;
+	currentAnimation = &idle;
+	isDead = false;
 
 	return true;
 }
@@ -211,8 +215,8 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
-	LOG("Cleanup player");
 	Engine::GetInstance().textures.get()->UnLoad(texture);
+	LOG("Cleanup player");
 	return true;
 }
 

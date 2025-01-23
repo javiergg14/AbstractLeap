@@ -1,6 +1,7 @@
 #include "EntityManager.h"
 #include "Player.h"
 #include "Engine.h"
+#include "ItemBoss.h"
 #include "Textures.h"
 #include "Scene.h"
 #include "Scene2.h"
@@ -86,6 +87,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::ABILITY:
 		entity = new Ability();
+		break;
+	case EntityType::ITEMBOSS:
+		entity = new ItemBoss();
 		break;
 	default:
 		break;

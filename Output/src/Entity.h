@@ -10,6 +10,7 @@ enum class EntityType
 	ENEMY_GROUND,
 	ENEMY_FLYING,
 	ABILITY,
+	ITEMBOSS,
 	UNKNOWN
 };
 
