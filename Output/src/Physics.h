@@ -32,6 +32,7 @@ enum class ColliderType {
 	CHECKPOINT,
 	UNKNOWN,
 	NEWLVL,
+	FINALBOSS,
 	// ..
 };
 

@@ -122,12 +122,15 @@ bool Enemy::Update(float dt)
 	return true;
 }
 
-bool Enemy::CleanUp()
-{
-	Engine::GetInstance().physics.get()->DeletePhysBody(pbody);
+bool Enemy::CleanUp() {
+	if (pbody) {
+		Engine::GetInstance().physics.get()->DeletePhysBody(pbody);
+		pbody = nullptr;  // Evita punteros colgantes
+	}
 	isDead = true;
 	return true;
 }
+
 
 void Enemy::SetPosition(Vector2D pos) {
 	pos.setX(pos.getX() + texW / 2);
@@ -155,10 +158,23 @@ void Enemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (Engine::GetInstance().scene.get()->GetPlayerCurrentState() == PlayerState::ATTACK)
 		{
 			LOG("Collided with player - DESTROY");
+
+			// Encuentra y elimina el enemigo de enemyList
+			auto& enemyList = Engine::GetInstance().scene.get()->enemyList;
+			auto it = std::find(enemyList.begin(), enemyList.end(), this);
+			if (it != enemyList.end()) {
+				enemyList.erase(it);  // Elimina el puntero de la lista
+			}
+			else {
+				LOG("Enemy not found in enemyList: %p", this);
+			}
+
+			// Reproduce el efecto de muerte
 			Engine::GetInstance().audio.get()->PlayFx(death);
+
+			// Destruye el enemigo
 			Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 		}
-		
 		break;
 	}
 }

@@ -61,13 +61,13 @@ bool Scene::Awake()
 	player = (Player*)Engine::GetInstance().entityManager->CreateEntity(EntityType::PLAYER);
 	player->SetParameters(configParameters.child("entities").child("player"));
 	
-	//L08 Create a new item using the entity manager and set the position to (200, 672) to test
-	if (level == 1)
+	////L08 Create a new item using the entity manager and set the position to (200, 672) to test
 	for (int i = 0; i < 3; ++i) {
-		Diamond* diamond = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-		diamond->position = Vector2D(200 + i * 100, 500);
+		Diamond* diamond = (Diamond)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+		diamond->position = Vector2D(200 + i 100, 500);
 		diamondList.push_back(diamond);
 	}
+
 
 	// Create a enemy using the entity manager 
 	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
@@ -83,8 +83,18 @@ bool Scene::Awake()
 			enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_FLYING);
 		}
 
-		enemy->SetParameters(enemyNode);
-		enemyList.push_back(enemy);
+		if (enemy) {  // Valida que el enemigo fue creado
+			enemy->SetParameters(enemyNode);
+			enemyList.push_back(enemy);
+		}
+
+		if (finalBoss)
+		{
+
+		}
+		else {
+			LOG("Failed to create enemy for node: %s", enemyNode.name());
+		}
 	}
 
 	int width = Engine::GetInstance().window.get()->width;
@@ -285,6 +295,13 @@ bool Scene::Update(float dt)
 		
 	}*/
 
+	if (changeLevel)
+	{
+		ChangeLevel();
+		changeLevel = false;
+		return true;
+	}
+
 	return true;
 }
 
@@ -443,3 +460,69 @@ SDL_Rect Scene::CalculateButtonBounds(int y, const std::string& text)
 	int x = (windowWidth - buttonWidth) / 2;           
 	return { x, y, buttonWidth, baseHeight };
 }
+void Scene::ChangeLevel() {
+	LOG("Changing to the next level...");
+
+	LOG("Before cleaning: diamondList size: %d", diamondList.size());
+	LOG("Before cleaning: enemyList size: %d", enemyList.size());
+
+	CleanEntities();
+
+	LOG("After cleaning: diamondList size: %d", diamondList.size());
+	LOG("After cleaning: enemyList size: %d", enemyList.size());
+
+	// Limpia el mapa actual
+	Engine::GetInstance().map.get()->CleanUp();
+
+	// Obt�n la ruta y nombre del segundo mapa desde el archivo XML
+	const char* mapPath = "Assets/Maps/";
+	const char* mapName = "Map2.tmx";
+
+	// Construye la ruta completa
+	std::string fullPath = std::string(mapPath);
+
+	// Carga el segundo mapa
+	if (!Engine::GetInstance().map->Load(fullPath.c_str(), mapName)) {
+		LOG("Failed to load map: %s", fullPath.c_str());
+	}
+	else {
+		LOG("Map loaded successfully: %s", fullPath.c_str());
+
+		// Reubica al jugador al inicio del segundo mapa
+		player->SetPosition(Vector2D(170, 20)); // Cambia la posici�n inicial seg�n el nuevo mapa
+	}
+}
+
+void Scene::CleanEntities() {
+	LOG("Cleaning entities...");
+
+	// Limpia los diamantes
+	for (auto* diamond : diamondList) {
+		if (diamond) {  // Valida que el puntero no sea nulo
+			LOG("Cleaning diamond at address: %p", diamond);
+			diamond->CleanUp();
+			delete diamond;  // Libera la memoria
+		}
+		else {
+			LOG("Found a null pointer in diamondList.");
+		}
+	}
+	diamondList.clear();  // Limpia la lista
+
+	// Limpia los enemigos
+	for (auto it = enemyList.begin(); it != enemyList.end();) {
+		if (*it) {
+			LOG("Cleaning enemy at address: %p", *it);
+			(*it)->CleanUp();
+			delete* it;  // Libera la memoria
+			it = enemyList.erase(it);  // Borra del contenedor y actualiza el iterador
+		}
+		else {
+			LOG("Null pointer found in enemyList.");
+			it = enemyList.erase(it);  // Elimina punteros nulos del contenedor
+		}
+	}
+	LOG("Entities cleaned successfully.");
+}
+
+

@@ -65,9 +65,11 @@ bool Diamond::Update(float dt)
 	return true;
 }
 
-bool Diamond::CleanUp()
-{
-	Engine::GetInstance().physics.get()->DeletePhysBody(pbody);
+bool Diamond::CleanUp() {
+	if (pbody) {
+		Engine::GetInstance().physics.get()->DeletePhysBody(pbody);
+		pbody = nullptr;  // Evita punteros colgantes
+	}
 	return true;
 }
 
@@ -76,6 +78,19 @@ void Diamond::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		Engine::GetInstance().audio.get()->PlayFx(pickDiamond);
+		Engine::GetInstance().scene.get()->currentDiamonds++;
+
+		// Encuentra y elimina el puntero de diamondList
+		auto& diamondList = Engine::GetInstance().scene.get()->diamondList;
+		auto it = std::find(diamondList.begin(), diamondList.end(), this);
+		if (it != diamondList.end()) {
+			diamondList.erase(it);  // Elimina el puntero de la lista
+		}
+		else {
+			LOG("Diamond not found in diamondList: %p", this);
+		}
+
+		// Destruye el diamante
 		Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 		break;
 	}

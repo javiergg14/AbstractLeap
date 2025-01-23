@@ -49,6 +49,9 @@ public:
 	void SaveState();
 
 	SDL_Rect CalculateButtonBounds(int y, const std::string& text);
+	void ChangeLevel();
+
+	void CleanEntities();
 
 	// Handles multiple Gui Event methods
 	bool OnGuiMouseClickEvent(GuiControl* control);
@@ -64,6 +67,13 @@ public:
 	int currentDiamonds = 0;
 	int maxLives = 3;
 	int currentLives = 3;
+
+	bool changeLevel = false;
+
+	std::vector<Diamond*> diamondList;
+	std::vector<Enemy*> enemyList;
+
+	bool finalBoss = false;
 
 private:
 	SDL_Texture* mouseTileTex = nullptr;
@@ -83,8 +93,6 @@ private:
 
 	//L03: TODO 3b: Declare a Player attribute
 	Player* player;
-	std::vector<Enemy*> enemyList;
-	std::vector<Diamond*> diamondList;
 	std::vector<Vector2D> enemyPos;
 	bool checkpoint = false;
 
@@ -96,4 +104,6 @@ private:
 	// L16: TODO 2: Declare a GUI Control Button 
 	
 	GuiHUD* guiHUD;
+	float changeMap = 11300.0f;
+
 };
