@@ -35,10 +35,11 @@ Here’s a quick guide to get you started with the controls:
 - Double Jump Item
 - Boss
 - SFX
-- GUI
-- Pantallas
+- Lives
+- Bottons
+- Screens
 - Improve enemy movement
-- Timer
+- Time on screen
 
 **Github:** https://github.com/javiergg14/AbstractLeap
 
