@@ -321,6 +321,7 @@ bool Scene::Update(float dt)
 		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
 	}
 
+
 	if (currentLives == 0)
 	{
 		Engine::GetInstance().render.get()->DrawTexture(gameOverScreen, -Engine::GetInstance().render.get()->camera.x, 0);
