@@ -37,6 +37,7 @@ Here’s a quick guide to get you started with the controls:
 - SFX
 - UI
 - Pantallas
+- Improve enemy movement
 
 **Github:** https://github.com/javiergg14/AbstractLeap
 
