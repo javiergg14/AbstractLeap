@@ -239,12 +239,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::UNKNOWN:
 		break;
 	case ColliderType::NEWLVL:
-		Engine::GetInstance().scene.get()->CleanUp();
-		Engine::GetInstance().entityManager.get()->CleanUp();
-		Engine::GetInstance().scene.get()->level = 2;
-		Engine::GetInstance().scene.get()->Start();
-		Engine::GetInstance().entityManager.get()->Start();
-		
+		Engine::GetInstance().map.get()->CleanUp();
 		break;
 	case ColliderType::DEATH:
 		Engine::GetInstance().audio.get()->PlayFx(deathSound);

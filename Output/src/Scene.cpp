@@ -52,24 +52,24 @@ bool Scene::Awake()
 		diamond2->position = Vector2D(300, 500);
 		Diamond* diamond3 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
 		diamond3->position = Vector2D(400, 500);
+	}
 
-		// Create a enemy using the entity manager 
-		for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
+	// Create a enemy using the entity manager 
+	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
+	{
+		Enemy* enemy = nullptr;
+
+		if (enemyNode.attribute("type").as_string() == std::string("ground"))
 		{
-			Enemy* enemy = nullptr;
-
-			if (enemyNode.attribute("type").as_string() == std::string("ground"))
-			{
-				enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_GROUND);
-			}
-			else if (enemyNode.attribute("type").as_string() == std::string("flying"))
-			{
-				enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_FLYING);
-			}
-
-			enemy->SetParameters(enemyNode);
-			enemyList.push_back(enemy);
+			enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_GROUND);
 		}
+		else if (enemyNode.attribute("type").as_string() == std::string("flying"))
+		{
+			enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_FLYING);
+		}
+
+		enemy->SetParameters(enemyNode);
+		enemyList.push_back(enemy);
 	}
 
 	// L16: TODO 2: Instantiate a new GuiControlButton in the Scene
@@ -82,12 +82,9 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-	if (level == 1)
-	{
-		startScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/startScreen.png");
+	startScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/startScreen.png");
 
-		playScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/playScreen.png");
-	}
+	playScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/playScreen.png");
 
 
 	//L06 TODO 3: Call the function to load the map. 
@@ -110,9 +107,7 @@ bool Scene::PreUpdate()
 bool Scene::Update(float dt)
 {
 
-	if (level == 1)
-	{
-		if (showStartScreen)
+	if (showStartScreen)
 		{
 			Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
 
@@ -123,21 +118,21 @@ bool Scene::Update(float dt)
 			}
 
 			return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
-		}
+	}
 
-		if (showPlayScreen)
-		{
-			Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
+	if (showPlayScreen)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
 
 			// Detectar si el jugador presiona la tecla Intro
-			if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-			{
-				showPlayScreen = false; // Ocultar la pantalla inicial
-			}
-
-			return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
+		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			showPlayScreen = false; // Ocultar la pantalla inicial
 		}
+
+		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
 	}
+
 	
 	// Help button
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {
@@ -154,45 +149,21 @@ bool Scene::Update(float dt)
 	Engine::GetInstance().render.get()->camera.x = -(player->position.getX() - 500);
 	Engine::GetInstance().render.get()->camera.y = -(player->position.getY() - 660);
 	
-	if (level == 1)
+	if (Engine::GetInstance().render.get()->camera.x > 0)
 	{
-
-		if (Engine::GetInstance().render.get()->camera.x > 0)
-		{
-			Engine::GetInstance().render.get()->camera.x = 0;
-		}
-		if (Engine::GetInstance().render.get()->camera.y > 0)
-		{
-			Engine::GetInstance().render.get()->camera.y = 0;
-		}
-		if (Engine::GetInstance().render.get()->camera.x < -9920)
-		{
-			Engine::GetInstance().render.get()->camera.x = -9920;
-		}
-		if (Engine::GetInstance().render.get()->camera.y < -1)
-		{
-			Engine::GetInstance().render.get()->camera.y = 0;
-		}
+		Engine::GetInstance().render.get()->camera.x = 0;
 	}
-	else if (level == 2)
+	if (Engine::GetInstance().render.get()->camera.y > 0)
 	{
-		/*player->SetPosition(Vector2D(13400, 500));*/
-		if (Engine::GetInstance().render.get()->camera.x > -10920)
-		{
-			Engine::GetInstance().render.get()->camera.x = -10920;
-		}
-		if (Engine::GetInstance().render.get()->camera.y > 0)
-		{
-			Engine::GetInstance().render.get()->camera.y = 0;
-		}
-		if (Engine::GetInstance().render.get()->camera.x < -14920)
-		{
-			Engine::GetInstance().render.get()->camera.x = -14920;
-		}
-		if (Engine::GetInstance().render.get()->camera.y < -1)
-		{
-			Engine::GetInstance().render.get()->camera.y = 0;
-		}
+		Engine::GetInstance().render.get()->camera.y = 0;
+	}
+	if (Engine::GetInstance().render.get()->camera.x < -9920)
+	{
+		Engine::GetInstance().render.get()->camera.x = -9920;
+	}
+	if (Engine::GetInstance().render.get()->camera.y < 0)
+	{
+		Engine::GetInstance().render.get()->camera.y = 0;
 	}
 	// L10 TODO 6: Implement a method that repositions the player in the map with a mouse click
 
