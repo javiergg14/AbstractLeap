@@ -61,6 +61,7 @@ public:
 	int deathSound;
 	int habilityDesactivated;
 	int habilityActivated;
+
 	// Death
 	bool isDead = false;
 	bool checkpoint = false;

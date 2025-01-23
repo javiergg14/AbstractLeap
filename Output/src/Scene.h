@@ -79,6 +79,9 @@ public:
 
 	int bossLive = 3;
 
+	Timer gameTimer;
+
+
 private:
 	SDL_Texture* mouseTileTex = nullptr;
 	std::string tilePosDebug = "[0,0]";
@@ -95,7 +98,10 @@ private:
 	SDL_Texture* settingsScreenTexture;
 	SDL_Texture* gameOverScreen;
 	SDL_Texture* winnerScreen;
-	int screenDuration = 0.0f;
+	SDL_Texture* diamondTexture;
+	SDL_Texture* diamondOutlineTexture;
+
+	int screenDuration = 3.0f;
 	Timer screenTimer;
 	Timer gameOverTimer;
 	int gameOverDuration = 3.0f;
@@ -107,6 +113,8 @@ private:
 
 	int music;
 	int respawn;
+
+	int finalTime = NULL;
 
 	bool isExitPressed = false;
 

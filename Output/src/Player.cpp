@@ -36,12 +36,12 @@ bool Player::Start() {
 	if (Engine::GetInstance().scene.get()->level == 1)
 	{
 		position.setX(170);
-		position.setY(20);
+		position.setY(140);
 	}
 	if (Engine::GetInstance().scene.get()->level == 2)
 	{
 		position.setX(170);
-		position.setY(20);
+		position.setY(140);
 	}
 	texW = parameters.attribute("w").as_int();
 	texH = parameters.attribute("h").as_int();
@@ -293,6 +293,7 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 		break;
 	case ColliderType::FINALBOSS:
 		Engine::GetInstance().scene.get()->finalBoss = true;
+		Engine::GetInstance().audio.get()->PlayMusic("Assets/Audio/Music/boss.ogg");
 		break;
 	default:
 		break;

@@ -48,6 +48,11 @@ struct {
 	GuiControlButton* exitBtn;
 } gameOver;
 
+struct {
+	GuiControlButton* continueBtn;
+	GuiControlButton* exitBtn;
+} win;
+
 Scene::Scene() : Module()
 {
 	name = "scene";
@@ -175,10 +180,16 @@ bool Scene::Awake()
 		GuiControlType::BUTTON, 14, "ATRAS", CalculateButtonBounds(510, "ATRAS"), this);
 
 	gameOver.continueBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
-		GuiControlType::BUTTON, 16, "CONTINUAR", CalculateButtonBounds(300, "CONTINUAR"), this);
+		GuiControlType::BUTTON, 16, "CONTINUAR", CalculateButtonBounds(500, "CONTINUAR"), this);
 
 	gameOver.exitBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
-		GuiControlType::BUTTON, 17, "SALIR", CalculateButtonBounds(370, "SALIR"), this);
+		GuiControlType::BUTTON, 17, "SALIR", CalculateButtonBounds(570, "SALIR"), this);
+	
+	win.continueBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 16, "CONTINUAR", CalculateButtonBounds(500, "CONTINUAR"), this);
+
+	win.exitBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 17, "SALIR", CalculateButtonBounds(570, "SALIR"), this);
 
 
 	return ret;
@@ -193,7 +204,8 @@ bool Scene::Start()
 	settingsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/settingsScreen.png");
 	gameOverScreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/gameover.png");
 	winnerScreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/winnerScreen.png");
-
+	diamondTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/blueCrystal.png");
+	diamondOutlineTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/outlineCrystal.png");
 
 	//L06 TODO 3: Call the function to load the map. 
 	Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
@@ -275,24 +287,31 @@ bool Scene::Update(float dt)
 
 	guiHUD->Update(dt);
 
-	if (showPauseScreen)
-	{
-		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
-
-		pauseMenu.resumeBtn->Update(dt);
-		pauseMenu.settingBtn->Update(dt);
-		pauseMenu.backTitleBtn->Update(dt);
-		pauseMenu.exitBtn->Update(dt);
-
-		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
-	}
-
-
-	if (currentLives == 0)
+	if (currentLives <= 0)
 	{
 		Engine::GetInstance().render.get()->DrawTexture(gameOverScreen, -Engine::GetInstance().render.get()->camera.x, 0);
 		gameOver.continueBtn->Update(dt);
 		gameOver.exitBtn->Update(dt);
+
+		if (finalTime == NULL)
+		{
+			finalTime = gameTimer.ReadSec();
+		}
+		SDL_Rect camera = Engine::GetInstance().render.get()->camera;
+		char text[64];
+		snprintf(text, sizeof(text), "Tiempo: %d s", finalTime);
+
+		Engine::GetInstance().render->DrawText(text, camera.w / 2 - 100, 250, 200, 70);
+
+		for (int i = 0; i < maxDiamonds; i++)
+		{
+			if (i < currentDiamonds) {
+				Engine::GetInstance().render.get()->DrawTexture(diamondTexture, -camera.x + 540 + (i * 70), -camera.y + 380);
+			}
+			else {
+				Engine::GetInstance().render.get()->DrawTexture(diamondOutlineTexture, -camera.x + 540 + (i * 70), -camera.y + 380);
+			}
+		}
 
 		if (finalBoss)
 		{
@@ -307,9 +326,32 @@ bool Scene::Update(float dt)
 	
 	}
 
-	if (bossLive == 0)
+	if (bossLive <= 0)
 	{
 		Engine::GetInstance().render.get()->DrawTexture(winnerScreen, -Engine::GetInstance().render.get()->camera.x, 0);
+		win.continueBtn->Update(dt);
+		win.exitBtn->Update(dt);
+
+		if (finalTime == NULL)
+		{
+			finalTime = gameTimer.ReadSec();
+		}
+		SDL_Rect camera = Engine::GetInstance().render.get()->camera;
+		char text[64];
+		snprintf(text, sizeof(text), "Tiempo: %d s", finalTime);
+
+		Engine::GetInstance().render->DrawText(text, camera.w / 2 - 100, 250, 200, 70);
+
+
+		for (int i = 0; i < maxDiamonds; i++)
+		{
+			if (i < currentDiamonds) {
+				Engine::GetInstance().render.get()->DrawTexture(diamondTexture, -camera.x + 540 + (i * 70), -camera.y + 380);
+			}
+			else {
+				Engine::GetInstance().render.get()->DrawTexture(diamondOutlineTexture, -camera.x + 540 + (i * 70), -camera.y + 380);
+			}
+		}
 	}
 	
 	
@@ -502,6 +544,12 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 {
 	if (control == playMenu.startBtn)
 	{
+		gameTimer.Start();
+		finalTime = NULL;
+		showPlayScreen = false;
+	}
+	if (control == playMenu.continueBtn)
+	{
 		showPlayScreen = false;
 	}
 	if (control == playMenu.exitBtn)
@@ -547,11 +595,23 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	if (control == gameOver.continueBtn)
 	{
-		player->CleanUp();
 		player->Start();
+		bossLive = 3;
 		showPlayScreen = true;
 		currentLives = 3;
 	}
+	if (control == win.exitBtn)
+	{
+		isExitPressed = true;
+	}
+	if (control == win.continueBtn)
+	{
+		player->Start();
+		currentLives = 3;
+		bossLive = 3;
+		showPlayScreen = true;
+	}
+
 
 	return true;
 }

@@ -4,6 +4,7 @@
 #include "Audio.h"
 #include "Textures.h"
 #include "Scene.h"
+#include "Timer.h"
 
 GuiHUD::GuiHUD(int id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::HUD, id)
 {
@@ -35,6 +36,7 @@ bool GuiHUD::Update(float dt)
 
 	DrawLives(Engine::GetInstance().scene.get()->maxLives, Engine::GetInstance().scene.get()->currentLives);
 	DrawDiamonds(Engine::GetInstance().scene.get()->maxDiamonds, Engine::GetInstance().scene.get()->currentDiamonds);
+	DrawTimer();
 
 	return true;
 }
@@ -67,4 +69,15 @@ void GuiHUD::DrawDiamonds(int maxDiamonds, int currentDiamonds)
 		}
 	}
 }
+void GuiHUD::DrawTimer()
+{
+	SDL_Rect camera = Engine::GetInstance().render.get()->camera;
 
+	int seconds = Engine::GetInstance().scene.get()->gameTimer.ReadSec();
+
+	char text[64];
+	snprintf(text, sizeof(text), "%d s", seconds);
+
+	Engine::GetInstance().render->DrawText(text, camera.w/2-25, 20, 75, 45);
+
+}

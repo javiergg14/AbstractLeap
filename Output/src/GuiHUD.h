@@ -20,6 +20,8 @@ public:
 
 	void DrawDiamonds(int maxDiamonds, int currentDiamonds);
 
+	void DrawTimer();
+
 private:
 	SDL_Texture* diamondTexture;
 	SDL_Texture* diamondOutlineTexture;
