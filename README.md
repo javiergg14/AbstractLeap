@@ -30,23 +30,13 @@ Here’s a quick guide to get you started with the controls:
 
 **Implemented features:** 
 
-- Assets and animations.
-- Tilemap.
-- States.
-- Debug keys.
-- Camera limits and fllow player.
-- Pick up item.
-- Dynamic colliders and triggers.
-- Enemies
-- Load
-- Save
-- Types of enemies
-- Kill/Death enemies
-- Navigation Tilemap
+- Double Jump
+- Diamond
+- Double Jump Item
+- Boss
 - SFX
-- Music
-- Assets and animations enemies
-- Enemies behaviour and pathfinding
+- UI
+- Pantallas
 
 **Github:** https://github.com/javiergg14/AbstractLeap
 
