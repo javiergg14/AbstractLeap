@@ -77,6 +77,8 @@ public:
 
 	bool finalBoss = false;
 
+	int bossLive = 3;
+
 private:
 	SDL_Texture* mouseTileTex = nullptr;
 	std::string tilePosDebug = "[0,0]";
@@ -92,6 +94,7 @@ private:
 	SDL_Texture* creditsScreenTexture;
 	SDL_Texture* settingsScreenTexture;
 	SDL_Texture* gameOverScreen;
+	SDL_Texture* winnerScreen;
 	int screenDuration = 0.0f;
 	Timer screenTimer;
 	Timer gameOverTimer;

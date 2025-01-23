@@ -226,6 +226,7 @@ bool Scene::Start()
 	creditsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/credits.png");
 	settingsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/settingsScreen.png");
 	gameOverScreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/gameover.png");
+	winnerScreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/winnerScreen.png");
 
 
 	//L06 TODO 3: Call the function to load the map. 
@@ -337,6 +338,11 @@ bool Scene::Update(float dt)
 			player->position.setY(20);
 		}
 	
+	}
+
+	if (bossLive == 0)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(winnerScreen, -Engine::GetInstance().render.get()->camera.x, 0);
 	}
 	
 	

@@ -71,19 +71,7 @@ void ItemBoss::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		Engine::GetInstance().audio.get()->PlayFx(pickItemBoss);
-		//Engine::GetInstance().scene.get()->currentItemBosss++;
-
-		// Encuentra y elimina el puntero de diamondList
-		//auto& diamondList = Engine::GetInstance().scene.get()->itemBossList;
-		//auto it = std::find(diamondList.begin(), diamondList.end(), this);
-		//if (it != diamondList.end()) {
-		//	diamondList.erase(it);  // Elimina el puntero de la lista
-		//}
-		//else {
-		//	LOG("ItemBoss not found in diamondList: %p", this);
-		//}
-
-		// Destruye el diamante
+		Engine::GetInstance().scene.get()->bossLive -= 1;
 		Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 		break;
 	}
