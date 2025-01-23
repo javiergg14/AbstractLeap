@@ -239,7 +239,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::UNKNOWN:
 		break;
 	case ColliderType::NEWLVL:
-		Engine::GetInstance().map.get()->CleanUp();
+		Engine::GetInstance().scene.get()->changeLevel = true;
 		break;
 	case ColliderType::DEATH:
 		Engine::GetInstance().audio.get()->PlayFx(deathSound);
@@ -260,6 +260,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	case ColliderType::CHECKPOINT:
 		checkpoint = true;
+		break;
+	case ColliderType::FINALBOSS:
 		break;
 
 	default:
@@ -283,6 +285,9 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 		Engine::GetInstance().audio.get()->PlayFx(checkPointSound);
 		break;
 	case ColliderType::NEWLVL:
+		break;
+	case ColliderType::FINALBOSS:
+		Engine::GetInstance().scene.get()->finalBoss = true;
 		break;
 	default:
 		break;

@@ -48,6 +48,10 @@ public:
 	//L15 TODO 2: Implement the Save function
 	void SaveState();
 
+	void ChangeLevel();
+
+	void CleanEntities();
+
 	// Handles multiple Gui Event methods
 	bool OnGuiMouseClickEvent(GuiControl* control);
 
@@ -59,6 +63,13 @@ public:
 	int currentDiamonds = 0;
 	int maxLives = 3;
 	int currentLives = 3;
+
+	bool changeLevel = false;
+
+	std::vector<Diamond*> diamondList;
+	std::vector<Enemy*> enemyList;
+
+	bool finalBoss = false;
 
 private:
 	SDL_Texture* mouseTileTex = nullptr;
@@ -76,8 +87,6 @@ private:
 
 	//L03: TODO 3b: Declare a Player attribute
 	Player* player;
-	std::vector<Enemy*> enemyList;
-	std::vector<Diamond*> diamondList;
 	std::vector<Vector2D> enemyPos;
 	bool checkpoint = false;
 
@@ -87,5 +96,7 @@ private:
 	// L16: TODO 2: Declare a GUI Control Button 
 	GuiControlButton* guiBt;
 	GuiHUD* guiHUD;
+
+	float changeMap = 11300.0f;
 
 };
