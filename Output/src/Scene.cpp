@@ -132,38 +132,34 @@ bool Scene::Update(float dt)
 		Engine::GetInstance().render.get()->DrawTexture(helpTexture, (player->position.getX() + 340), 0);
 	}
 
-	/*if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-	{
-		Engine::GetInstance().map->CleanUp();
-		Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
-		player->SetPosition(Vector2D(170, 50));
-	}
-	else if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F2))
-	{
-		player->SetPosition(Vector2D(170, 50));
-	}*/
-
 
 	//L03 TODO 3: Make the camera movement independent of framerate
-
 	Engine::GetInstance().render.get()->camera.x = -(player->position.getX() - 500);
 	Engine::GetInstance().render.get()->camera.y = -(player->position.getY() - 660);
+	
+	if (level == 1)
+	{
 
-	if (Engine::GetInstance().render.get()->camera.x > 0)
-	{
-		Engine::GetInstance().render.get()->camera.x = 0;
+		if (Engine::GetInstance().render.get()->camera.x > 0)
+		{
+			Engine::GetInstance().render.get()->camera.x = 0;
+		}
+		if (Engine::GetInstance().render.get()->camera.y > 0)
+		{
+			Engine::GetInstance().render.get()->camera.y = 0;
+		}
+		if (Engine::GetInstance().render.get()->camera.x < -9920)
+		{
+			Engine::GetInstance().render.get()->camera.x = -9920;
+		}
+		if (Engine::GetInstance().render.get()->camera.y < -1)
+		{
+			Engine::GetInstance().render.get()->camera.y = 0;
+		}
 	}
-	if (Engine::GetInstance().render.get()->camera.y > 0)
+	else if (level == 2)
 	{
-		Engine::GetInstance().render.get()->camera.y = 0;
-	}
-	if (Engine::GetInstance().render.get()->camera.x < -9920)
-	{
-		Engine::GetInstance().render.get()->camera.x = -9920;
-	}
-	if (Engine::GetInstance().render.get()->camera.y < -1)
-	{
-		Engine::GetInstance().render.get()->camera.y = 0;
+		/*player->SetPosition(Vector2D());*/
 	}
 	// L10 TODO 6: Implement a method that repositions the player in the map with a mouse click
 
@@ -203,7 +199,7 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	/*printf("\n%f", player->GetPosition().getX());*/
+	printf("\n%f", player->GetPosition().getX());
 
 	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
@@ -271,9 +267,6 @@ void Scene::LoadState() {
 	}*/
 
 	Engine::GetInstance().audio.get()->PlayFx(respawn);
-
-	//enemies
-	// ...
 
 }
 

@@ -89,24 +89,6 @@ bool Scene2::Update(float dt)
 		Engine::GetInstance().render.get()->DrawTexture(helpTexture, (player->position.getX() + 340), 0);
 	}
 
-	if (player->NewLvl)
-	{
-		/*Engine::GetInstance().map->CleanUp();
-		if (Engine::GetInstance().map->lvl == 1)
-		{
-			Engine::GetInstance().map->Load(configParameters.child("map").attribute("path").as_string(), configParameters.child("map").attribute("name").as_string());
-			player->SetPosition(Vector2D(170, 50));
-		}
-		else if (Engine::GetInstance().map->lvl == 2)
-		{
-			player->SetPosition(Vector2D(170, 50));
-		}
-		*/
-		player->SetPosition(Vector2D(190, 20));
-		player->NewLvl = false;
-
-	}
-
 	/*if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		Engine::GetInstance().map->CleanUp();

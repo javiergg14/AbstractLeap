@@ -53,6 +53,8 @@ public:
 
 	bool showPlayScreen = true;
 
+	int level = 1;
+
 private:
 	SDL_Texture* mouseTileTex = nullptr;
 	std::string tilePosDebug = "[0,0]";

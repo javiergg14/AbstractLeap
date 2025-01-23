@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
 		case Engine::EngineState::CREATE:
 			LOG("CREATION PHASE ===============================");
 			state = Engine::EngineState::AWAKE;
-
 			break;
 
 			// Awake all modules -----------------------------------------------

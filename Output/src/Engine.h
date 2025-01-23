@@ -105,8 +105,6 @@ public:
 	std::shared_ptr<Physics> physics;
 	std::shared_ptr<GuiManager> guiManager;
 
-	int level = 2;
-
 
 private: 
 
