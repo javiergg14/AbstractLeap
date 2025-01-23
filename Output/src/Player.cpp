@@ -11,6 +11,7 @@
 #include "EntityManager.h"
 #include "Enemy.h"
 #include "Diamond.h"
+#include "Ability.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -63,7 +64,7 @@ bool Player::Start() {
 	habilityDesactivated = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/habilityDesactivated.ogg");
 	habilityActivated = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/habilityActivated.ogg");
 
-	doubleJumpIcon = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/blueJewel.png");
+	doubleJumpIcon = Engine::GetInstance().textures.get()->Load("Assets/Textures/doubleJumpIcon.png");
 
 	// L08 TODO 5: Add physics to the player - initialize physics body
 	pbody = Engine::GetInstance().physics.get()->CreateCircle((int)position.getX(), (int)position.getY(), texW / 2, bodyType::DYNAMIC);
@@ -105,12 +106,6 @@ bool Player::Update(float dt)
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		velocity.x = speed * 16;
 		currentAnimation = &run_right;
-	}
-
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
-		hability = true;
-		Engine::GetInstance().audio.get()->PlayFx(habilityActivated);
-		habilityTimer.Start();
 	}
 
 	// Jump
@@ -263,7 +258,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::FINALBOSS:
 		break;
-
+	case ColliderType::ABILITY:
+		break;
 	default:
 		break;
 	}
@@ -276,6 +272,11 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 	case ColliderType::PLATFORM:
 		break;
 	case ColliderType::DIAMOND:
+		break;
+	case ColliderType::ABILITY:
+		hability = true;
+		Engine::GetInstance().audio.get()->PlayFx(habilityActivated);
+		habilityTimer.Start();
 		break;
 	case ColliderType::UNKNOWN:
 		break;

@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "Diamond.h"
+#include "Ability.h"
 #include "Enemy.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
@@ -67,7 +68,9 @@ bool Scene::Awake()
 		diamond->position = Vector2D(200 + i * 100, 500);
 		diamondList.push_back(diamond);
 	}
-
+	
+	Ability* ability = (Ability*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ABILITY);
+	ability->position = Vector2D(250, 500);
 
 	// Create a enemy using the entity manager 
 	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
@@ -178,13 +181,13 @@ bool Scene::Update(float dt)
 	if (showStartScreen)
 		{
 			Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, -Engine::GetInstance().render.get()->camera.x, 0);
-			// Detectar si el jugador presiona la tecla Intro
+			
 			if (screenTimer.ReadSec() >= screenDuration)
 			{
-				showStartScreen = false; // Ocultar la pantalla inicial
+				showStartScreen = false;
 			}
 
-			return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
+			return true;
 	}
 
 	if (showCreditsScreen)

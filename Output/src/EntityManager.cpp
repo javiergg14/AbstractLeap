@@ -6,6 +6,7 @@
 #include "Scene2.h"
 #include "Log.h"
 #include "Diamond.h"
+#include "Ability.h"
 #include "Enemy.h"
 
 EntityManager::EntityManager() : Module()
@@ -82,6 +83,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::ENEMY_FLYING:
 		entity = new Enemy(EnemyType::FLYING);
+		break;
+	case EntityType::ABILITY:
+		entity = new Ability();
 		break;
 	default:
 		break;

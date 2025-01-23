@@ -9,6 +9,7 @@ enum class EntityType
 	DIAMOND,
 	ENEMY_GROUND,
 	ENEMY_FLYING,
+	ABILITY,
 	UNKNOWN
 };
 

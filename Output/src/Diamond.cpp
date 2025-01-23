@@ -45,15 +45,6 @@ bool Diamond::Start() {
 bool Diamond::Update(float dt)
 {
 
-	if (Engine::GetInstance().scene.get()->showStartScreen)
-	{
-		return true;
-	}
-
-	if (Engine::GetInstance().scene.get()->showPlayScreen)
-	{
-		return true;
-	}
 	// L08 TODO 4: Add a physics to an item - update the position of the object from the physics.  
 
 	b2Transform pbodyPos1 = pbody->body->GetTransform();

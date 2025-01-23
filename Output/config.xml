@@ -18,7 +18,7 @@
 		<map path="Assets/Maps/" name="Map.tmx" />
 		<map path2="Assets/Maps/" name2="MapLvl2.tmx" />
 		<entities>
-			<player x="209" y="106" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
+			<player x="170" y="96" w="44" h="54" texture="Assets/Textures/PNG/Players/Blue/run.png">
 				<animations>
 					<idle loop="true" speed="0.08">
 						<frame x="0" y="0" w="44" h="54" />
