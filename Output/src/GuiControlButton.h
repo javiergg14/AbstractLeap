@@ -18,6 +18,10 @@ private:
 
 	bool canClick = true;
 	bool drawBasic = false;
+
+	int pressBtnFX;
+	int focusBtnFX;
+	bool changedState = true;
 };
 
 #pragma once
