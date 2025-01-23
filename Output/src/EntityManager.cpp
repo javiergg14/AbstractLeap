@@ -112,6 +112,15 @@ void EntityManager::AddEntity(Entity* entity)
 
 bool EntityManager::Update(float dt)
 {
+	if (Engine::GetInstance().scene.get()->showStartScreen)
+	{
+		return true;
+	}
+
+	if (Engine::GetInstance().scene.get()->showPlayScreen)
+	{
+		return true;
+	}	
 	bool ret = true;
 	for(const auto entity : entities)
 	{

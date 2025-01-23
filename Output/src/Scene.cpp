@@ -111,7 +111,7 @@ bool Scene::Update(float dt)
 
 	if (showPlayScreen)
 	{
-		Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
+		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
 
 		// Detectar si el jugador presiona la tecla Intro
 		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)

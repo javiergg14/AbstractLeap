@@ -70,16 +70,6 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
-	if (Engine::GetInstance().scene.get()->showStartScreen)
-	{
-		return true;
-	}
-
-	if (Engine::GetInstance().scene.get()->showPlayScreen)
-	{
-		return true;
-	}
-	
 	currentAnimation = &idle;
 
 	// L08 TODO 5: Add physics to the player - updated player position using physics
@@ -122,9 +112,11 @@ bool Player::Update(float dt)
 		jumpCount += 1;
 	}
 
-	if (hability == true)
+	if (hability)
 	{
 		Engine::GetInstance().render.get()->DrawTexture(doubleJumpIcon, position.getX()+10, position.getY()-30);
+
+		jumpCount = 0;
 
 		if (jumpCount == 0)
 		{
@@ -139,12 +131,17 @@ bool Player::Update(float dt)
 		if (hability && habilityTimer.ReadSec() >= habilityDuration)
 		{
 			hability = false; // Desactivar la habilidad despu�s de 30 segundos
-			jumpCount = 2;
 			Engine::GetInstance().audio.get()->PlayFx(habilityDesactivated);
 		}
-
 	}
 
+	if (hability == false)
+	{
+
+		jumpCount = 2;
+		doubleJump = false;
+
+	}
 	// If the player is jumpling, we don't want to apply gravity, we use the current velocity prduced by the jump
 	if(isJumping == true)
 	{
