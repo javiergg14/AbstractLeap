@@ -10,6 +10,9 @@ GuiControlButton::GuiControlButton(int id, SDL_Rect bounds, const char* text) : 
 
 	canClick = true;
 	drawBasic = false;
+
+	pressBtnFX = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/press.ogg");
+	focusBtnFX = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/focus.ogg");
 }
 
 GuiControlButton::~GuiControlButton()
@@ -28,9 +31,15 @@ bool GuiControlButton::Update(float dt)
 		if (mousePos.getX() > bounds.x && mousePos.getX() < bounds.x + bounds.w && mousePos.getY() > bounds.y && mousePos.getY() < bounds.y + bounds.h) {
 		
 			state = GuiControlState::FOCUSED;
+			if (changedState)
+			{
+				Engine::GetInstance().audio.get()->PlayFx(focusBtnFX);
+				changedState = false;
+			}
 
-			if (Engine::GetInstance().input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+			if (Engine::GetInstance().input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 				state = GuiControlState::PRESSED;
+				Engine::GetInstance().audio.get()->PlayFx(pressBtnFX);
 			}
 			
 			if (Engine::GetInstance().input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {
@@ -39,6 +48,7 @@ bool GuiControlButton::Update(float dt)
 		}
 		else {
 			state = GuiControlState::NORMAL;
+			changedState = true;
 		}
 
 		//L16: TODO 4: Draw the button according the GuiControl State
