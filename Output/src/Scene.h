@@ -88,8 +88,11 @@ private:
 	SDL_Texture* playScreenTexture;
 	SDL_Texture* creditsScreenTexture;
 	SDL_Texture* settingsScreenTexture;
+	SDL_Texture* gameOverScreen;
 	int screenDuration = 0.0f;
 	Timer screenTimer;
+	Timer gameOverTimer;
+	int gameOverDuration = 3.0f;
 
 	//L03: TODO 3b: Declare a Player attribute
 	Player* player;

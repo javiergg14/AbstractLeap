@@ -63,8 +63,8 @@ bool Scene::Awake()
 	
 	////L08 Create a new item using the entity manager and set the position to (200, 672) to test
 	for (int i = 0; i < 3; ++i) {
-		Diamond* diamond = (Diamond)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-		diamond->position = Vector2D(200 + i 100, 500);
+		Diamond* diamond = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+		diamond->position = Vector2D(200 + i  * 100, 500);
 		diamondList.push_back(diamond);
 	}
 
@@ -153,6 +153,7 @@ bool Scene::Start()
 	playScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/playScreen.png");
 	creditsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/credits.png");
 	settingsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/settingsScreen.png");
+	gameOverScreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/gameOverScreen.png");
 
 
 	//L06 TODO 3: Call the function to load the map. 
@@ -175,6 +176,7 @@ bool Scene::PreUpdate()
 bool Scene::Update(float dt)
 {
 
+	printf("%d", currentLives);
 	if (showStartScreen)
 		{
 			Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
@@ -232,6 +234,24 @@ bool Scene::Update(float dt)
 
 		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
 	}
+
+	if (currentLives == 0)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(gameOverScreen, -Engine::GetInstance().render.get()->camera.x, 0);
+		if ()
+		{
+			if (finalBoss)
+			{
+				player->position.setX(12000);
+				player->position.setY(500);
+			}
+			else
+			{
+				player->position.setX(170);
+				player->position.setY(20);
+			}
+		}
+	}
 	
 	
 	// Help button
@@ -257,9 +277,9 @@ bool Scene::Update(float dt)
 	{
 		Engine::GetInstance().render.get()->camera.y = 0;
 	}
-	if (Engine::GetInstance().render.get()->camera.x < -9920)
+	if (Engine::GetInstance().render.get()->camera.x < -16764)
 	{
-		Engine::GetInstance().render.get()->camera.x = -9920;
+		Engine::GetInstance().render.get()->camera.x = -16764;
 	}
 	if (Engine::GetInstance().render.get()->camera.y < 0)
 	{
