@@ -64,7 +64,6 @@ bool Scene::Awake()
 	LOG("Loading Scene");
 	bool ret = true;
 
-	CreateEntities();
 	//L04: TODO 3b: Instantiate the player using the entity manager
 	player = (Player*)Engine::GetInstance().entityManager->CreateEntity(EntityType::PLAYER);
 	player->SetParameters(configParameters.child("entities").child("player"));
@@ -169,54 +168,6 @@ bool Scene::Awake()
 
 	return ret;
 }
-
-void Scene::CreateEntities() {
-	//L04: TODO 3b: Instantiate the player using the entity manager
-	player = (Player*)Engine::GetInstance().entityManager->CreateEntity(EntityType::PLAYER);
-	player->SetParameters(configParameters.child("entities").child("player"));
-
-	////L08 Create a new item using the entity manager and set the position to (200, 672) to test
-	for (int i = 0; i < 3; ++i) {
-		Diamond* diamond = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-		diamond->position = Vector2D(200 + i * 100, 500);
-		diamondList.push_back(diamond);
-	}
-
-	Ability* ability = (Ability*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ABILITY);
-	ability->position = Vector2D(250, 500);
-
-	ItemBoss* itemBoss = (ItemBoss*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEMBOSS);
-	itemBoss->position = Vector2D(300, 500);
-
-	// Create a enemy using the entity manager 
-	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
-	{
-		Enemy* enemy = nullptr;
-
-		if (enemyNode.attribute("type").as_string() == std::string("ground"))
-		{
-			enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_GROUND);
-		}
-		else if (enemyNode.attribute("type").as_string() == std::string("flying"))
-		{
-			enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_FLYING);
-		}
-
-		if (enemy) {  // Valida que el enemigo fue creado
-			enemy->SetParameters(enemyNode);
-			enemyList.push_back(enemy);
-		}
-
-		if (finalBoss)
-		{
-
-		}
-		else {
-			LOG("Failed to create enemy for node: %s", enemyNode.name());
-		}
-	}
-}
-
 // Called before the first frame
 bool Scene::Start()
 {

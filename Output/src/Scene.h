@@ -48,8 +48,6 @@ public:
 	//L15 TODO 2: Implement the Save function
 	void SaveState();
 
-	void CreateEntities();
-
 	SDL_Rect CalculateButtonBounds(int y, const std::string& text);
 	void ChangeLevel();
 
