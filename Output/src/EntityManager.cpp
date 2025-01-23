@@ -124,6 +124,7 @@ bool EntityManager::Update(float dt)
 		Engine::GetInstance().scene.get()->showPlayScreen ||
 		Engine::GetInstance().scene.get()->showSettingsScreen ||
 		Engine::GetInstance().scene.get()->showPauseScreen ||
+		Engine::GetInstance().scene.get()->currentLives == 0 ||
 		Engine::GetInstance().scene.get()->showCreditsScreen)
 	{
 		return true;
