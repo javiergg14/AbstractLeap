@@ -155,26 +155,30 @@ void Enemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
-		if (Engine::GetInstance().scene.get()->GetPlayerCurrentState() == PlayerState::ATTACK)
+		if (!Engine::GetInstance().scene.get()->finalBoss)
 		{
-			LOG("Collided with player - DESTROY");
+			if (Engine::GetInstance().scene.get()->GetPlayerCurrentState() == PlayerState::ATTACK)
+			{
+				LOG("Collided with player - DESTROY");
 
-			// Encuentra y elimina el enemigo de enemyList
-			auto& enemyList = Engine::GetInstance().scene.get()->enemyList;
-			auto it = std::find(enemyList.begin(), enemyList.end(), this);
-			if (it != enemyList.end()) {
-				enemyList.erase(it);  // Elimina el puntero de la lista
+				// Encuentra y elimina el enemigo de enemyList
+				auto& enemyList = Engine::GetInstance().scene.get()->enemyList;
+				auto it = std::find(enemyList.begin(), enemyList.end(), this);
+				if (it != enemyList.end()) {
+					enemyList.erase(it);  // Elimina el puntero de la lista
+				}
+				else {
+					LOG("Enemy not found in enemyList: %p", this);
+				}
+
+				// Reproduce el efecto de muerte
+				Engine::GetInstance().audio.get()->PlayFx(death);
+
+				// Destruye el enemigo
+				Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 			}
-			else {
-				LOG("Enemy not found in enemyList: %p", this);
-			}
-
-			// Reproduce el efecto de muerte
-			Engine::GetInstance().audio.get()->PlayFx(death);
-
-			// Destruye el enemigo
-			Engine::GetInstance().entityManager.get()->DestroyEntity(this);
 		}
+
 		break;
 	}
 }

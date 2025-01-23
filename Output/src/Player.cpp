@@ -35,8 +35,8 @@ bool Player::Start() {
 	texture = Engine::GetInstance().textures.get()->Load(parameters.attribute("texture").as_string());
 	if (Engine::GetInstance().scene.get()->level == 1)
 	{
-		position.setX(170);
-		position.setY(50);
+		position.setX(11400);
+		position.setY(500);
 	}
 	if (Engine::GetInstance().scene.get()->level == 2)
 	{

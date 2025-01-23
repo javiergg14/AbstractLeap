@@ -156,6 +156,7 @@ bool Scene::Start()
 	pauseScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/pauseScreen.png");
 	creditsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/credits.png");
 	settingsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/settingsScreen.png");
+	gameOverScreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/gameOverScreen.png");
 
 
 	//L06 TODO 3: Call the function to load the map. 
@@ -178,6 +179,7 @@ bool Scene::PreUpdate()
 bool Scene::Update(float dt)
 {
 
+	printf("%d", currentLives);
 	if (showStartScreen)
 		{
 			Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, -Engine::GetInstance().render.get()->camera.x, 0);
@@ -239,6 +241,35 @@ bool Scene::Update(float dt)
 
 	guiHUD->Update(dt);
 
+	if (showPauseScreen)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
+
+		pauseMenu.resumeBtn->Update(dt);
+		pauseMenu.settingBtn->Update(dt);
+		pauseMenu.backTitleBtn->Update(dt);
+		pauseMenu.exitBtn->Update(dt);
+
+		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
+	}
+
+	if (currentLives == 0)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(gameOverScreen, -Engine::GetInstance().render.get()->camera.x, 0);
+		if ()
+		{
+			if (finalBoss)
+			{
+				player->position.setX(12000);
+				player->position.setY(500);
+			}
+			else
+			{
+				player->position.setX(170);
+				player->position.setY(20);
+			}
+		}
+	}
 	
 	
 	// Help button
@@ -264,9 +295,9 @@ bool Scene::Update(float dt)
 	{
 		Engine::GetInstance().render.get()->camera.y = 0;
 	}
-	if (Engine::GetInstance().render.get()->camera.x < -9920)
+	if (Engine::GetInstance().render.get()->camera.x < -16764)
 	{
-		Engine::GetInstance().render.get()->camera.x = -9920;
+		Engine::GetInstance().render.get()->camera.x = -16764;
 	}
 	if (Engine::GetInstance().render.get()->camera.y < 0)
 	{
