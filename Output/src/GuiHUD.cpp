@@ -46,10 +46,10 @@ void GuiHUD::DrawLives(int maxLives, int currentLives)
 	for (int i = 0; i < maxLives; i++)
 	{
 		if (i < currentLives) {
-			Engine::GetInstance().render.get()->DrawTexture(lifeTexture, -camera.x + (i * 100), -camera.y + 200);
+			Engine::GetInstance().render.get()->DrawTexture(lifeTexture, -camera.x + 30 + (i * 70), -camera.y + 20);
 		}
 		else {
-			Engine::GetInstance().render.get()->DrawTexture(lifeOutlineTexture, -camera.x + (i * 100), -camera.y + 200);
+			Engine::GetInstance().render.get()->DrawTexture(lifeOutlineTexture, -camera.x + 30 + (i * 70), -camera.y + 20);
 		}
 	}
 }
@@ -60,20 +60,11 @@ void GuiHUD::DrawDiamonds(int maxDiamonds, int currentDiamonds)
 	for (int i = 0; i < maxDiamonds; i++)
 	{
 		if (i < currentDiamonds) {
-			Engine::GetInstance().render.get()->DrawTexture(diamondTexture, -camera.x +500+ (i * 100), -camera.y + 200);
+			Engine::GetInstance().render.get()->DrawTexture(diamondTexture, -camera.x + 1000 + (i * 70), -camera.y + 20);
 		}
 		else {
-			Engine::GetInstance().render.get()->DrawTexture(diamondOutlineTexture, -camera.x +500+ (i * 100), -camera.y + 200);
+			Engine::GetInstance().render.get()->DrawTexture(diamondOutlineTexture, -camera.x + 1000 + (i * 70), -camera.y + 20);
 		}
 	}
 }
 
-void GuiHUD::DrawAbility()
-{
-	SDL_Rect camera = Engine::GetInstance().render.get()->camera;
-
-	if (true)
-	{
-		Engine::GetInstance().render.get()->DrawTexture(diamondTexture, -camera.x + camera.w, -camera.y + 200);
-	}
-}

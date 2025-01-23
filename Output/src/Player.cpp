@@ -250,7 +250,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		Engine::GetInstance().audio.get()->PlayFx(deathSound);
 		if (!godMode)
 		{
-			printf("pinchos");
 			Engine::GetInstance().scene.get()->currentLives--;
 			isDead = true;
 		}
@@ -260,7 +259,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		{
 			Engine::GetInstance().audio.get()->PlayFx(deathSound);
 			Engine::GetInstance().scene.get()->currentLives--;
-			printf("enemy");
 			isDead = true;
 		}
 		break;
