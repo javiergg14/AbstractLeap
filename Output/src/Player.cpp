@@ -50,6 +50,10 @@ bool Player::Start() {
 	jumpSound = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/jump.ogg");
 	deathSound = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/death.ogg");
 	checkPointSound = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/checkpoint.ogg");
+	habilityDesactivated = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/habilityDesactivated.ogg");
+	habilityActivated = Engine::GetInstance().audio.get()->LoadFx("Assets/Audio/Fx/habilityActivated.ogg");
+
+	doubleJumpIcon = Engine::GetInstance().textures.get()->Load("Assets/Textures/PNG/Items/blueJewel.png");
 
 	// L08 TODO 5: Add physics to the player - initialize physics body
 	pbody = Engine::GetInstance().physics.get()->CreateCircle((int)position.getX(), (int)position.getY(), texW / 2, bodyType::DYNAMIC);
@@ -87,14 +91,15 @@ bool Player::Update(float dt)
 		currentAnimation = &run_left;
 	}
 
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
-		hability = true;
-	}
-
 	// Move right
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		velocity.x = speed * 16;
 		currentAnimation = &run_right;
+	}
+
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
+		hability = true;
+		Engine::GetInstance().audio.get()->PlayFx(habilityActivated);
 	}
 
 	// Jump
@@ -108,7 +113,7 @@ bool Player::Update(float dt)
 
 	if (hability == true)
 	{
-		//Engine::GetInstance().render.get()->DrawTexture(doubleJumpIcon, position.getX()+10, position.getY()-30);
+		Engine::GetInstance().render.get()->DrawTexture(doubleJumpIcon, position.getX()+10, position.getY()-30);
 
 		if (jumpCount == 0)
 		{
@@ -124,7 +129,7 @@ bool Player::Update(float dt)
 		{
 			hability = false; // Desactivar la habilidad despu�s de 30 segundos
 			jumpCount = 2;
-			//Engine::GetInstance().audio.get()->PlayFx(habilityDesactivatedSound);
+			Engine::GetInstance().audio.get()->PlayFx(habilityDesactivated);
 		}
 
 	}
@@ -216,7 +221,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::UNKNOWN:
 		break;
 	case ColliderType::NEWLVL:
-		NewLvl = true;
 		break;
 	case ColliderType::DEATH:
 		Engine::GetInstance().audio.get()->PlayFx(deathSound);

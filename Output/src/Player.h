@@ -51,8 +51,6 @@ public:
 	SDL_Texture* texture = NULL;
 	int texW, texH;
 
-	bool NewLvl = false;
-
 	//God Mode
 	bool godMode;
 
@@ -61,7 +59,8 @@ public:
 	int jumpSound;
 	int checkPointSound;
 	int deathSound;
-
+	int habilityDesactivated;
+	int habilityActivated;
 	// Death
 	bool isDead = false;
 	bool checkpoint = false;
@@ -85,4 +84,6 @@ public:
 	Animation fall;
 	Animation duck;
 	Animation die;
+
+	SDL_Texture* doubleJumpIcon;
 };
