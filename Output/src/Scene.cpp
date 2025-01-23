@@ -65,6 +65,56 @@ bool Scene::Awake()
 	bool ret = true;
 
 	CreateEntities();
+	//L04: TODO 3b: Instantiate the player using the entity manager
+	player = (Player*)Engine::GetInstance().entityManager->CreateEntity(EntityType::PLAYER);
+	player->SetParameters(configParameters.child("entities").child("player"));
+	
+	////L08 Create a new item using the entity manager and set the position to (200, 672) to test
+	Diamond* diamond1 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+	diamond1->position = Vector2D(170, 800);
+	diamondList.push_back(diamond1);
+
+	Diamond* diamond2 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+	diamond2->position = Vector2D(5600, 500);
+	diamondList.push_back(diamond2);
+
+	Diamond* diamond3 = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+	diamond3->position = Vector2D(11400, 500);
+	diamondList.push_back(diamond3);
+	
+	Ability* ability1 = (Ability*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ABILITY);
+	ability1->position = Vector2D(500, 300);
+
+	Ability* ability2 = (Ability*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ABILITY);
+	ability2->position = Vector2D(14000, 400);
+
+	// Create a enemy using the entity manager 
+	for (pugi::xml_node enemyNode = configParameters.child("entities").child("enemies").child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
+	{
+		Enemy* enemy = nullptr;
+
+		if (enemyNode.attribute("type").as_string() == std::string("ground"))
+		{
+			enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_GROUND);
+		}
+		else if (enemyNode.attribute("type").as_string() == std::string("flying"))
+		{
+			enemy = (Enemy*)Engine::GetInstance().entityManager->CreateEntity(EntityType::ENEMY_FLYING);
+		}
+
+		if (enemy) {  // Valida que el enemigo fue creado
+			enemy->SetParameters(enemyNode);
+			enemyList.push_back(enemy);
+		}
+
+		if (finalBoss)
+		{
+
+		}
+		else {
+			LOG("Failed to create enemy for node: %s", enemyNode.name());
+		}
+	}
 
 	guiHUD = (GuiHUD*)Engine::GetInstance().guiManager->CreateGuiControl(GuiControlType::HUD, 15, "HUD", { 520, 350, 120,20 }, this);
 

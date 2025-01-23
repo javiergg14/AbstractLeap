@@ -40,8 +40,8 @@ bool Player::Start() {
 	}
 	if (Engine::GetInstance().scene.get()->level == 2)
 	{
-		position.setX(20000);
-		position.setY(500);
+		position.setX(170);
+		position.setY(20);
 	}
 	texW = parameters.attribute("w").as_int();
 	texH = parameters.attribute("h").as_int();
