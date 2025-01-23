@@ -99,6 +99,9 @@
     <ClCompile Include="src\GuiHUD.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\GuiControlSlider.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Audio.h">
@@ -174,6 +177,9 @@
       <Filter>Source Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\GuiControl.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiControlSlider.h">
       <Filter>Source Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>

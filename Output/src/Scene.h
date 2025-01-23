@@ -86,6 +86,7 @@ private:
 
 	SDL_Texture* startScreenTexture;
 	SDL_Texture* playScreenTexture;
+	SDL_Texture* pauseScreenTexture;
 	SDL_Texture* creditsScreenTexture;
 	SDL_Texture* settingsScreenTexture;
 	int screenDuration = 0.0f;

@@ -63,8 +63,8 @@ bool Scene::Awake()
 	
 	////L08 Create a new item using the entity manager and set the position to (200, 672) to test
 	for (int i = 0; i < 3; ++i) {
-		Diamond* diamond = (Diamond)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
-		diamond->position = Vector2D(200 + i 100, 500);
+		Diamond* diamond = (Diamond*)Engine::GetInstance().entityManager->CreateEntity(EntityType::DIAMOND);
+		diamond->position = Vector2D(200 + i * 100, 500);
 		diamondList.push_back(diamond);
 	}
 
@@ -97,8 +97,7 @@ bool Scene::Awake()
 		}
 	}
 
-	int width = Engine::GetInstance().window.get()->width;
-	guiHUD = (GuiHUD*)Engine::GetInstance().guiManager->CreateGuiControl(GuiControlType::HUD, 1, "HUD", { 520, 350, 120,20 }, this);
+	guiHUD = (GuiHUD*)Engine::GetInstance().guiManager->CreateGuiControl(GuiControlType::HUD, 15, "HUD", { 520, 350, 120,20 }, this);
 
 	playMenu.startBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
 		GuiControlType::BUTTON, 1, "COMENZAR", CalculateButtonBounds(230, "COMENZAR"), this);
@@ -116,16 +115,16 @@ bool Scene::Awake()
 		GuiControlType::BUTTON, 5, "SALIR", CalculateButtonBounds(510, "SALIR"), this);
 
 	pauseMenu.resumeBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
-		GuiControlType::BUTTON, 6, "CONTINUAR", CalculateButtonBounds(350, "CONTINUAR"), this);
+		GuiControlType::BUTTON, 6, "CONTINUAR", CalculateButtonBounds(230, "CONTINUAR"), this);
 
 	pauseMenu.settingBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
-		GuiControlType::BUTTON, 7, "AJUSTES", CalculateButtonBounds(400, "AJUSTES"), this);
+		GuiControlType::BUTTON, 7, "AJUSTES", CalculateButtonBounds(300, "AJUSTES"), this);
 
 	pauseMenu.backTitleBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
-		GuiControlType::BUTTON, 8, "ATRAS", CalculateButtonBounds(450, "ATRAS"), this);
+		GuiControlType::BUTTON, 8, "ATRAS", CalculateButtonBounds(370, "ATRAS"), this);
 
 	pauseMenu.exitBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
-		GuiControlType::BUTTON, 9, "SALIR", CalculateButtonBounds(500, "SALIR"), this);
+		GuiControlType::BUTTON, 9, "SALIR", CalculateButtonBounds(440, "SALIR"), this);
 
 	settings.musicSlider = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
 		GuiControlType::BUTTON, 10, "MUSICA", CalculateButtonBounds(230, "MUSICA"), this);
@@ -140,7 +139,7 @@ bool Scene::Awake()
 		GuiControlType::BUTTON, 13, "ATRAS", CalculateButtonBounds(440, "ATRAS"), this);
 
 	creditsMenu.backBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
-		GuiControlType::BUTTON, 13, "ATRAS", CalculateButtonBounds(510, "ATRAS"), this);
+		GuiControlType::BUTTON, 14, "ATRAS", CalculateButtonBounds(510, "ATRAS"), this);
 
 
 	return ret;
@@ -151,6 +150,7 @@ bool Scene::Start()
 {
 	startScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/startScreen.png");
 	playScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/playScreen.png");
+	pauseScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/pauseScreen.png");
 	creditsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/credits.png");
 	settingsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/settingsScreen.png");
 
@@ -177,7 +177,7 @@ bool Scene::Update(float dt)
 
 	if (showStartScreen)
 		{
-			Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, 0, 0);
+			Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, -Engine::GetInstance().render.get()->camera.x, 0);
 			// Detectar si el jugador presiona la tecla Intro
 			if (screenTimer.ReadSec() >= screenDuration)
 			{
@@ -189,7 +189,7 @@ bool Scene::Update(float dt)
 
 	if (showCreditsScreen)
 	{
-		Engine::GetInstance().render.get()->DrawTexture(creditsScreenTexture, 0, 0);
+		Engine::GetInstance().render.get()->DrawTexture(creditsScreenTexture, -Engine::GetInstance().render.get()->camera.x, 0);
 		creditsMenu.backBtn->Update(dt);
 
 		return true;
@@ -197,7 +197,7 @@ bool Scene::Update(float dt)
 
 	if (showSettingsScreen)
 	{
-		Engine::GetInstance().render.get()->DrawTexture(settingsScreenTexture, 0, 0);
+		Engine::GetInstance().render.get()->DrawTexture(settingsScreenTexture, -Engine::GetInstance().render.get()->camera.x, 0);
 		settings.musicSlider->Update(dt);
 		settings.sfxSlider->Update(dt);
 		settings.fullscreenCheckbox->Update(dt);
@@ -206,9 +206,20 @@ bool Scene::Update(float dt)
 		return true;
 	}
 
+	if (showPauseScreen)
+	{
+		Engine::GetInstance().render.get()->DrawTexture(pauseScreenTexture, -Engine::GetInstance().render.get()->camera.x, 0);
+		pauseMenu.resumeBtn->Update(dt);
+		pauseMenu.settingBtn->Update(dt);
+		pauseMenu.backTitleBtn->Update(dt);
+		pauseMenu.exitBtn->Update(dt);
+
+		return true;
+	}
+
 	if (showPlayScreen)
 	{
-		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
+		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, -Engine::GetInstance().render.get()->camera.x, 0);
 		playMenu.startBtn->Update(dt);
 		playMenu.continueBtn->Update(dt);
 		playMenu.settingsBtn->Update(dt);
@@ -217,21 +228,14 @@ bool Scene::Update(float dt)
 
 		return true;
 	}
+
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		showPauseScreen = true;
+	}
 	
 
 	guiHUD->Update(dt);
 
-	if (showPauseScreen)
-	{
-		Engine::GetInstance().render.get()->DrawTexture(playScreenTexture, 0, 0);
-
-		pauseMenu.resumeBtn->Update(dt);
-		pauseMenu.settingBtn->Update(dt);
-		pauseMenu.backTitleBtn->Update(dt);
-		pauseMenu.exitBtn->Update(dt);
-
-		return true; // No continuar con el resto del juego mientras se muestra la pantalla inicial
-	}
 	
 	
 	// Help button
@@ -241,7 +245,7 @@ bool Scene::Update(float dt)
 
 	if (help)
 	{
-		Engine::GetInstance().render.get()->DrawTexture(helpTexture, (player->position.getX() + 340), 0);
+		Engine::GetInstance().render.get()->DrawTexture(helpTexture, (-Engine::GetInstance().render.get()->camera.x), 0);
 	}
 
 
@@ -310,8 +314,6 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		LoadState();
 
@@ -442,6 +444,27 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	if (control == playMenu.settingsBtn)
 	{
 		showSettingsScreen = true;
+	}
+	if (control == settings.backBtn)
+	{
+		showSettingsScreen = false;
+	}
+	if (control == pauseMenu.resumeBtn)
+	{
+		showPauseScreen = false;
+	}
+	if (control == pauseMenu.backTitleBtn)
+	{
+		showPauseScreen = false;
+		showPlayScreen = true;
+	}
+	if (control == pauseMenu.settingBtn)
+	{
+		showSettingsScreen = true;
+	}
+	if (control == pauseMenu.exitBtn)
+	{
+		isExitPressed = true;
 	}
 
 	return true;
