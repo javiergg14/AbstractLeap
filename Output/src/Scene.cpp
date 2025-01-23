@@ -42,6 +42,11 @@ struct {
 	GuiControlButton* backBtn;
 } settings;
 
+struct {
+	GuiControlButton* continueBtn;
+	GuiControlButton* exitBtn;
+} gameOver;
+
 Scene::Scene() : Module()
 {
 	name = "scene";
@@ -144,6 +149,12 @@ bool Scene::Awake()
 	creditsMenu.backBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
 		GuiControlType::BUTTON, 14, "ATRAS", CalculateButtonBounds(510, "ATRAS"), this);
 
+	gameOver.continueBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 16, "CONTINUAR", CalculateButtonBounds(300, "CONTINUAR"), this);
+
+	gameOver.exitBtn = (GuiControlButton*)Engine::GetInstance().guiManager->CreateGuiControl(
+		GuiControlType::BUTTON, 17, "SALIR", CalculateButtonBounds(370, "SALIR"), this);
+
 
 	return ret;
 }
@@ -156,7 +167,7 @@ bool Scene::Start()
 	pauseScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/pauseScreen.png");
 	creditsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/credits.png");
 	settingsScreenTexture = Engine::GetInstance().textures.get()->Load("Assets/Textures/settingsScreen.png");
-	gameOverScreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/gameOverScreen.png");
+	gameOverScreen = Engine::GetInstance().textures.get()->Load("Assets/Textures/gameover.png");
 
 
 	//L06 TODO 3: Call the function to load the map. 
@@ -178,12 +189,10 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-
-	printf("%d", currentLives);
 	if (showStartScreen)
 		{
 			Engine::GetInstance().render.get()->DrawTexture(startScreenTexture, -Engine::GetInstance().render.get()->camera.x, 0);
-			
+
 			if (screenTimer.ReadSec() >= screenDuration)
 			{
 				showStartScreen = false;
@@ -256,19 +265,20 @@ bool Scene::Update(float dt)
 	if (currentLives == 0)
 	{
 		Engine::GetInstance().render.get()->DrawTexture(gameOverScreen, -Engine::GetInstance().render.get()->camera.x, 0);
-		if ()
+		gameOver.continueBtn->Update(dt);
+		gameOver.exitBtn->Update(dt);
+
+		if (finalBoss)
 		{
-			if (finalBoss)
-			{
-				player->position.setX(12000);
-				player->position.setY(500);
-			}
-			else
-			{
-				player->position.setX(170);
-				player->position.setY(20);
-			}
+			player->position.setX(12000);
+			player->position.setY(500);
 		}
+		else
+		{
+			player->position.setX(170);
+			player->position.setY(20);
+		}
+	
 	}
 	
 	
@@ -499,6 +509,15 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	if (control == pauseMenu.exitBtn)
 	{
 		isExitPressed = true;
+	}
+	if (control == gameOver.exitBtn)
+	{
+		isExitPressed = true;
+	}
+	if (control == gameOver.continueBtn)
+	{
+		showPlayScreen = true;
+		currentLives = 3;
 	}
 
 	return true;
