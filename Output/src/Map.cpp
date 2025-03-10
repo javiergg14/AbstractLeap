@@ -42,33 +42,33 @@ bool Map::Update(float dt)
         // L07 TODO 5: Prepare the loop to draw all tiles in a layer + DrawTexture()
         // iterate all tiles in a layer
         
-            for (const auto& mapLayer : mapData.layers) {
-                //Check if the property Draw exist get the value, if it's true draw the lawyer
-                if (mapLayer->properties.GetProperty("Draw") != NULL && mapLayer->properties.GetProperty("Draw")->value == true) {
-                    for (int i = 0; i < mapData.width; i++) {
-                        for (int j = 0; j < mapData.height; j++) {
+        for (const auto& mapLayer : mapData.layers) {
+            if (mapLayer->properties.GetProperty("Draw") != NULL &&
+                mapLayer->properties.GetProperty("Draw")->value == true) {
 
-                            // L07 TODO 9: Complete the draw function
+                for (int i = 0; i < mapData.width; i++) {
+                    for (int j = 0; j < mapData.height; j++) {
 
-                            //Get the gid from tile
-                            int gid = mapLayer->Get(i, j);
-                            //Check if the gid is different from 0 - some tiles are empty
-                            if (gid != 0) {
-                                //L09: TODO 3: Obtain the tile set using GetTilesetFromTileId
-                                TileSet* tileSet = GetTilesetFromTileId(gid);
-                                if (tileSet != nullptr) {
-                                    //Get the Rect from the tileSetTexture;
-                                    SDL_Rect tileRect = tileSet->GetRect(gid);
-                                    //Get the screen coordinates from the tile coordinates
-                                    Vector2D mapCoord = MapToWorld(i, j);
-                                    //Draw the texture
-                                    Engine::GetInstance().render->DrawTexture(tileSet->texture, mapCoord.getX(), mapCoord.getY(), &tileRect);
-                                }
+                        int gid = mapLayer->Get(i, j);
+                        if (gid != 0) {
+                            TileSet* tileSet = GetTilesetFromTileId(gid);
+                            if (tileSet != nullptr) {
+                                SDL_Rect tileRect = tileSet->GetRect(gid);
+
+                                // Convertir coordenadas del mapa a coordenadas de pantalla
+                                Vector2D mapCoord = MapToWorld(i, j);
+
+                                // Aplicar el efecto parallax en base a la cámara
+                                int renderX = (int)(mapCoord.getX() - (Engine::GetInstance().render->camera.x * mapLayer->parallaxX));
+                                int renderY = (int)(mapCoord.getY() - (Engine::GetInstance().render->camera.y * mapLayer->parallaxY));
+
+                                Engine::GetInstance().render->DrawTexture(tileSet->texture, renderX, renderY, &tileRect);
                             }
                         }
                     }
                 }
             }
+        }
         
     }
 
@@ -181,6 +181,17 @@ bool Map::Load(std::string path, std::string fileName)
             for (pugi::xml_node tileNode = layerNode.child("data").child("tile"); tileNode != NULL; tileNode = tileNode.next_sibling("tile")) {
                 mapLayer->tiles.push_back(tileNode.attribute("gid").as_int());
             }
+
+            // Dentro del bucle que itera sobre cada capa en Load()
+            if (layerNode.attribute("parallaxx"))
+                mapLayer->parallaxX = layerNode.attribute("parallaxx").as_float();
+            else
+                mapLayer->parallaxX = 1.0f; // Valor por defecto
+
+            if (layerNode.attribute("parallaxy"))
+                mapLayer->parallaxY = layerNode.attribute("parallaxy").as_float();
+            else
+                mapLayer->parallaxY = 1.0f; // Valor por defecto
 
             //add the layer to the map
             mapData.layers.push_back(mapLayer);
